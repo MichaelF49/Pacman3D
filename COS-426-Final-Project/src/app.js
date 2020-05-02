@@ -1,7 +1,8 @@
 import * as THREE from 'three';
+import {Pacman} from './objects';
 
 // distance vec from sphere to camera
-const cam_vec = new THREE.Vector3(0, 40, 80);
+const cam_vec = new THREE.Vector3(0, 25, 70);
 
 // scene and camera
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 50000);
@@ -11,6 +12,7 @@ camera.lookAt(0, 0, 0);
 let scene = new THREE.Scene();
 scene.background = new THREE.Color(0x6699cc);
 
+// skybox
 let sky_1 = new THREE.TextureLoader().load('./src/images/skybox/sky1.jpg');
 let sky_2 = new THREE.TextureLoader().load('./src/images/skybox/sky2.jpg');
 let sky_top = new THREE.TextureLoader().load('./src/images/skybox/sky_top.jpg');
@@ -22,16 +24,17 @@ sky_array.push(new THREE.MeshBasicMaterial({map: sky_top, side: THREE.BackSide})
 sky_array.push(new THREE.MeshBasicMaterial({map: sky_bot, side: THREE.BackSide}));
 sky_array.push(new THREE.MeshBasicMaterial({map: sky_2, side: THREE.BackSide}));
 sky_array.push(new THREE.MeshBasicMaterial({map: sky_2, side: THREE.BackSide}));
-let skybox_geometry = new THREE.BoxGeometry(10000, 10000, 10000);
+let skybox_geometry = new THREE.BoxGeometry(15000, 20000, 15000);
 let skybox = new THREE.Mesh(skybox_geometry, sky_array);
-skybox.position.set(0, 0, 0);
+skybox.position.set(0, -2000, 0);
 scene.add(skybox);
 
 // character
-let sphere_geometry = new THREE.SphereGeometry(15, 25, 25);
-let sphere_material = new THREE.MeshBasicMaterial({color: 0xffff00});
-let sphere = new THREE.Mesh(sphere_geometry, sphere_material);
-scene.add(sphere);
+let pacman = new Pacman();
+pacman.position.y = -17;
+pacman.rotation.y = Math.PI*1.5;
+pacman.scale.multiplyScalar(10);
+scene.add(pacman);
 
 // floor
 let floor_geometry = new THREE.PlaneGeometry(1500, 1500, 10, 10);
@@ -78,6 +81,22 @@ wall = new THREE.Mesh(wall_geometry, wall_material_2);
 wall.position.y = 7.5;
 wall.position.z = 750;
 scene.add(wall);
+
+// light
+let light = new THREE.PointLight(0xffffff, 0.2, 10000);
+light.position.set(-750, 1000, 750);
+scene.add(light);
+light = new THREE.PointLight(0xffffff, 0.2, 10000);
+light.position.set(750, 1000, 750);
+scene.add(light);
+light = new THREE.PointLight(0xffffff, 0.2, 10000);
+light.position.set(750, 1000, -750);
+scene.add(light);
+light = new THREE.PointLight(0xffffff, 0.2, 10000);
+light.position.set(-750, 1000, -750);
+scene.add(light);
+light = new THREE.AmbientLight(0xffffff); // soft white light
+scene.add( light );
 
 // renderer
 let renderer = new THREE.WebGLRenderer({antialias:true});
@@ -169,21 +188,23 @@ let handleMovement = () => {
     let q = new THREE.Quaternion();
     q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotateAngle*rotate_direction);
     camera.applyQuaternion(q);
-    camera.position.sub(sphere.position);
+    camera.position.sub(pacman.position);
     camera.position.applyQuaternion(q);
-    camera.position.add(sphere.position);
+    camera.position.add(pacman.position);
+    
+    pacman.applyQuaternion(q);
   }
 
   if (moveForward || moveBackward) {
-    const vec = new THREE.Vector3().subVectors(sphere.position, camera.position);
+    const vec = new THREE.Vector3().subVectors(pacman.position, camera.position);
     let sphere_vec = vec.clone().setY(0).normalize().multiplyScalar(moveDistance*forward_direction);
-    sphere.position.add(sphere_vec);
+    pacman.position.add(sphere_vec);
     // check bounds of walls
-    sphere.position.setX(Math.max(Math.min(733, sphere.position.x), -733));
-    sphere.position.setZ(Math.max(Math.min(733, sphere.position.z), -733));
+    pacman.position.setX(Math.max(Math.min(734, pacman.position.x), -734));
+    pacman.position.setZ(Math.max(Math.min(734, pacman.position.z), -734));
 
     vec.normalize().multiplyScalar(cam_vec.length());
-    let new_cam_pos = new THREE.Vector3().subVectors(sphere.position, vec);
+    let new_cam_pos = new THREE.Vector3().subVectors(pacman.position, vec);
 
     camera.position.set(new_cam_pos.x, new_cam_pos.y, new_cam_pos.z);
   }
