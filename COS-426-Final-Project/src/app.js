@@ -1,17 +1,12 @@
 import * as THREE from 'three';
-import {PointerLockControls} from 'three/examples/jsm/controls/PointerLockControls.js';
 
 // scene and camera
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 1000);
-camera.position.set(0, 125, 100);
+camera.position.set(0, 55, 80);
 camera.lookAt(0, 0, 0);
 
 let scene = new THREE.Scene();
 scene.background = new THREE.Color(0x6699cc);
-
-// controls
-let controls = new PointerLockControls(camera, document.body);
-scene.add(controls.getObject());
 
 // character
 let sphere_geometry = new THREE.SphereGeometry(15, 25, 25);
@@ -46,9 +41,7 @@ let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
-let velocity = new THREE.Vector3();
-let direction = new THREE.Vector3();
-let prevTime = performance.now();
+let clock = new THREE.Clock();
 
 let onKeyDown = (event) => {
   switch (event.keyCode) {
@@ -66,6 +59,7 @@ let onKeyDown = (event) => {
       break;
   }
 };
+
 let onKeyUp = (event) => {
   switch (event.keyCode) {
     case 87: // w
@@ -82,6 +76,7 @@ let onKeyUp = (event) => {
       break;
   }
 };
+
 document.addEventListener('keydown', onKeyDown, false);
 document.addEventListener('keyup', onKeyUp, false);
 
@@ -106,25 +101,29 @@ window.addEventListener('resize', windowResizeHandler, false);
 
 // movement
 let handleMovement = () => {
-  let time = performance.now();
-  let delta = (time - prevTime)/130;
+	let delta = clock.getDelta(); // seconds.
+	let moveDistance = 300*delta; // 300 pixels per second
+	let rotateAngle = -Math.PI/2*delta; // pi/2 radians per second
 
-  velocity.x -= velocity.x*10.0*delta;
-  velocity.z -= velocity.z*10.0*delta;
+  let forward_direction = Number(moveForward) - Number(moveBackward);
+  let rotate_direction = Number(moveRight) - Number(moveLeft);
 
-  direction.z = Number(moveForward) - Number(moveBackward);
-  direction.x = Number(moveRight) - Number(moveLeft);
-  direction.normalize(); // ensures consistent movement in all directions
+  if (moveLeft || moveRight) {
+    let q = new THREE.Quaternion();
+    q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotateAngle*rotate_direction);
+    camera.applyQuaternion(q);
+    camera.position.sub(sphere.position);
+    camera.position.applyQuaternion(q);
+    camera.position.add(sphere.position);
+  }
 
-  if (moveForward || moveBackward)
-    velocity.z -= direction.z*400.0*delta;
-  if (moveLeft || moveRight)
-    velocity.x -= direction.x*400.0*delta;
+  let vec = new THREE.Vector3().subVectors(sphere.position, camera.position).setY(0).normalize();
+  vec.multiplyScalar(-moveDistance*forward_direction);
 
-  controls.moveRight(-velocity.x*delta);
-  sphere.position.x += -velocity.x*delta;
-  controls.moveForward(-velocity.z*delta);
-  sphere.position.z += velocity.z*delta;
+  if (moveForward || moveBackward) {
+    sphere.position.sub(vec);
+    camera.position.sub(vec);
+  }
 
-  prevTime = time;
+  camera.lookAt(sphere.position);
 }
