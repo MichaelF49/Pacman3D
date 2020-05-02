@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 
+// distance vec from sphere to camera
 const cam_vec = new THREE.Vector3(0, 55, 80);
 
 // scene and camera
@@ -120,9 +121,15 @@ let handleMovement = () => {
   }
 
   if (moveForward || moveBackward) {
-    let vec = new THREE.Vector3().subVectors(sphere.position, camera.position);
-    let sphere_vec = vec.setY(0).normalize().multiplyScalar(moveDistance*forward_direction);
+    const vec = new THREE.Vector3().subVectors(sphere.position, camera.position);
+    let sphere_vec = vec.clone().setY(0).normalize().multiplyScalar(moveDistance*forward_direction);
     sphere.position.add(sphere_vec);
-    camera.position.add(sphere_vec);
+    sphere.position.setX(Math.max(Math.min(733, sphere.position.x), -733));
+    sphere.position.setZ(Math.max(Math.min(733, sphere.position.z), -733));
+
+    vec.normalize().multiplyScalar(cam_vec.length());
+    let new_cam_pos = new THREE.Vector3().subVectors(sphere.position, vec);
+
+    camera.position.set(new_cam_pos.x, new_cam_pos.y, new_cam_pos.z);
   }
 }
