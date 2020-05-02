@@ -1,8 +1,10 @@
 import * as THREE from 'three';
 
+const cam_vec = new THREE.Vector3(0, 55, 80);
+
 // scene and camera
-let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 1000);
-camera.position.set(0, 55, 80);
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 1500);
+camera.position.multiplyScalar(0).add(cam_vec);
 camera.lookAt(0, 0, 0);
 
 let scene = new THREE.Scene();
@@ -15,7 +17,7 @@ let sphere = new THREE.Mesh(sphere_geometry, sphere_material);
 scene.add(sphere);
 
 // floor
-let floor_geometry = new THREE.PlaneGeometry(750, 750, 10, 10);
+let floor_geometry = new THREE.PlaneGeometry(1500, 1500, 10, 10);
 let floor_material = new THREE.MeshBasicMaterial({color: 0x545aa7, side: THREE.DoubleSide});
 let floor = new THREE.Mesh(floor_geometry, floor_material);
 floor.rotation.x = Math.PI/2;
@@ -117,13 +119,10 @@ let handleMovement = () => {
     camera.position.add(sphere.position);
   }
 
-  let vec = new THREE.Vector3().subVectors(sphere.position, camera.position).setY(0).normalize();
-  vec.multiplyScalar(-moveDistance*forward_direction);
-
   if (moveForward || moveBackward) {
-    sphere.position.sub(vec);
-    camera.position.sub(vec);
+    let vec = new THREE.Vector3().subVectors(sphere.position, camera.position);
+    let sphere_vec = vec.setY(0).normalize().multiplyScalar(moveDistance*forward_direction);
+    sphere.position.add(sphere_vec);
+    camera.position.add(sphere_vec);
   }
-
-  camera.lookAt(sphere.position);
 }
