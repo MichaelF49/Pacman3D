@@ -1,15 +1,31 @@
 import * as THREE from 'three';
 
 // distance vec from sphere to camera
-const cam_vec = new THREE.Vector3(0, 55, 80);
+const cam_vec = new THREE.Vector3(0, 40, 80);
 
 // scene and camera
-let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 2000);
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 50000);
 camera.position.multiplyScalar(0).add(cam_vec);
 camera.lookAt(0, 0, 0);
 
 let scene = new THREE.Scene();
 scene.background = new THREE.Color(0x6699cc);
+
+let sky_1 = new THREE.TextureLoader().load('./src/images/skybox/sky1.jpg');
+let sky_2 = new THREE.TextureLoader().load('./src/images/skybox/sky2.jpg');
+let sky_top = new THREE.TextureLoader().load('./src/images/skybox/sky_top.jpg');
+let sky_bot = new THREE.TextureLoader().load('./src/images/skybox/sky_bot.jpg');
+let sky_array = [];
+sky_array.push(new THREE.MeshBasicMaterial({map: sky_1, side: THREE.BackSide}));
+sky_array.push(new THREE.MeshBasicMaterial({map: sky_1, side: THREE.BackSide}));
+sky_array.push(new THREE.MeshBasicMaterial({map: sky_top, side: THREE.BackSide}));
+sky_array.push(new THREE.MeshBasicMaterial({map: sky_bot, side: THREE.BackSide}));
+sky_array.push(new THREE.MeshBasicMaterial({map: sky_2, side: THREE.BackSide}));
+sky_array.push(new THREE.MeshBasicMaterial({map: sky_2, side: THREE.BackSide}));
+let skybox_geometry = new THREE.BoxGeometry(10000, 10000, 10000);
+let skybox = new THREE.Mesh(skybox_geometry, sky_array);
+skybox.position.set(0, 0, 0);
+scene.add(skybox);
 
 // character
 let sphere_geometry = new THREE.SphereGeometry(15, 25, 25);
@@ -19,34 +35,50 @@ scene.add(sphere);
 
 // floor
 let floor_geometry = new THREE.PlaneGeometry(1500, 1500, 10, 10);
-let floor_material = new THREE.MeshBasicMaterial({color: 0x545aa7, side: THREE.DoubleSide});
+let floor_material = new THREE.MeshBasicMaterial({
+  color: 0x545aa7,
+  side: THREE.DoubleSide,
+  transparent:true,
+  opacity: 0.75
+});
 let floor = new THREE.Mesh(floor_geometry, floor_material);
 floor.rotation.x = Math.PI/2;
 floor.position.y = -30;
 scene.add(floor);
 
 // walls
-let wall_material_1 = new THREE.MeshBasicMaterial({color: 0x8b0000, side: THREE.DoubleSide});
-let wall_material_2 = new THREE.MeshBasicMaterial({color: 0xcfb53b, side: THREE.DoubleSide});
-let wall_geometry = new THREE.PlaneGeometry(1500, 50, 10, 10);
+let wall_material_1 = new THREE.MeshBasicMaterial({
+  color: 0x8b0000,
+  side: THREE.DoubleSide,
+  transparent:true,
+  opacity: 0.75
+});
+let wall_material_2 = new THREE.MeshBasicMaterial({
+  color: 0xcfb53b,
+  side: THREE.DoubleSide,
+  transparent:true,
+  opacity: 0.75
+});
+let wall_geometry = new THREE.PlaneGeometry(1500, 75, 75, 10);
 let wall = new THREE.Mesh(wall_geometry, wall_material_1);
 wall.rotation.y = Math.PI/2;
-wall.position.y = -5;
+wall.position.y = 7.5;
 wall.position.x = -750;
 scene.add(wall);
 wall = new THREE.Mesh(wall_geometry, wall_material_1);
 wall.rotation.y = Math.PI/2;
-wall.position.y = -5;
+wall.position.y = 7.5;
 wall.position.x = 750;
 scene.add(wall);
 wall = new THREE.Mesh(wall_geometry, wall_material_2);
-wall.position.y = -5;
+wall.position.y = 7.5;
 wall.position.z = -750;
 scene.add(wall);
 wall = new THREE.Mesh(wall_geometry, wall_material_2);
-wall.position.y = -5;
+wall.position.y = 7.5;
 wall.position.z = 750;
 scene.add(wall);
+
 // renderer
 let renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.setPixelRatio(window.devicePixelRatio);
