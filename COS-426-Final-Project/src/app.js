@@ -4,7 +4,7 @@ import * as THREE from 'three';
 const cam_vec = new THREE.Vector3(0, 55, 80);
 
 // scene and camera
-let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 1500);
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 2000);
 camera.position.multiplyScalar(0).add(cam_vec);
 camera.lookAt(0, 0, 0);
 
@@ -22,9 +22,31 @@ let floor_geometry = new THREE.PlaneGeometry(1500, 1500, 10, 10);
 let floor_material = new THREE.MeshBasicMaterial({color: 0x545aa7, side: THREE.DoubleSide});
 let floor = new THREE.Mesh(floor_geometry, floor_material);
 floor.rotation.x = Math.PI/2;
-floor.position.y = -40;
+floor.position.y = -30;
 scene.add(floor);
 
+// walls
+let wall_material_1 = new THREE.MeshBasicMaterial({color: 0x8b0000, side: THREE.DoubleSide});
+let wall_material_2 = new THREE.MeshBasicMaterial({color: 0xcfb53b, side: THREE.DoubleSide});
+let wall_geometry = new THREE.PlaneGeometry(1500, 50, 10, 10);
+let wall = new THREE.Mesh(wall_geometry, wall_material_1);
+wall.rotation.y = Math.PI/2;
+wall.position.y = -5;
+wall.position.x = -750;
+scene.add(wall);
+wall = new THREE.Mesh(wall_geometry, wall_material_1);
+wall.rotation.y = Math.PI/2;
+wall.position.y = -5;
+wall.position.x = 750;
+scene.add(wall);
+wall = new THREE.Mesh(wall_geometry, wall_material_2);
+wall.position.y = -5;
+wall.position.z = -750;
+scene.add(wall);
+wall = new THREE.Mesh(wall_geometry, wall_material_2);
+wall.position.y = -5;
+wall.position.z = 750;
+scene.add(wall);
 // renderer
 let renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -124,6 +146,7 @@ let handleMovement = () => {
     const vec = new THREE.Vector3().subVectors(sphere.position, camera.position);
     let sphere_vec = vec.clone().setY(0).normalize().multiplyScalar(moveDistance*forward_direction);
     sphere.position.add(sphere_vec);
+    // check bounds of walls
     sphere.position.setX(Math.max(Math.min(733, sphere.position.x), -733));
     sphere.position.setZ(Math.max(Math.min(733, sphere.position.z), -733));
 
