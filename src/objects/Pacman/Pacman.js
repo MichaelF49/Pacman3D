@@ -1,16 +1,17 @@
-import {Group, Audio} from 'three';
+import {Group, Audio, AudioLoader} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {Cherry} from '../Cherry';
 
 class Pacman extends Group {
-  constructor(scene, camera, listener, audioLoader) {
+  constructor(scene, camera, listener) {
     // Call parent Group() constructor
     super();
 
-    this.audioLoader = audioLoader;
-    this.listener = listener;
     this.scene = scene;
     this.camera = camera;
+    this.listener = listener;
+
+    this.audioLoader = new AudioLoader();
     this.name = 'land';
     this.ammo = 15;
     this.projectiles = new Set();
@@ -28,6 +29,7 @@ class Pacman extends Group {
 
       let vec = this.position.clone().sub(this.camera.position);
       vec.setY(this.position.Y - 5).normalize();
+
       let cherry = new Cherry(vec);
       cherry.scale.multiplyScalar(3);
       cherry.position.add(this.position);
@@ -43,12 +45,11 @@ class Pacman extends Group {
         sound.play();
       });
     } else {
-      // no ammo
-      // play no ammo sound
+      // no ammo, play empty ammo sound
       let sound = new Audio(this.listener);
       this.audioLoader.load('./src/music/no_ammo.mp3', (buffer) => {
         sound.setBuffer(buffer);
-        sound.setVolume(0.05);
+        sound.setVolume(0.2);
         sound.play();
       });
     }

@@ -1,2 +1,2 @@
 export * from './Pacman';
-export * from './Cherry';
+export * from './Ghost';
