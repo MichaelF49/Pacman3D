@@ -324,6 +324,11 @@ let handleRound = () => {
 
     for (let i = 0; i < waves[currentWave]; i++) {
       let ghost = new Ghost();
+      ghost.scale.multiplyScalar(16);
+      ghost.position.x -= 30;
+      ghost.position.y -= 32;
+      ghost.position.z -= 40;
+
       scene.add(ghost);
       enemies.add(ghost);
     }
