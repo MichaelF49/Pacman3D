@@ -13,7 +13,7 @@ class Pacman extends Group {
 
     this.audioLoader = new AudioLoader();
     this.name = 'land';
-    this.ammo = 15;
+    this.ammo = 100;
     this.projectiles = new Set();
 
     const loader = new GLTFLoader();

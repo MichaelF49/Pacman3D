@@ -4,6 +4,8 @@ import {Pacman, Ghost} from './objects';
 /**********************************************************
  * OTHER GLOBAL VARIABLES
  **********************************************************/
+let gameOver = false;
+
 // keyboard control variables
 let moveForward = false;
 let moveBackward = false;
@@ -197,7 +199,7 @@ let onKeyDown = (event) => {
     }
     case 32: {
       // space
-      if (!spaceDown) {
+      if (!spaceDown && !gameOver) {
         pacman.shoot();
         spaceDown = true;
       }
@@ -290,7 +292,19 @@ let handleMovement = () => {
 let handleShooting = () => {
   for (let projectile of pacman.projectiles) {
     let projectileVec = projectile.direction;
-    projectile.position.add(projectileVec.clone().multiplyScalar(0.35));
+    projectile.position.add(projectileVec.clone().multiplyScalar(0.3));
+
+    for (let enemy of enemies) {
+      let hitDist = enemy.position.clone().setY(0).
+        distanceTo(projectile.position.clone().setY(0));
+      if (hitDist < 25) {
+        scene.remove(enemy);
+        scene.remove(projectile);
+        pacman.projectiles.delete(projectile);
+        enemies.delete(enemy);
+        enemy.death();
+      }
+    }
 
     // handle collision
     if (Math.abs(projectile.position.x) > arenaSize/2 ||
@@ -318,16 +332,34 @@ let handleRound = () => {
       return;
     }
 
-    if (clock.getElapsedTime() - startTime > 10) {
-      startedRound = false;
+    if (clock.getElapsedTime() - startTime <= 5) {
+      return;
     }
+    // reset flag back
+    startedRound = false;
+
+    // start new round
+    let sound = new THREE.Audio(listener);
+    audioLoader.load('./src/music/round_start.mp3', (buffer) => {
+      sound.setBuffer(buffer);
+      sound.setVolume(0.25);
+      sound.play();
+    });
 
     for (let i = 0; i < waves[currentWave]; i++) {
-      let ghost = new Ghost();
-      ghost.scale.multiplyScalar(16);
-      ghost.position.x -= 30;
-      ghost.position.y -= 32;
-      ghost.position.z -= 40;
+      let ghost = new Ghost(listener, clock);
+      ghost.scale.multiplyScalar(0.2);
+      ghost.position.y -= 5;
+      
+      // spawn randomly around edges of arena
+      let randVec = new THREE.Vector3(
+        (Math.random() < 0.5 ? -1 : 1)*
+          (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4),
+        0,
+        (Math.random() < 0.5 ? -1 : 1)*
+          (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4)
+      );
+      ghost.position.add(randVec);
 
       scene.add(ghost);
       enemies.add(ghost);
@@ -335,20 +367,64 @@ let handleRound = () => {
 
     currentWave++;
   } else if (enemies.size === 0 && currentWave === waves.length) {
-    // bear game!
+    // victory
+    globalMusic.stop();
+    let sound = new THREE.Audio(listener);
+    audioLoader.load('./src/music/victory.mp3', (buffer) => {
+      sound.setBuffer(buffer);
+      sound.setVolume(0.25);
+      sound.play();
+    });
+    gameOver = true;
   }
 };
+
+/**********************************************************
+ * AI HANDLER
+ **********************************************************/
+let handleAI = () => {
+  for (let enemy of enemies) {
+    // make occasional noise
+    enemy.makeNoise();
+
+    let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
+    let testPosition = enemy.position.clone().add(vec.clone().multiplyScalar(1.2))
+    if (testPosition.distanceTo(pacman.position) > 35) {
+      enemy.position.add(vec.clone().multiplyScalar(1.2));
+      
+      // make sure enemy faces Pacman
+      let angle = new THREE.Vector3(0, 0, 1).angleTo(vec);
+      if (pacman.position.x - enemy.position.x < 0) {
+        angle = Math.PI*2 - angle;
+      }
+      enemy.rotation.y = angle;
+    } else {
+      // defeat
+      globalMusic.stop();
+      let sound = new THREE.Audio(listener);
+      audioLoader.load('./src/music/defeat.mp3', (buffer) => {
+        sound.setBuffer(buffer);
+        sound.setVolume(0.25);
+        sound.play();
+      });
+      gameOver = true;
+    }
+  }
+}
 
 /**********************************************************
  * RENDER HANDLER
  **********************************************************/
 let onAnimationFrameHandler = (timeStamp) => {
-  window.requestAnimationFrame(onAnimationFrameHandler);
-  handleMovement();
-  handleShooting();
-  handleRound();
-  scene.update && scene.update(timeStamp);
-  renderer.render(scene, camera);
+  if (!gameOver) {
+    window.requestAnimationFrame(onAnimationFrameHandler);
+    handleMovement();
+    handleShooting();
+    handleRound();
+    handleAI();
+    scene.update && scene.update(timeStamp);
+    renderer.render(scene, camera);
+  }
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
 
