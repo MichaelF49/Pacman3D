@@ -7,6 +7,7 @@ class Cherry extends Group {
     super();
 
     this.name = 'cherry';
+    this.speed = 0.3;
     this.direction = direction;
 
     const loader = new GLTFLoader();

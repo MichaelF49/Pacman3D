@@ -9,6 +9,8 @@ class Ghost extends Group {
     this.listener = listener;
     this.clock = clock;
 
+    this.speed = 1.2;
+    this.killDist = 35;
     this.noiseTimeDiff = 12 - 8*Math.random();
     this.oldTime = this.clock.getElapsedTime();
     this.name = 'ghost';
@@ -22,9 +24,6 @@ class Ghost extends Group {
 
   makeNoise() {
     if (this.clock.getElapsedTime() - this.oldTime > this.noiseTimeDiff) {
-      this.noiseTimeDiff = 12 - 8*Math.random();
-      this.oldTime = this.clock.getElapsedTime();
-
       let file = (Math.random() > 0.5) ?
         './src/music/ghost_noise1.mp3' : './src/music/ghost_noise2.mp3';
 
@@ -34,6 +33,9 @@ class Ghost extends Group {
         sound.setVolume(0.3);
         sound.play();
       });
+
+      this.oldTime = this.clock.getElapsedTime();
+      this.noiseTimeDiff = 12 - 8*Math.random();
     }
   }
 

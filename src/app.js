@@ -4,8 +4,6 @@ import {Pacman, Ghost} from './objects';
 /**********************************************************
  * OTHER GLOBAL VARIABLES
  **********************************************************/
-let gameOver = false;
-
 // keyboard control variables
 let moveForward = false;
 let moveBackward = false;
@@ -16,7 +14,9 @@ let spaceDown = false; // prevent repetitive fires
 // for handling velocity
 let clock = new THREE.Clock();
 
-// enemy waves
+// game properties
+let gameOver = false;
+let waveRestTime = 8; // 8 s between waves
 let waves = [3, 6, 12];
 let enemies = new Set();
 let currentWave = 0;
@@ -292,7 +292,7 @@ let handleMovement = () => {
 let handleShooting = () => {
   for (let projectile of pacman.projectiles) {
     let projectileVec = projectile.direction;
-    projectile.position.add(projectileVec.clone().multiplyScalar(0.3));
+    projectile.position.add(projectileVec.clone().multiplyScalar(projectile.speed));
 
     for (let enemy of enemies) {
       let hitDist = enemy.position.clone().setY(0).
@@ -322,7 +322,7 @@ let handleShooting = () => {
 }
 
 /**********************************************************
- * ENEMY WAVE HANDLERS
+ * ENEMY WAVE HANDLER
  **********************************************************/
 let handleRound = () => {
   if (enemies.size === 0 && currentWave < waves.length) {
@@ -332,7 +332,7 @@ let handleRound = () => {
       return;
     }
 
-    if (clock.getElapsedTime() - startTime <= 5) {
+    if (clock.getElapsedTime() - startTime <= waveRestTime) {
       return;
     }
     // reset flag back
@@ -388,9 +388,10 @@ let handleAI = () => {
     enemy.makeNoise();
 
     let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
-    let testPosition = enemy.position.clone().add(vec.clone().multiplyScalar(1.2))
-    if (testPosition.distanceTo(pacman.position) > 35) {
-      enemy.position.add(vec.clone().multiplyScalar(1.2));
+    let testPosition = enemy.position.clone()
+      .add(vec.clone().multiplyScalar(enemy.speed))
+    if (testPosition.distanceTo(pacman.position) > enemy.killDist) {
+      enemy.position.add(vec.clone().multiplyScalar(enemy.speed));
       
       // make sure enemy faces Pacman
       let angle = new THREE.Vector3(0, 0, 1).angleTo(vec);
