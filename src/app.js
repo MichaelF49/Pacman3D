@@ -21,7 +21,7 @@ audioLoader.load('./src/music/global_music.mp3', (buffer) => {
   global_music.setBuffer(buffer);
   global_music.setLoop(true);
   global_music.setVolume(0.20);
-  // global_music.play();
+  global_music.play();
 });
 
 // skybox
@@ -180,8 +180,8 @@ let onKeyUp = (event) => {
   }
 };
 // add key handlers
-document.addEventListener('keydown', onKeyDown, false);
-document.addEventListener('keyup', onKeyUp, false);
+window.addEventListener('keydown', onKeyDown, false);
+window.addEventListener('keyup', onKeyUp, false);
 
 // Render loop
 let onAnimationFrameHandler = (timeStamp) => {
@@ -225,17 +225,18 @@ let handleMovement = () => {
   }
 
   if (moveForward || moveBackward) {
+    let old_vec = pacman.position.clone();
+
     const vec = new THREE.Vector3().subVectors(pacman.position, camera.position);
-    let sphere_vec = vec.clone().setY(0).normalize().multiplyScalar(moveDistance*forward_direction);
-    pacman.position.add(sphere_vec);
+    let pac_vec = vec.clone().setY(0).normalize().multiplyScalar(moveDistance*forward_direction);
+    pacman.position.add(pac_vec);
     // check bounds of walls
     pacman.position.setX(Math.max(Math.min(734, pacman.position.x), -734));
     pacman.position.setZ(Math.max(Math.min(734, pacman.position.z), -734));
 
-    vec.normalize().multiplyScalar(cam_vec.length());
-    let new_cam_pos = new THREE.Vector3().subVectors(pacman.position, vec);
-
-    camera.position.set(new_cam_pos.x, new_cam_pos.y, new_cam_pos.z);
+    let new_vec = pacman.position.clone();
+    let vec_diff = new_vec.sub(old_vec);
+    camera.position.add(vec_diff);
   }
 }
 
@@ -243,7 +244,7 @@ let handleMovement = () => {
 let handleShooting = () => {
   for (let projectile of pacman.projectiles) {
     let projectile_vec = projectile.direction;
-    projectile.position.add(projectile_vec.clone().multiplyScalar(0.5));
+    projectile.position.add(projectile_vec.clone().multiplyScalar(0.35));
 
     // handle collision
     if (Math.abs(projectile.position.x) > 750 || Math.abs(projectile.position.z) > 750) {
@@ -260,12 +261,12 @@ let handleShooting = () => {
 }
 
 // number of enemmies per wave
-const waves = [5, 10, 20];
+const waves = [3, 6, 10];
 let enemies = new Set();
 // handle a wave of enemies
 let handleRound = () => {
   for (let i = 0; i < waves.length; i++) {
-    for (let j = 0; k < waves[i]; j++) {
+    for (let j = 0; j < waves[i]; j++) {
       // spawn enemy add to set
       // add enemy to scene
     }
