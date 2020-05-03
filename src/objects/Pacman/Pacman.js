@@ -1,4 +1,4 @@
-import {Group, PositionalAudio} from 'three';
+import {Group, Audio} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {Cherry} from '../Cherry';
 
@@ -12,7 +12,7 @@ class Pacman extends Group {
     this.scene = scene;
     this.camera = camera;
     this.name = 'land';
-    this.ammo = 10;
+    this.ammo = 15;
     this.projectiles = new Set();
 
     const loader = new GLTFLoader();
@@ -23,8 +23,8 @@ class Pacman extends Group {
 
   shoot() {
     if (this.ammo > 0) {
+      // there is ammo, fire a projectile
       this.ammo--;
-      console.log("fired bullet!", this.ammo);
 
       let vec = this.position.clone().sub(this.camera.position);
       vec.setY(this.position.Y - 5).normalize();
@@ -35,23 +35,22 @@ class Pacman extends Group {
       this.scene.add(cherry);
       this.projectiles.add(cherry);
 
-      let sound = new PositionalAudio(this.listener);
+      // play cherry sound
+      let sound = new Audio(this.listener);
       this.audioLoader.load('./src/music/cherry_blast.mp3', (buffer) => {
         sound.setBuffer(buffer);
-        sound.setRefDistance(200);
         sound.setVolume(0.3);
         sound.play();
       });
-      this.add(sound);
     } else {
-      let sound = new PositionalAudio(this.listener);
+      // no ammo
+      // play no ammo sound
+      let sound = new Audio(this.listener);
       this.audioLoader.load('./src/music/no_ammo.mp3', (buffer) => {
         sound.setBuffer(buffer);
-        sound.setRefDistance(200);
-        sound.setVolume(0.1);
+        sound.setVolume(0.05);
         sound.play();
       });
-      this.add(sound);
     }
   }
 }

@@ -21,7 +21,7 @@ audioLoader.load('./src/music/global_music.mp3', (buffer) => {
   global_music.setBuffer(buffer);
   global_music.setLoop(true);
   global_music.setVolume(0.20);
-  global_music.play();
+  // global_music.play();
 });
 
 // skybox
@@ -129,8 +129,10 @@ let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
 let moveRight = false;
-let shooting = false;
 let clock = new THREE.Clock();
+
+// prevent repetitive fires
+let space_down = false;
 
 // key handlers
 let onKeyDown = (event) => {
@@ -147,9 +149,15 @@ let onKeyDown = (event) => {
     case 68: // d
       moveRight = true;
       break;
-    case 32: // space
-      shooting = true;
+    case 32: {
+      // space
+      if (space_down) {
+        return;
+      }
+      pacman.shoot();
+      space_down = true;
       break;
+    }
   }
 };
 let onKeyUp = (event) => {
@@ -167,7 +175,7 @@ let onKeyUp = (event) => {
       moveRight = false;
       break;
     case 32: // space
-      shooting = false;
+      space_down = false;
       break;
   }
 };
@@ -180,6 +188,7 @@ let onAnimationFrameHandler = (timeStamp) => {
   window.requestAnimationFrame(onAnimationFrameHandler);
   handleMovement();
   handleShooting();
+  handleRound();
   scene.update && scene.update(timeStamp);
   renderer.render(scene, camera);
 };
@@ -232,18 +241,33 @@ let handleMovement = () => {
 
 // shooting
 let handleShooting = () => {
-  if (shooting) {
-    pacman.shoot();
-    shooting = false;
-  }
-
   for (let projectile of pacman.projectiles) {
     let projectile_vec = projectile.direction;
     projectile.position.add(projectile_vec.clone().multiplyScalar(0.5));
 
     // handle collision
     if (Math.abs(projectile.position.x) > 750 || Math.abs(projectile.position.z) > 750) {
+      let sound = new THREE.Audio(listener);
+      audioLoader.load('./src/music/pop.mp3', (buffer) => {
+        sound.setBuffer(buffer);
+        sound.setVolume(0.05);
+        sound.play();
+      });
       scene.remove(projectile);
+      pacman.projectiles.delete(projectile);
     }
   }
 }
+
+// number of enemmies per wave
+const waves = [5, 10, 20];
+let enemies = new Set();
+// handle a wave of enemies
+let handleRound = () => {
+  for (let i = 0; i < waves.length; i++) {
+    for (let j = 0; k < waves[i]; j++) {
+      // spawn enemy add to set
+      // add enemy to scene
+    }
+  }
+};
