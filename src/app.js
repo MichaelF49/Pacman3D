@@ -173,7 +173,7 @@ document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
 /**********************************************************
- * KEY HANDLER
+ * KEY HANDLERS
  **********************************************************/
 let onKeyDown = (event) => {
   switch (event.keyCode) {
@@ -322,17 +322,19 @@ let handleShooting = () => {
 }
 
 /**********************************************************
- * ENEMY WAVE HANDLER
+ * GAME ROUND HANDLER
  **********************************************************/
 let handleRound = () => {
   if (enemies.size === 0 && currentWave < waves.length) {
+    // new round should start, begin countdown
     if (!startedRound) {
       startedRound = true;
       startTime = clock.getElapsedTime();
       return;
     }
 
-    if (clock.getElapsedTime() - startTime <= waveRestTime) {
+    // wait for countdown to finish
+    if (clock.getElapsedTime() - startTime < waveRestTime) {
       return;
     }
     // reset flag back
@@ -361,8 +363,8 @@ let handleRound = () => {
       );
       ghost.position.add(randVec);
 
-      scene.add(ghost);
       enemies.add(ghost);
+      scene.add(ghost);
     }
 
     currentWave++;
