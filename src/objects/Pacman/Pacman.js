@@ -13,7 +13,7 @@ class Pacman extends Group {
 
     this.audioLoader = new AudioLoader();
     this.name = 'land';
-    this.ammo = 100;
+    this.ammo = {'cherry': Number.MAX_SAFE_INTEGER, 'orange': 0};
     this.projectiles = new Set();
     this.currentFruit = 'cherry'  // should make const file and get from there
 
@@ -24,9 +24,9 @@ class Pacman extends Group {
   }
 
   shoot() {
-    if (this.ammo > 0) {
+    if (this.ammo[this.currentFruit] > 0) {
       // there is ammo, fire a projectile
-      this.ammo--;
+      this.ammo[this.currentFruit]--;
 
       let vec = this.position.clone().sub(this.camera.position);
       vec.setY(this.position.Y - 5).normalize();

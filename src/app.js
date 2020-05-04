@@ -22,6 +22,7 @@ let enemies = new Set();
 let currentWave = 0;
 let startedRound = false;
 let startTime = 0;
+let pickups = new Set();
 let betweenfruitSpawnTime = 1;  // 5 s bewteen fruit spawns
 let lastFruitSpawnTime = 0;
 
@@ -425,21 +426,38 @@ let handlePickups = () => {
   if (clock.getElapsedTime() - lastFruitSpawnTime > betweenfruitSpawnTime) {
     lastFruitSpawnTime = clock.getElapsedTime()
 
+    // Choose random fruit to spawn
     let fruit, scale
     if (Math.random() < 0.5) {
-      fruit = 'cherry'
-      scale = 3
+      fruit = 'cherry', scale = 3
     } else {
-      fruit = 'orange'
-      scale = 111
+      fruit = 'orange', scale = 111
     }
 
+    // Create Pickup object
     let pickup = new Pickup(fruit)
     pickup.scale.multiplyScalar(scale);
-    let spawnPos = new THREE.Vector3(Math.random() * arenaSize - arenaSize / 2, -20, Math.random() * arenaSize - arenaSize / 2)
+    let spawnPos = new THREE.Vector3(
+      Math.random() * arenaSize - arenaSize / 2, 
+      -20, 
+      Math.random() * arenaSize - arenaSize / 2
+    )
     pickup.position.add(spawnPos);
 
-    scene.add(pickup);
+    scene.add(pickup)
+    pickups.add(pickup)
+  }
+
+  for (let pickup of pickups) {
+    let hitDist = pickup.position.clone().setY(0).
+      distanceTo(pacman.position.clone().setY(0))
+    if (hitDist < 25) {
+      scene.remove(pickup)
+      pickups.delete(pickup)
+      
+      // the following is made for ammo, not health/invinc/etc
+      pacman.ammo[pickup.name] += 5
+    }
   }
 }
 
