@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {Pacman, Ghost} from './objects';
+import {Pacman, Ghost, Cherry} from './objects';
 
 /**********************************************************
  * OTHER GLOBAL VARIABLES
@@ -22,6 +22,8 @@ let enemies = new Set();
 let currentWave = 0;
 let startedRound = false;
 let startTime = 0;
+let betweenfruitSpawnTime = 5;
+let lastFruitSpawnTime = 0;
 
 let arenaSize = 1500.0;
 
@@ -416,6 +418,24 @@ let handleAI = () => {
 }
 
 /**********************************************************
+ * PICKUPS HANDLER
+ **********************************************************/
+let handlePickups = () => {
+  // Spawn new fruit
+  if (clock.getElapsedTime() - lastFruitSpawnTime > betweenfruitSpawnTime) {
+    lastFruitSpawnTime = clock.getElapsedTime()
+
+    let cherry = new Cherry()
+    cherry.speed = 0
+    cherry.scale.multiplyScalar(3);
+    let spawnPos = new THREE.Vector3(Math.random() * arenaSize - arenaSize / 2, -20, Math.random() * arenaSize - arenaSize / 2)
+    cherry.position.add(spawnPos);
+
+    scene.add(cherry);
+  }
+}
+
+/**********************************************************
  * RENDER HANDLER
  **********************************************************/
 let onAnimationFrameHandler = (timeStamp) => {
@@ -425,6 +445,7 @@ let onAnimationFrameHandler = (timeStamp) => {
     handleShooting();
     handleRound();
     handleAI();
+    handlePickups();
     scene.update && scene.update(timeStamp);
     renderer.render(scene, camera);
   }
