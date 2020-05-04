@@ -25,8 +25,10 @@ let enemies = new Set();
 let currentWave = 0;
 let startedRound = false;
 let startTime = 0;
+let rooms = []; // list of rooms
 
-let arenaSize = 1000.0;
+let arenaSize = 1000;
+
 
 
 
@@ -91,11 +93,12 @@ pacman.rotation.y = Math.PI*1.5;
 pacman.scale.multiplyScalar(10);
 scene.add(pacman);
 
-let a = new Room('main', arenaSize, 0, 0, scene);
-let b = new Room('level2', arenaSize, 1000, 0, scene);
-let c = new Room('level3', arenaSize, 0, 1000, scene);
-let d = new Room('level4', arenaSize, -1000, 0, scene);
-let e = new Room('level5', arenaSize, 0, -1000, scene);
+rooms.push(new Room('main', arenaSize, 0, 0, scene));
+// uncomment to see additional rooms, still in progress making doors
+// rooms.push(new Room('level2', arenaSize, 1000, 0, scene));
+// rooms.push(new Room('level3', arenaSize, 0, 1000, scene));
+// rooms.push(new Room('level4', arenaSize, -1000, 0, scene));
+// rooms.push(new Room('level5', arenaSize, 0, -1000, scene));
 // /**********************************************************
 //  * FLOOR
 //  **********************************************************/

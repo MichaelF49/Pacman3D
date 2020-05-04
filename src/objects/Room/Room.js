@@ -2,7 +2,12 @@ import * as THREE from 'three';
 
 class Room{
     constructor(roomName, arenaSize, x, z, scene) {
-        this.roomName = roomName;
+        let doorWidth = 70;
+        this.id = roomName; // setting id of room, to be used for pathing algorithm
+                            // possibly also used for defining the characteristics of the room
+        this.unlocked = false;
+        this.door;
+        
         /**********************************************************
          * FLOOR
          **********************************************************/
@@ -33,13 +38,26 @@ class Room{
         side: THREE.DoubleSide,
         wireframe: true
         });
-        let wallGeo = new THREE.PlaneGeometry(arenaSize, 75, 75, 10);
+        let wallMaterial3 = new THREE.MeshBasicMaterial({
+            color: 0x00ff00, 
+            side: THREE.DoubleSide,
+            wireframe: false
+            });
+        let wallGeo = new THREE.PlaneGeometry((arenaSize - doorWidth)/ 2, 75, 38, 10);
         let wall = new THREE.Mesh(wallGeo, wallMaterial1);
         wall.rotation.y = Math.PI/2;
         wall.position.y = 7.5;
         wall.position.x = x-arenaSize/2;
-        wall.position.z = z;
+        wall.position.z = z - (arenaSize - doorWidth)/4 - doorWidth / 2;
         scene.add(wall);
+        
+        wall = new THREE.Mesh(wallGeo, wallMaterial1);
+        wall.rotation.y = Math.PI/2;
+        wall.position.y = 7.5;
+        wall.position.x = x-arenaSize/2;
+        wall.position.z = z + (arenaSize - doorWidth)/4 + doorWidth / 2;
+        scene.add(wall);
+        wallGeo = new THREE.PlaneGeometry(arenaSize, 75, 75, 10);
         wall = new THREE.Mesh(wallGeo, wallMaterial1);
         wall.rotation.y = Math.PI/2;
         wall.position.y = 7.5;
