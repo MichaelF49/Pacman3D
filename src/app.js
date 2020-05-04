@@ -367,7 +367,7 @@ let handleRound = () => {
     for (let i = 0; i < waves[currentWave]; i++) {
       let ghost = new Ghost(listener, clock);
       ghost.scale.multiplyScalar(0.2);
-      ghost.position.y -= 5;
+      ghost.position.y -= 20;
       
       // spawn randomly around edges of arena
       let randVec = new THREE.Vector3(
@@ -417,6 +417,10 @@ let handleAI = () => {
 
     // make occasional noise
     enemy.makeNoise();
+
+    // ghosts float along sine wave
+    enemy.position.y = -20 + Math.sin(clock.getElapsedTime() * 5) * enemy.hoverHeight;
+
 
     let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
     let testPosition = enemy.position.clone()

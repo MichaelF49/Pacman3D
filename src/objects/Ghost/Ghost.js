@@ -10,15 +10,19 @@ class Ghost extends Group {
     this.clock = clock;
 
     this.speed = 1.2;
-    this.killDist = 35;
-    this.noiseTimeDiff = 12 - 8*Math.random();
+    this.hoverHeight = Math.random() * 1.5 + 1.5;
+    // KILL DIST PARAMETERS:
+    // 35 for mario ghosts
+    // 25 for pac-man ghosts
+    this.killDist = 25;
+    this.noiseTimeDiff = 12 - 8 * Math.random();
     this.oldTime = this.clock.getElapsedTime();
     this.name = 'ghost';
     this.audioLoader = new AudioLoader();
     this.meshes;
 
     const loader = new GLTFLoader();
-    loader.load('./src/objects/Ghost/ghost.glb', (gltf) => {
+    loader.load('./src/objects/Ghost/blue_ghost6.glb', (gltf) => {
       this.meshes = gltf.scene.children[0].children[0].children; // accessing the meshes of the "group"
 
       // setting the ghosts to be initially transparent
