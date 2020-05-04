@@ -30,6 +30,8 @@ let betweenPowerupSpawnTime = 1;  // 1 s bewteen fruit spawns
 let lastPowerupSpawnTime = 0;
 let freeze = false
 let freezeStart = 0
+let star = false
+let starStart = 0
 
 let arenaSize = consts.ARENA_SIZE;
 
@@ -415,6 +417,8 @@ let handleAI = () => {
     let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
     let testPosition = enemy.position.clone()
       .add(vec.clone().multiplyScalar(enemy.speed))
+
+    // If no collision, else collision
     if (testPosition.distanceTo(pacman.position) > enemy.killDist) {
       if (freeze) return
       enemy.position.add(vec.clone().multiplyScalar(enemy.speed));
@@ -426,6 +430,13 @@ let handleAI = () => {
       }
       enemy.rotation.y = angle;
     } else {
+      if (star) {
+        scene.remove(enemy);
+        enemies.delete(enemy);
+        enemy.death();
+        return;
+      }
+
       // defeat
       globalMusic.stop();
       let sound = new THREE.Audio(listener);
@@ -446,6 +457,9 @@ let handlePickups = () => {
   // Check timers
   if (freeze && clock.getElapsedTime() - freezeStart > consts.FREEZE_TIME) {
     freeze = false
+  }
+  if (star && clock.getElapsedTime() - starStart > consts.STAR_TIME) {
+    star = false
   }
 
   // Spawn fruit
@@ -519,6 +533,11 @@ let handlePickups = () => {
           case 'freeze': {
             freeze = true
             freezeStart = clock.getElapsedTime()
+            break
+          }
+          case 'star': {
+            star = true
+            starStart = clock.getElapsedTime()
             break
           }
         }
