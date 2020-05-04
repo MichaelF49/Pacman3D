@@ -32,7 +32,7 @@ class Pacman extends Group {
       vec.setY(this.position.Y - 5).normalize();
 
       let proj = new Projectile(vec, this.currentFruit);
-      let scale = this.currentFruit == 'cherry' ? 3 : 111;
+      let scale = this.currentFruit == 'cherry' ? 0.5 : 111;
       proj.scale.multiplyScalar(scale);
       proj.position.add(this.position);
 

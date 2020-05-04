@@ -439,7 +439,7 @@ let handlePickups = () => {
     // Choose random fruit to spawn
     let fruit, scale
     if (Math.random() < 0.5) {
-      fruit = 'cherry', scale = 3
+      fruit = 'cherry', scale = 0.5
     } else {
       fruit = 'orange', scale = 111
     }
