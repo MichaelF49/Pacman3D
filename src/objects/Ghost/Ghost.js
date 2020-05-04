@@ -19,11 +19,23 @@ class Ghost extends Group {
     this.oldTime = this.clock.getElapsedTime();
     this.name = 'ghost';
     this.audioLoader = new AudioLoader();
-    this.meshes;
+    this.meshes = [];
 
     const loader = new GLTFLoader();
     loader.load('./src/objects/Ghost/blue_ghost7.glb', (gltf) => {
-      this.meshes = gltf.scene.children[0].children[0].children; // accessing the meshes of the "group"
+      // this.meshes = gltf.scene.children[0].children[0].children; // accessing the meshes of the "group"
+      this.meshes.push(gltf.scene.children[0].children[0]);
+      let objects = gltf.scene.children[1].children[0].children[0].children[0].children;
+      this.meshes.push(objects[1].children[0]);
+      this.meshes.push(objects[2].children[0].children[0]);
+      this.meshes.push(objects[2].children[0].children[1]);
+      this.meshes.push(objects[2].children[0].children[2]);
+      this.meshes.push(objects[3].children[0]);
+      this.meshes.push(objects[4].children[0].children[0]);
+      this.meshes.push(objects[4].children[0].children[1]);
+      this.meshes.push(objects[4].children[0].children[2]);
+
+      this.meshes.push(gltf.scene.children[1].children[0].children[0].children[0].children[0]);
       // setting the ghosts to be initially transparent
       for (let msh of this.meshes) {
         if (! (msh.material === undefined)) {
