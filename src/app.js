@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {Pacman, Ghost} from './objects';
+import {Pacman, Ghost,Room} from './objects';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
@@ -26,7 +26,7 @@ let currentWave = 0;
 let startedRound = false;
 let startTime = 0;
 
-let arenaSize = 1500.0;
+let arenaSize = 1000.0;
 
 
 
@@ -91,53 +91,58 @@ pacman.rotation.y = Math.PI*1.5;
 pacman.scale.multiplyScalar(10);
 scene.add(pacman);
 
-/**********************************************************
- * FLOOR
- **********************************************************/
-let floorGeo = new THREE.PlaneGeometry(arenaSize, arenaSize, 10, 10);
-let floorMaterial = new THREE.MeshBasicMaterial({
-  color: 0x1974d2,
-  side: THREE.DoubleSide,
-  transparent:true,
-  opacity: 0.6,
-});
-let floor = new THREE.Mesh(floorGeo, floorMaterial);
-floor.rotation.x = Math.PI/2;
-floor.position.y = -30;
-scene.add(floor);
+let a = new Room('main', arenaSize, 0, 0, scene);
+let b = new Room('level2', arenaSize, 1000, 0, scene);
+let c = new Room('level3', arenaSize, 0, 1000, scene);
+let d = new Room('level4', arenaSize, -1000, 0, scene);
+let e = new Room('level5', arenaSize, 0, -1000, scene);
+// /**********************************************************
+//  * FLOOR
+//  **********************************************************/
+// let floorGeo = new THREE.PlaneGeometry(arenaSize, arenaSize, 10, 10);
+// let floorMaterial = new THREE.MeshBasicMaterial({
+//   color: 0x1974d2,
+//   side: THREE.DoubleSide,
+//   transparent:true,
+//   opacity: 0.6,
+// });
+// let floor = new THREE.Mesh(floorGeo, floorMaterial);
+// floor.rotation.x = Math.PI/2;
+// floor.position.y = -30;
+// scene.add(floor);
 
-/**********************************************************
- * WALLS
- **********************************************************/
-let wallMaterial1 = new THREE.MeshBasicMaterial({
-  color: 0x8b0000,
-  side: THREE.DoubleSide,
-  wireframe: true
-});
-let wallMaterial2 = new THREE.MeshBasicMaterial({
-  color: 0xcfb53b,
-  side: THREE.DoubleSide,
-  wireframe: true
-});
-let wallGeo = new THREE.PlaneGeometry(arenaSize, 75, 75, 10);
-let wall = new THREE.Mesh(wallGeo, wallMaterial1);
-wall.rotation.y = Math.PI/2;
-wall.position.y = 7.5;
-wall.position.x = -arenaSize/2;
-scene.add(wall);
-wall = new THREE.Mesh(wallGeo, wallMaterial1);
-wall.rotation.y = Math.PI/2;
-wall.position.y = 7.5;
-wall.position.x = arenaSize/2;
-scene.add(wall);
-wall = new THREE.Mesh(wallGeo, wallMaterial2);
-wall.position.y = 7.5;
-wall.position.z = -arenaSize/2;
-scene.add(wall);
-wall = new THREE.Mesh(wallGeo, wallMaterial2);
-wall.position.y = 7.5;
-wall.position.z = arenaSize/2;
-scene.add(wall);
+// /**********************************************************
+//  * WALLS
+//  **********************************************************/
+// let wallMaterial1 = new THREE.MeshBasicMaterial({
+//   color: 0x8b0000,
+//   side: THREE.DoubleSide,
+//   wireframe: true
+// });
+// let wallMaterial2 = new THREE.MeshBasicMaterial({
+//   color: 0xcfb53b,
+//   side: THREE.DoubleSide,
+//   wireframe: true
+// });
+// let wallGeo = new THREE.PlaneGeometry(arenaSize, 75, 75, 10);
+// let wall = new THREE.Mesh(wallGeo, wallMaterial1);
+// wall.rotation.y = Math.PI/2;
+// wall.position.y = 7.5;
+// wall.position.x = -arenaSize/2;
+// scene.add(wall);
+// wall = new THREE.Mesh(wallGeo, wallMaterial1);
+// wall.rotation.y = Math.PI/2;
+// wall.position.y = 7.5;
+// wall.position.x = arenaSize/2;
+// scene.add(wall);
+// wall = new THREE.Mesh(wallGeo, wallMaterial2);
+// wall.position.y = 7.5;
+// wall.position.z = -arenaSize/2;
+// scene.add(wall);
+// wall = new THREE.Mesh(wallGeo, wallMaterial2);
+// wall.position.y = 7.5;
+// wall.position.z = arenaSize/2;
+// scene.add(wall);
 
 /**********************************************************
  * LIGHTS

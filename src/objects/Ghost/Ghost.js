@@ -20,6 +20,7 @@ class Ghost extends Group {
     this.name = 'ghost';
     this.audioLoader = new AudioLoader();
     this.meshes = [];
+    this.body = [];
 
     const loader = new GLTFLoader();
     loader.load('./src/objects/Ghost/blue_ghost7.glb', (gltf) => {
@@ -27,13 +28,23 @@ class Ghost extends Group {
       this.meshes.push(gltf.scene.children[0].children[0]);
       let objects = gltf.scene.children[1].children[0].children[0].children[0].children;
       this.meshes.push(objects[1].children[0]);
-      this.meshes.push(objects[2].children[0].children[0]);
-      this.meshes.push(objects[2].children[0].children[1]);
-      this.meshes.push(objects[2].children[0].children[2]);
+      // this.meshes.push(objects[2].children[0].children[0]);
+      // this.meshes.push(objects[2].children[0].children[1]);
+      // this.meshes.push(objects[2].children[0].children[2]);
       this.meshes.push(objects[3].children[0]);
-      this.meshes.push(objects[4].children[0].children[0]);
-      this.meshes.push(objects[4].children[0].children[1]);
-      this.meshes.push(objects[4].children[0].children[2]);
+      // this.meshes.push(objects[4].children[0].children[0]);
+      // this.meshes.push(objects[4].children[0].children[1]);
+      // this.meshes.push(objects[4].children[0].children[2]);
+      // console.log(this.meshes);
+      this.body = this.meshes;
+      for (let mesh of this.body) {
+        mesh.material.color.r = 1;
+        mesh.material.color.g = 0;
+        mesh.material.color.b = 0;
+        mesh.material.emissive.r = 1;
+        mesh.material.emissive.g = 0;
+        mesh.material.emissive.b = 0;
+      }
 
       this.meshes.push(gltf.scene.children[1].children[0].children[0].children[0].children[0]);
       // setting the ghosts to be initially transparent
