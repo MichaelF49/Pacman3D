@@ -386,6 +386,19 @@ let handleRound = () => {
  **********************************************************/
 let handleAI = () => {
   for (let enemy of enemies) {
+      // increasing the opacity of the ghosts
+      if (! (enemy.meshes === undefined)) {
+      for (let msh of enemy.meshes) {
+        if (!(msh.material === undefined) && msh.material.opacity == 1) {
+          break;
+        }
+        if (!(msh.material === undefined)) {
+          msh.material.opacity += 0.002;
+          msh.material.transparent = true;
+        }
+      }
+    }
+
     // make occasional noise
     enemy.makeNoise();
 

@@ -15,9 +15,21 @@ class Ghost extends Group {
     this.oldTime = this.clock.getElapsedTime();
     this.name = 'ghost';
     this.audioLoader = new AudioLoader();
+    this.meshes;
 
     const loader = new GLTFLoader();
     loader.load('./src/objects/Ghost/ghost.glb', (gltf) => {
+      this.meshes = gltf.scene.children[0].children[0].children; // accessing the meshes of the "group"
+
+      // setting the ghosts to be initially transparent
+      for (let msh of this.meshes) {
+        if (! (msh.material === undefined)) {
+          msh.material.opacity = 0;
+          msh.material.transparent = true;
+          
+        }
+      }
+      // adding the group to the scene
       this.add(gltf.scene);
     });
   }
