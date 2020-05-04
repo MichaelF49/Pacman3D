@@ -455,6 +455,12 @@ let handlePickups = () => {
       scene.remove(pickup)
       pickups.delete(pickup)
       
+      let sound = new THREE.Audio(listener);
+      audioLoader.load('./src/music/pop.mp3', (buffer) => {
+        sound.setBuffer(buffer);
+        sound.setVolume(0.20);
+        sound.play();
+      });
       // the following is made for ammo, not health/invinc/etc
       pacman.ammo[pickup.name] += 5
     }
