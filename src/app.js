@@ -208,6 +208,16 @@ let onKeyDown = (event) => {
       }
       break;
     }
+    case 49: {
+      // 1
+      pacman.switchFruit(1)
+      break;
+    }
+    case 50: {
+      // 2
+      pacman.switchFruit(2)
+      break;
+    }
   }
 };
 

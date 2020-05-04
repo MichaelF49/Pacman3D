@@ -11,7 +11,7 @@ class Projectile extends Group {
     this.direction = direction;
 
     const loader = new GLTFLoader();
-    loader.load(`./src/objects/Projectile/${this.name}.glb`, (gltf) => {
+    loader.load(`./src/models/${this.name}.glb`, (gltf) => {
       this.add(gltf.scene);
     });
   }

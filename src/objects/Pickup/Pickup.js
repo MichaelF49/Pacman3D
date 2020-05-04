@@ -9,7 +9,7 @@ class Pickup extends Group {
     this.name = name;
 
     const loader = new GLTFLoader();
-    loader.load(`./src/objects/Pickup/${this.name}.glb`, (gltf) => {
+    loader.load(`./src/models/${this.name}.glb`, (gltf) => {
       this.add(gltf.scene);
     });
   }

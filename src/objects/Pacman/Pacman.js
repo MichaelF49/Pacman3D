@@ -18,7 +18,7 @@ class Pacman extends Group {
     this.currentFruit = 'cherry'  // should make const file and get from there
 
     const loader = new GLTFLoader();
-    loader.load('./src/objects/Pacman/pacman.glb', (gltf) => {
+    loader.load('./src/models/pacman.glb', (gltf) => {
       this.add(gltf.scene);
     });
   }
@@ -32,7 +32,8 @@ class Pacman extends Group {
       vec.setY(this.position.Y - 5).normalize();
 
       let proj = new Projectile(vec, this.currentFruit);
-      proj.scale.multiplyScalar(3);
+      let scale = this.currentFruit == 'cherry' ? 3 : 111;
+      proj.scale.multiplyScalar(scale);
       proj.position.add(this.position);
 
       this.scene.add(proj);
@@ -54,6 +55,10 @@ class Pacman extends Group {
         sound.play();
       });
     }
+  }
+
+  switchFruit(index) {
+    this.currentFruit = Object.keys(this.ammo)[index - 1]
   }
 }
 

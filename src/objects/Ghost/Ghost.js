@@ -17,7 +17,7 @@ class Ghost extends Group {
     this.audioLoader = new AudioLoader();
 
     const loader = new GLTFLoader();
-    loader.load('./src/objects/Ghost/ghost.glb', (gltf) => {
+    loader.load('./src/models/ghost.glb', (gltf) => {
       this.add(gltf.scene);
     });
   }
