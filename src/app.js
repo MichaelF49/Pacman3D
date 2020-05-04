@@ -416,6 +416,7 @@ let handleAI = () => {
     let testPosition = enemy.position.clone()
       .add(vec.clone().multiplyScalar(enemy.speed))
     if (testPosition.distanceTo(pacman.position) > enemy.killDist) {
+      if (freeze) return
       enemy.position.add(vec.clone().multiplyScalar(enemy.speed));
       
       // make sure enemy faces Pacman
@@ -442,6 +443,11 @@ let handleAI = () => {
  * PICKUPS HANDLER
  **********************************************************/
 let handlePickups = () => {
+  // Check timers
+  if (freeze && clock.getElapsedTime() - freezeStart > consts.FREEZE_TIME) {
+    freeze = false
+  }
+
   // Spawn fruit
   if (clock.getElapsedTime() - lastFruitSpawnTime > betweenfruitSpawnTime) {
     lastFruitSpawnTime = clock.getElapsedTime()

@@ -5,7 +5,8 @@ export default {
   POWERUP: ['freeze'],
   POWERUP_SCALE: {'freeze': 2},
   WAVES: [3, 6, 12], 
-  WAVE_RESET_TIME: 8, // 8 s between waves
+  WAVE_RESET_TIME: 8,  // 8 s between waves
   ARENA_SIZE: 1500.0, 
-  AMMO_INC: 5
+  AMMO_INC: 5,
+  FREEZE_TIME: 10  // 10 s of freeze
 }
