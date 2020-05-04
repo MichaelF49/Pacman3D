@@ -219,6 +219,11 @@ let onKeyDown = (event) => {
       pacman.switchFruit(2)
       break;
     }
+    case 51: {
+      // 2
+      pacman.switchFruit(3)
+      break;
+    }
   }
 };
 
@@ -442,8 +447,8 @@ let handlePickups = () => {
     let fruit = consts.FRUIT[fruitIndex], 
         scale = consts.FRUIT_SCALE[fruit]
 
-    // Create Pickup object
-    let pickup = new Pickup(fruit)
+    // Create ammo Pickup object
+    let pickup = new Pickup(fruit, 'ammo')
     pickup.scale.multiplyScalar(scale);
     let spawnPos = new THREE.Vector3(
       Math.random() * arenaSize - arenaSize / 2, 
@@ -469,8 +474,11 @@ let handlePickups = () => {
         sound.setVolume(0.20);
         sound.play();
       });
+
       // the following is made for ammo, not health/invinc/etc
-      pacman.ammo[pickup.name] += consts.AMMO_INC
+      if (pickup.type == 'ammo') {
+        pacman.ammo[pickup.name] += consts.AMMO_INC
+      }
     }
   }
 }

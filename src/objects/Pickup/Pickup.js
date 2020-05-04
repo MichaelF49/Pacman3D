@@ -2,11 +2,12 @@ import {Group} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 class Pickup extends Group {
-  constructor(name) {
+  constructor(name, type) {
     // Call parent Group() constructor
     super();
 
     this.name = name;
+    this.type = type;
 
     const loader = new GLTFLoader();
     loader.load(`./src/models/${this.name}.glb`, (gltf) => {
