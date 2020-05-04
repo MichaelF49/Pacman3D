@@ -1,6 +1,6 @@
 import {Group, Audio, AudioLoader} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
-import {Cherry} from '../Cherry';
+import {Projectile} from '../Projectile';
 
 class Pacman extends Group {
   constructor(scene, camera, listener) {
@@ -15,6 +15,7 @@ class Pacman extends Group {
     this.name = 'land';
     this.ammo = 100;
     this.projectiles = new Set();
+    this.currentFruit = 'cherry'  // should make const file and get from there
 
     const loader = new GLTFLoader();
     loader.load('./src/objects/Pacman/pacman.glb', (gltf) => {
@@ -30,14 +31,14 @@ class Pacman extends Group {
       let vec = this.position.clone().sub(this.camera.position);
       vec.setY(this.position.Y - 5).normalize();
 
-      let cherry = new Cherry(vec);
-      cherry.scale.multiplyScalar(3);
-      cherry.position.add(this.position);
+      let proj = new Projectile(vec, this.currentFruit);
+      proj.scale.multiplyScalar(3);
+      proj.position.add(this.position);
 
-      this.scene.add(cherry);
-      this.projectiles.add(cherry);
+      this.scene.add(proj);
+      this.projectiles.add(proj);
 
-      // play cherry sound
+      // play proj sound
       let sound = new Audio(this.listener);
       this.audioLoader.load('./src/music/cherry_blast.mp3', (buffer) => {
         sound.setBuffer(buffer);

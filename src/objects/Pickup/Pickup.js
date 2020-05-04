@@ -1,20 +1,18 @@
 import {Group} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-class Cherry extends Group {
-  constructor(direction) {
+class Pickup extends Group {
+  constructor(name) {
     // Call parent Group() constructor
     super();
 
-    this.name = 'cherry';
-    this.speed = 0.3;
-    this.direction = direction;
+    this.name = name;
 
     const loader = new GLTFLoader();
-    loader.load('./src/objects/Cherry/cherry.glb', (gltf) => {
+    loader.load(`./src/objects/Pickup/${this.name}.glb`, (gltf) => {
       this.add(gltf.scene);
     });
   }
 }
 
-export default Cherry;
+export default Pickup;

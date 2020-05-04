@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {Pacman, Ghost, Cherry} from './objects';
+import {Pacman, Ghost, Pickup} from './objects';
 
 /**********************************************************
  * OTHER GLOBAL VARIABLES
@@ -22,7 +22,7 @@ let enemies = new Set();
 let currentWave = 0;
 let startedRound = false;
 let startTime = 0;
-let betweenfruitSpawnTime = 5;
+let betweenfruitSpawnTime = 1;  // 5 s bewteen fruit spawns
 let lastFruitSpawnTime = 0;
 
 let arenaSize = 1500.0;
@@ -425,13 +425,21 @@ let handlePickups = () => {
   if (clock.getElapsedTime() - lastFruitSpawnTime > betweenfruitSpawnTime) {
     lastFruitSpawnTime = clock.getElapsedTime()
 
-    let cherry = new Cherry()
-    cherry.speed = 0
-    cherry.scale.multiplyScalar(3);
-    let spawnPos = new THREE.Vector3(Math.random() * arenaSize - arenaSize / 2, -20, Math.random() * arenaSize - arenaSize / 2)
-    cherry.position.add(spawnPos);
+    let fruit, scale
+    if (Math.random() < 0.5) {
+      fruit = 'cherry'
+      scale = 3
+    } else {
+      fruit = 'orange'
+      scale = 111
+    }
 
-    scene.add(cherry);
+    let pickup = new Pickup(fruit)
+    pickup.scale.multiplyScalar(scale);
+    let spawnPos = new THREE.Vector3(Math.random() * arenaSize - arenaSize / 2, -20, Math.random() * arenaSize - arenaSize / 2)
+    pickup.position.add(spawnPos);
+
+    scene.add(pickup);
   }
 }
 
