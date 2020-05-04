@@ -22,9 +22,8 @@ class Ghost extends Group {
     this.meshes;
 
     const loader = new GLTFLoader();
-    loader.load('./src/objects/Ghost/blue_ghost6.glb', (gltf) => {
+    loader.load('./src/objects/Ghost/blue_ghost7.glb', (gltf) => {
       this.meshes = gltf.scene.children[0].children[0].children; // accessing the meshes of the "group"
-
       // setting the ghosts to be initially transparent
       for (let msh of this.meshes) {
         if (! (msh.material === undefined)) {

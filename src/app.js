@@ -54,13 +54,13 @@ let audioLoader = new THREE.AudioLoader();
 /**********************************************************
  * GLOBAL MUSIC
  **********************************************************/
-let globalMusic = new THREE.Audio(listener);
-audioLoader.load('./src/music/global_music.mp3', (buffer) => {
-  globalMusic.setBuffer(buffer);
-  globalMusic.setLoop(true);
-  globalMusic.setVolume(0.15);
-  globalMusic.play();
-});
+// let globalMusic = new THREE.Audio(listener);
+// audioLoader.load('./src/music/global_music.mp3', (buffer) => {
+//   globalMusic.setBuffer(buffer);
+//   globalMusic.setLoop(true);
+//   globalMusic.setVolume(0.15);
+//   globalMusic.play();
+// });
 
 /**********************************************************
  * SKYBOX
