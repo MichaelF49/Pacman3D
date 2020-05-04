@@ -26,6 +26,10 @@ let startTime = 0;
 let pickups = new Set();
 let betweenfruitSpawnTime = 1;  // 1 s bewteen fruit spawns
 let lastFruitSpawnTime = 0;
+let betweenPowerupSpawnTime = 1;  // 1 s bewteen fruit spawns
+let lastPowerupSpawnTime = 0;
+let freeze = false
+let freezeStart = 0
 
 let arenaSize = consts.ARENA_SIZE;
 
@@ -438,7 +442,7 @@ let handleAI = () => {
  * PICKUPS HANDLER
  **********************************************************/
 let handlePickups = () => {
-  // Spawn new fruit
+  // Spawn fruit
   if (clock.getElapsedTime() - lastFruitSpawnTime > betweenfruitSpawnTime) {
     lastFruitSpawnTime = clock.getElapsedTime()
 
@@ -449,6 +453,29 @@ let handlePickups = () => {
 
     // Create ammo Pickup object
     let pickup = new Pickup(fruit, 'ammo')
+    pickup.scale.multiplyScalar(scale);
+    let spawnPos = new THREE.Vector3(
+      Math.random() * arenaSize - arenaSize / 2, 
+      -20, 
+      Math.random() * arenaSize - arenaSize / 2
+    )
+    pickup.position.add(spawnPos);
+
+    scene.add(pickup)
+    pickups.add(pickup)
+  }
+
+  // Spawn powerup
+  if (clock.getElapsedTime() - lastPowerupSpawnTime > betweenPowerupSpawnTime) {
+    lastPowerupSpawnTime = clock.getElapsedTime()
+
+    // Choose random powerup to spawn
+    let powerupIndex = parseInt(Math.random() * consts.POWERUP.length)
+    let powerup = consts.POWERUP[powerupIndex], 
+        scale = consts.POWERUP_SCALE[powerup]
+
+    // Create powerup Pickup object
+    let pickup = new Pickup(powerup, 'powerup')
     pickup.scale.multiplyScalar(scale);
     let spawnPos = new THREE.Vector3(
       Math.random() * arenaSize - arenaSize / 2, 
@@ -475,9 +502,20 @@ let handlePickups = () => {
         sound.play();
       });
 
-      // the following is made for ammo, not health/invinc/etc
+      // ammo effect
       if (pickup.type == 'ammo') {
         pacman.ammo[pickup.name] += consts.AMMO_INC
+      }
+
+      // powerup effect
+      if (pickup.type == 'powerup') {
+        switch (pickup.name) {
+          case 'freeze': {
+            freeze = true
+            freezeStart = clock.getElapsedTime()
+            break
+          }
+        }
       }
     }
   }
