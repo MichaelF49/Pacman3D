@@ -1,6 +1,7 @@
 import {Group, Audio, AudioLoader} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {Projectile} from '../Projectile';
+import consts from '../../consts';
 
 class Pacman extends Group {
   constructor(scene, camera, listener) {
@@ -12,10 +13,15 @@ class Pacman extends Group {
     this.listener = listener;
 
     this.audioLoader = new AudioLoader();
-    this.name = 'land';
-    this.ammo = {'cherry': Number.MAX_SAFE_INTEGER, 'orange': 0};
+    this.name = 'pacman';
+    this.ammo = {}
+    for (let i = 0; i < consts.FRUIT.length; i++) {
+      this.ammo[consts.FRUIT[i]] = 0
+    }
+    this.ammo[consts.DEFAULT_FRUIT] = Number.MAX_SAFE_INTEGER
+
     this.projectiles = new Set();
-    this.currentFruit = 'cherry'  // should make const file and get from there
+    this.currentFruit = consts.DEFAULT_FRUIT  // should make const file and get from there
 
     const loader = new GLTFLoader();
     loader.load('./src/models/pacman.glb', (gltf) => {
@@ -32,8 +38,7 @@ class Pacman extends Group {
       vec.setY(this.position.Y - 5).normalize();
 
       let proj = new Projectile(vec, this.currentFruit);
-      let scale = this.currentFruit == 'cherry' ? 0.5 : 111;
-      proj.scale.multiplyScalar(scale);
+      proj.scale.multiplyScalar(consts.FRUIT_SCALE[this.currentFruit]);
       proj.position.add(this.position);
 
       this.scene.add(proj);
@@ -58,7 +63,7 @@ class Pacman extends Group {
   }
 
   switchFruit(index) {
-    this.currentFruit = Object.keys(this.ammo)[index - 1]
+    this.currentFruit = consts.FRUIT[index - 1]
   }
 }
 

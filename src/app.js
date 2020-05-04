@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {Pacman, Ghost, Pickup} from './objects';
+import consts from './consts'
 
 /**********************************************************
  * OTHER GLOBAL VARIABLES
@@ -16,17 +17,17 @@ let clock = new THREE.Clock();
 
 // game properties
 let gameOver = false;
-let waveRestTime = 8; // 8 s between waves
-let waves = [3, 6, 12];
+let waveRestTime = consts.WAVE_RESET_TIME; 
+let waves = consts.WAVES;
 let enemies = new Set();
 let currentWave = 0;
 let startedRound = false;
 let startTime = 0;
 let pickups = new Set();
-let betweenfruitSpawnTime = 1;  // 5 s bewteen fruit spawns
+let betweenfruitSpawnTime = 1;  // 1 s bewteen fruit spawns
 let lastFruitSpawnTime = 0;
 
-let arenaSize = 1500.0;
+let arenaSize = consts.ARENA_SIZE;
 
 /**********************************************************
  * SCENE + CAMERA
@@ -437,12 +438,9 @@ let handlePickups = () => {
     lastFruitSpawnTime = clock.getElapsedTime()
 
     // Choose random fruit to spawn
-    let fruit, scale
-    if (Math.random() < 0.5) {
-      fruit = 'cherry', scale = 0.5
-    } else {
-      fruit = 'orange', scale = 111
-    }
+    let fruitIndex = parseInt(Math.random() * consts.FRUIT.length)
+    let fruit = consts.FRUIT[fruitIndex], 
+        scale = consts.FRUIT_SCALE[fruit]
 
     // Create Pickup object
     let pickup = new Pickup(fruit)
@@ -472,7 +470,7 @@ let handlePickups = () => {
         sound.play();
       });
       // the following is made for ammo, not health/invinc/etc
-      pacman.ammo[pickup.name] += 5
+      pacman.ammo[pickup.name] += consts.AMMO_INC
     }
   }
 }
