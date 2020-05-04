@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import {Pacman, Ghost} from './objects';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 /**********************************************************
  * OTHER GLOBAL VARIABLES
@@ -24,6 +27,8 @@ let startedRound = false;
 let startTime = 0;
 
 let arenaSize = 1500.0;
+
+
 
 /**********************************************************
  * SCENE + CAMERA
@@ -158,7 +163,18 @@ scene.add( light );
 let renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
+// composer
+var composer = new EffectComposer( renderer );
+var renderPass = new RenderPass( scene, camera );
+composer.addPass( renderPass );
 
+// if we wanted to implement another sort of thing like bloom
+
+// var bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+// bloomPass.threshold = 0.5;
+// bloomPass.strength = 0.6;
+// bloomPass.radius = 0;
+// composer.addPass( bloomPass );
 /**********************************************************
  * CANVAS
  **********************************************************/
@@ -439,7 +455,10 @@ let onAnimationFrameHandler = (timeStamp) => {
     handleRound();
     handleAI();
     scene.update && scene.update(timeStamp);
-    renderer.render(scene, camera);
+    
+    
+    composer.render();
+    // renderer.render(scene, camera);
   }
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
