@@ -17,10 +17,11 @@ let spaceDown = false; // prevent repetitive fires
 // for handling velocity
 let clock = new THREE.Clock();
 
-// game properties
+// GAME PROPERTIES
 let gameOver = false;
 let waveRestTime = 8; // 8 s between waves
-let waves = [3, 6, 12];
+
+let waves = [3, 6, 12]; // number of ghosts per wave.
 let enemies = new Set();
 let currentWave = 0;
 let startedRound = false;
@@ -359,7 +360,8 @@ let handleRound = () => {
       
       // spawn randomly around edges of arena such that ghosts are certain radius away from Pac-man
       let randVec;
-      const SAFE_RADIUS = 40;
+      const SAFE_RADIUS = 75;
+
       do {
         randVec = new THREE.Vector3(
           (Math.random() < 0.5 ? -1 : 1)*
