@@ -3,3 +3,4 @@ export * from './Ghost';
 export * from './Cherry';
 export * from './Room';
 export * from './Doorwall';
+export * from './Hallway';

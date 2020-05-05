@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {Pacman, Ghost, Room, Doorwall} from './objects';
+import {Pacman, Ghost, Room, Doorwall, Hallway} from './objects';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
@@ -30,6 +30,7 @@ let rooms = []; // list of rooms
 
 let arenaSize = 800; // size of the central room
 let branchSize = 600; // size of the branching rooms
+let hallwayLength = 200;
 
 
 /**********************************************************
@@ -110,16 +111,23 @@ rooms.push(new Room('main', arenaSize, 0, 0, scene, sides));
 
 // rooms that branch off, each missing a wall
 sides.right = true; sides.left = true; sides.up = true;
-rooms.push(new Room('level2', branchSize, 900, 0, scene, sides));
+rooms.push(new Room('level2', branchSize, arenaSize/2 + branchSize / 2 + hallwayLength, 0, scene, sides));
+rooms.push(new Hallway('level2Hallway', hallwayLength, arenaSize / 2 + hallwayLength / 2, 0, scene, sides));
 
 sides.left = false; sides.down = true;
-rooms.push(new Room('level3', branchSize, 0, 900, scene, sides));
+rooms.push(new Room('level3', branchSize, 0, arenaSize/2 + branchSize / 2 + hallwayLength, scene, sides));
+rooms.push(new Hallway('level3Hallway', hallwayLength, 0, arenaSize / 2 + hallwayLength / 2, scene, sides));
+
 
 sides.up = false; sides.left = true;
-rooms.push(new Room('level4', branchSize, -900, 0, scene, sides));
+rooms.push(new Room('level4', branchSize, -1 * (arenaSize/2 + branchSize / 2 + hallwayLength), 0, scene, sides));
+rooms.push(new Hallway('level4Hallway', hallwayLength, -1 * (arenaSize / 2 + hallwayLength / 2), 0, scene, sides));
+
 
 sides.right = false; sides.up = true;
-rooms.push(new Room('level5', branchSize, 0, -900, scene, sides));
+rooms.push(new Room('level5', branchSize, 0, -1 * (arenaSize/2 + branchSize / 2 + hallwayLength), scene, sides));
+rooms.push(new Hallway('level5Hallway', hallwayLength, 0, -1 * (arenaSize / 2 + hallwayLength / 2), scene, sides));
+
 
 /**********************************************************
  * DOORWAY WALLS
