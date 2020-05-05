@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {Pacman, Ghost,Room} from './objects';
+import {Pacman, Ghost, Room, Doorwall} from './objects';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
@@ -94,7 +94,7 @@ pacman.scale.multiplyScalar(10);
 scene.add(pacman);
 
 /**********************************************************
- *  ROOMS
+ *  ROOMS (FLOORS & WALLS)
  ************************************************************/
 
 // parameters for which walls a room has
@@ -120,53 +120,12 @@ rooms.push(new Room('level4', arenaSize, -1000, 0, scene, sides));
 
 sides.right = false; sides.up = true;
 rooms.push(new Room('level5', arenaSize, 0, -1000, scene, sides));
-// /**********************************************************
-//  * FLOOR
-//  **********************************************************/
-// let floorGeo = new THREE.PlaneGeometry(arenaSize, arenaSize, 10, 10);
-// let floorMaterial = new THREE.MeshBasicMaterial({
-//   color: 0x1974d2,
-//   side: THREE.DoubleSide,
-//   transparent:true,
-//   opacity: 0.6,
-// });
-// let floor = new THREE.Mesh(floorGeo, floorMaterial);
-// floor.rotation.x = Math.PI/2;
-// floor.position.y = -30;
-// scene.add(floor);
 
-// /**********************************************************
-//  * WALLS
-//  **********************************************************/
-// let wallMaterial1 = new THREE.MeshBasicMaterial({
-//   color: 0x8b0000,
-//   side: THREE.DoubleSide,
-//   wireframe: true
-// });
-// let wallMaterial2 = new THREE.MeshBasicMaterial({
-//   color: 0xcfb53b,
-//   side: THREE.DoubleSide,
-//   wireframe: true
-// });
-// let wallGeo = new THREE.PlaneGeometry(arenaSize, 75, 75, 10);
-// let wall = new THREE.Mesh(wallGeo, wallMaterial1);
-// wall.rotation.y = Math.PI/2;
-// wall.position.y = 7.5;
-// wall.position.x = -arenaSize/2;
-// scene.add(wall);
-// wall = new THREE.Mesh(wallGeo, wallMaterial1);
-// wall.rotation.y = Math.PI/2;
-// wall.position.y = 7.5;
-// wall.position.x = arenaSize/2;
-// scene.add(wall);
-// wall = new THREE.Mesh(wallGeo, wallMaterial2);
-// wall.position.y = 7.5;
-// wall.position.z = -arenaSize/2;
-// scene.add(wall);
-// wall = new THREE.Mesh(wallGeo, wallMaterial2);
-// wall.position.y = 7.5;
-// wall.position.z = arenaSize/2;
-// scene.add(wall);
+/**********************************************************
+ * DOORWAY WALLS
+ **********************************************************/
+
+let doorWalls = new Doorwall('doors', arenaSize, 0, 0, scene);
 
 /**********************************************************
  * LIGHTS
@@ -401,8 +360,6 @@ let handleRound = () => {
       // spawn randomly around edges of arena such that ghosts are certain radius away from Pac-man
       let randVec;
       const SAFE_RADIUS = 40;
-      console.log(pacman.position);
-      console.log(ghost.position);
       do {
         randVec = new THREE.Vector3(
           (Math.random() < 0.5 ? -1 : 1)*
