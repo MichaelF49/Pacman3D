@@ -23,25 +23,31 @@ class Ghost extends Group {
     this.body = [];
 
     const loader = new GLTFLoader();
-    loader.load('./src/objects/Ghost/blue_ghost7.glb', (gltf) => {
+    loader.load('./src/objects/Ghost/blue_ghost6.glb', (gltf) => {
       // this.meshes = gltf.scene.children[0].children[0].children; // accessing the meshes of the "group"
       this.meshes.push(gltf.scene.children[0].children[0]);
       let objects = gltf.scene.children[1].children[0].children[0].children[0].children;
       this.meshes.push(objects[1].children[0]);
+      this.meshes.push(objects[1].children[0]);
+      this.meshes.push(objects[1].children[1]);
+      this.meshes.push(objects[2].children[1]);
+      this.meshes.push(objects[2].children[2]);
       // this.meshes.push(objects[2].children[0].children[0]);
       // this.meshes.push(objects[2].children[0].children[1]);
       // this.meshes.push(objects[2].children[0].children[2]);
       this.meshes.push(objects[3].children[0]);
+      this.meshes.push(objects[3].children[0]);
+      this.meshes.push(objects[4].children[2]);
       // this.meshes.push(objects[4].children[0].children[0]);
       // this.meshes.push(objects[4].children[0].children[1]);
       // this.meshes.push(objects[4].children[0].children[2]);
-      // console.log(this.meshes);
+     
       this.body = this.meshes;
       for (let mesh of this.body) {
         mesh.material.color.r = 1;
         mesh.material.color.g = 0;
         mesh.material.color.b = 0;
-        mesh.material.emissive.r = 1;
+        mesh.material.emissive.r = 0.5;
         mesh.material.emissive.g = 0;
         mesh.material.emissive.b = 0;
       }

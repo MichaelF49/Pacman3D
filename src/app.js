@@ -417,7 +417,7 @@ let handleAI = () => {
           break;
         }
         if (!(msh.material === undefined)) {
-          msh.material.opacity += 0.002;
+          msh.material.opacity += 0.0008;
           msh.material.transparent = true;
         }
       }
