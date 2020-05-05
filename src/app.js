@@ -93,12 +93,33 @@ pacman.rotation.y = Math.PI*1.5;
 pacman.scale.multiplyScalar(10);
 scene.add(pacman);
 
-rooms.push(new Room('main', arenaSize, 0, 0, scene));
-// uncomment to see additional rooms, still in progress making doors
-// rooms.push(new Room('level2', arenaSize, 1000, 0, scene));
-// rooms.push(new Room('level3', arenaSize, 0, 1000, scene));
-// rooms.push(new Room('level4', arenaSize, -1000, 0, scene));
-// rooms.push(new Room('level5', arenaSize, 0, -1000, scene));
+/**********************************************************
+ *  ROOMS
+ ************************************************************/
+
+// parameters for which walls a room has
+let sides = {
+  right: false,
+  left: false,
+  up: false,
+  down: false
+};
+
+// the main room
+rooms.push(new Room('main', arenaSize, 0, 0, scene, sides));
+
+// rooms that branch off, each missing a wall
+sides.right = true; sides.left = true; sides.up = true;
+rooms.push(new Room('level2', arenaSize, 1000, 0, scene, sides));
+
+sides.left = false; sides.down = true;
+rooms.push(new Room('level3', arenaSize, 0, 1000, scene, sides));
+
+sides.up = false; sides.left = true;
+rooms.push(new Room('level4', arenaSize, -1000, 0, scene, sides));
+
+sides.right = false; sides.up = true;
+rooms.push(new Room('level5', arenaSize, 0, -1000, scene, sides));
 // /**********************************************************
 //  * FLOOR
 //  **********************************************************/
