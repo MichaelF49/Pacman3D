@@ -398,14 +398,21 @@ let handleRound = () => {
       ghost.scale.multiplyScalar(0.2);
       ghost.position.y -= 20;
       
-      // spawn randomly around edges of arena
-      let randVec = new THREE.Vector3(
-        (Math.random() < 0.5 ? -1 : 1)*
-          (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4),
-        0,
-        (Math.random() < 0.5 ? -1 : 1)*
-          (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4)
-      );
+      // spawn randomly around edges of arena such that ghosts are certain radius away from Pac-man
+      let randVec;
+      const SAFE_RADIUS = 40;
+      console.log(pacman.position);
+      console.log(ghost.position);
+      do {
+        randVec = new THREE.Vector3(
+          (Math.random() < 0.5 ? -1 : 1)*
+            (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4),
+          0,
+          (Math.random() < 0.5 ? -1 : 1)*
+            (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4)
+        );
+      } while (randVec.clone().add(ghost.position).sub(pacman.position).length() < SAFE_RADIUS)
+
       ghost.position.add(randVec);
 
       enemies.add(ghost);
