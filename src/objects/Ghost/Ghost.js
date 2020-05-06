@@ -24,8 +24,9 @@ class Ghost extends Group {
     this.body = [];
 
     const loader = new GLTFLoader();
-    loader.load('./src/objects/Ghost/blue_ghost6.glb', (gltf) => {
-      // this.meshes = gltf.scene.children[0].children[0].children; // accessing the meshes of the "group"
+    loader.load('./src/models/blue_ghost6.glb', (gltf) => {
+      // this.meshes = gltf.scene.children[0].children[0].children;
+      // accessing the meshes of the "group"
       this.meshes.push(gltf.scene.children[0].children[0]);
       let objects = gltf.scene.children[1].children[0].children[0].children[0].children;
       this.meshes.push(objects[1].children[0]);
@@ -42,7 +43,7 @@ class Ghost extends Group {
       // this.meshes.push(objects[4].children[0].children[0]);
       // this.meshes.push(objects[4].children[0].children[1]);
       // this.meshes.push(objects[4].children[0].children[2]);
-     
+
       this.body = this.meshes;
       for (let mesh of this.body) {
         mesh.material.color.r = 1;
@@ -56,13 +57,12 @@ class Ghost extends Group {
       this.meshes.push(gltf.scene.children[1].children[0].children[0].children[0].children[0]);
       // setting the ghosts to be initially transparent
       for (let msh of this.meshes) {
-        if (! (msh.material === undefined)) {
+        if (msh.material !== undefined) {
           msh.material.opacity = 0;
           msh.material.transparent = true;
-          
         }
       }
-      
+
       // adding the group to the scene
       this.add(gltf.scene);
     });

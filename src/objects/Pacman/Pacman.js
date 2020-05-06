@@ -1,5 +1,6 @@
-import {Group, Audio, AudioLoader} from 'three';
+import {Audio, AudioLoader, Group} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+
 import {Projectile} from '../Projectile';
 import consts from '../../consts';
 
@@ -31,8 +32,8 @@ class Pacman extends Group {
   }
 
   shoot() {
+    // there is ammo, fire a projectile
     if (this.ammo[this.currentFruit] > 0) {
-      // there is ammo, fire a projectile
       if (this.currentFruit !== consts.DEFAULT_FRUIT) {
         // only subtract if special ammo
         this.ammo[this.currentFruit]--;
@@ -55,8 +56,9 @@ class Pacman extends Group {
         sound.setVolume(0.3);
         sound.play();
       });
-    } else {
-      // no ammo, play empty ammo sound
+    }
+    // no ammo, play empty ammo sound
+    else {
       let sound = new Audio(this.listener);
       this.audioLoader.load('./src/music/no_ammo.mp3', (buffer) => {
         sound.setBuffer(buffer);

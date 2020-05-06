@@ -1,7 +1,8 @@
 import * as THREE from 'three';
-import {Doorwall, Ghost, Hallway, Pacman, Pickup, Room} from './objects';
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass.js';
+
+import {Doorwall, Ghost, Hallway, Pacman, Pickup, Room} from './objects';
 import consts from './consts'
 
 /**********************************************************
