@@ -30,14 +30,6 @@ class Pacman extends Group {
     });
   }
 
-  // returns the room that pacman is in
-  // takes as input a list of Room objects
-  getRoom(rooms) {
-    for (let room of rooms) {
-      
-    }
-  }
-
   shoot() {
     if (this.ammo[this.currentFruit] > 0) {
       // there is ammo, fire a projectile

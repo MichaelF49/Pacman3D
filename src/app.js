@@ -456,8 +456,6 @@ let handleShooting = () => {
       }
     }
   
-   
-  
     // central z tunnel
     else if (projectile.position.z >= -doorWidth / 2 + projectileBuffer && projectile.position.z <= doorWidth / 2  - projectileBuffer) {
       barrier = arenaSize / 2 + hallwayLength + branchSize - projectileBuffer;
@@ -665,7 +663,6 @@ let handleAI = () => {
     // ghosts float along sine wave
     enemy.position.y = -20 + Math.sin(clock.getElapsedTime() * 5) * enemy.hoverHeight;
 
-    let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
     let testPosition = enemy.position.clone()
       .add(vec.clone().multiplyScalar(enemy.speed));
     // If no collision, else collision
