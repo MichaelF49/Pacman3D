@@ -491,10 +491,7 @@ let handleShooting = () => {
           break;
         }
       }
-      console.log(curRoom);
       projectile.position.setX(Math.max(Math.min(curRoom.maxX - projectileBuffer, projectile.position.x), curRoom.minX + projectileBuffer));
-      console.log(projectile.position.x);
-      console.log(oldPosition.x);
       if (projectile.position.x != oldPosition.x) {
         deleteProjectile(projectile, pacman, scene);
       }
