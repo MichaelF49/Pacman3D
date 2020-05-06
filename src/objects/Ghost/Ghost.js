@@ -15,6 +15,7 @@ class Ghost extends Group {
     this.oldTime = this.clock.getElapsedTime();
     this.name = 'ghost';
     this.audioLoader = new AudioLoader();
+    this.health = 5;
 
     const loader = new GLTFLoader();
     loader.load('./src/models/ghost.glb', (gltf) => {
