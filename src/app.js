@@ -32,6 +32,8 @@ let arenaSize = 800; // size of the central room
 let branchSize = 600; // size of the branching rooms
 let hallwayLength = 200;
 
+let ghostRadius = 15;
+
 
 /**********************************************************
  * SCENE + CAMERA
@@ -370,12 +372,10 @@ let handleRound = () => {
       const SAFE_RADIUS = 75;
 
       do {
-        randVec = new THREE.Vector3(
-          (Math.random() < 0.5 ? -1 : 1)*
-            (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4),
+        let room = rooms[Math.floor(Math.random() * rooms.length)]; // picking a room
+        randVec = new THREE.Vector3(Math.random() * (room.maxX - room.minX - 2 * ghostRadius) + room.minX + ghostRadius,
           0,
-          (Math.random() < 0.5 ? -1 : 1)*
-            (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4)
+          Math.random() * (room.maxZ - room.minZ - 2 * ghostRadius) + room.minZ + ghostRadius
         );
       } while (randVec.clone().add(ghost.position).sub(pacman.position).length() < SAFE_RADIUS)
 

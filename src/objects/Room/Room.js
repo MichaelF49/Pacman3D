@@ -7,6 +7,11 @@ class Room{
                             // possibly also used for defining the characteristics of the room
         this.unlocked = false;
         this.door;
+
+        this.minX = x - arenaSize / 2;
+        this.maxX = x + arenaSize / 2;
+        this.minZ = z - arenaSize / 2;
+        this.maxZ = z + arenaSize / 2;
         
         /**********************************************************
          * FLOOR

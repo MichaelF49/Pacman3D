@@ -6,11 +6,30 @@ class Hallway{
         this.zAxis = false;
         this.id = roomName; // setting id of hallway, to be used for pathing algorithm
                             // possibly also used for defining the characteristics of the hallway
+        this.minX;
+        this.maxX;
+        this.minZ;
+        this.maxZ;
+
+
         this.unlocked = false;
         this.door;
 
         if (!sides.up || !sides.down) {
             this.zAxis = true;
+        }
+
+        if (this.zAxis) {
+            this.minX = x - hallwayLength / 2;
+            this.maxX = x + hallwayLength / 2;
+            this.minZ = z - doorWidth / 2;
+            this.maxZ = z + doorWidth / 2;
+        }
+        else {
+            this.minZ = z - hallwayLength / 2;
+            this.maxZ = z + hallwayLength / 2;
+            this.minX = x - doorWidth / 2;
+            this.maxX = x + doorWidth / 2;
         }
         
         /**********************************************************
