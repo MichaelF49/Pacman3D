@@ -1,5 +1,5 @@
 import {Group} from 'three';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 
 class Pickup extends Group {
   constructor(name, type) {

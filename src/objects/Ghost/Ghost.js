@@ -1,17 +1,22 @@
 import {Audio, AudioLoader, Group} from 'three';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
+
+import consts from '../../consts'
 
 class Ghost extends Group {
-  constructor(listener, clock) {
+  constructor(listener, clock, currentWave) {
     // Call parent Group() constructor
     super();
 
     this.listener = listener;
     this.clock = clock;
 
-    this.health = 5;
-    this.speed = 1.2;
-    this.hoverHeight = Math.random() * 1.5 + 1.5;
+    this.health =
+      5 + 1.0*currentWave/(consts.WAVES.length - 1)*(consts.DIFFICULTY_SCALE.MAX_HEALTH - 5);
+    this.speed =
+      1.2 + 1.0*currentWave/(consts.WAVES.length - 1)*(consts.DIFFICULTY_SCALE.MAX_SPEED - 1.2);
+    console.log(this.health, this.speed);
+    this.hoverHeight = Math.random()*1.5 + 1.5;
     // KILL DIST PARAMETERS:
     // 35 for mario ghosts
     // 25 for pac-man ghosts
