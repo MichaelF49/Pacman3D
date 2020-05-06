@@ -116,22 +116,22 @@ rooms.push(new Room('main', arenaSize, 0, 0, scene, sides));
 
 // rooms that branch off, each missing a wall
 sides.right = true; sides.left = true; sides.up = true;
-rooms.push(new Room('level2', branchSize, arenaSize/2 + branchSize / 2 + hallwayLength, 0, scene, sides));
-hallways.push(new Hallway('level2Hallway', hallwayLength, arenaSize / 2 + hallwayLength / 2, 0, scene, sides));
+rooms.push(new Room('room1', branchSize, arenaSize/2 + branchSize / 2 + hallwayLength, 0, scene, sides));
+hallways.push(new Hallway('hallway1', hallwayLength, arenaSize / 2 + hallwayLength / 2, 0, scene, sides));
 
 sides.left = false; sides.down = true;
-rooms.push(new Room('level3', branchSize, 0, arenaSize/2 + branchSize / 2 + hallwayLength, scene, sides));
-hallways.push(new Hallway('level3Hallway', hallwayLength, 0, arenaSize / 2 + hallwayLength / 2, scene, sides));
+rooms.push(new Room('room2', branchSize, 0, arenaSize/2 + branchSize / 2 + hallwayLength, scene, sides));
+hallways.push(new Hallway('hallway2', hallwayLength, 0, arenaSize / 2 + hallwayLength / 2, scene, sides));
 
 
 sides.up = false; sides.left = true;
-rooms.push(new Room('level4', branchSize, -1 * (arenaSize/2 + branchSize / 2 + hallwayLength), 0, scene, sides));
-hallways.push(new Hallway('level4Hallway', hallwayLength, -1 * (arenaSize / 2 + hallwayLength / 2), 0, scene, sides));
+rooms.push(new Room('room3', branchSize, -1 * (arenaSize/2 + branchSize / 2 + hallwayLength), 0, scene, sides));
+hallways.push(new Hallway('hallway3', hallwayLength, -1 * (arenaSize / 2 + hallwayLength / 2), 0, scene, sides));
 
 
 sides.right = false; sides.up = true;
-rooms.push(new Room('level5', branchSize, 0, -1 * (arenaSize/2 + branchSize / 2 + hallwayLength), scene, sides));
-hallways.push(new Hallway('level5Hallway', hallwayLength, 0, -1 * (arenaSize / 2 + hallwayLength / 2), scene, sides));
+rooms.push(new Room('room4', branchSize, 0, -1 * (arenaSize/2 + branchSize / 2 + hallwayLength), scene, sides));
+hallways.push(new Hallway('hallway4', hallwayLength, 0, -1 * (arenaSize / 2 + hallwayLength / 2), scene, sides));
 
 
 /**********************************************************
@@ -292,11 +292,7 @@ let handleMovement = () => {
     vec.setY(0).normalize().multiplyScalar(moveDistance*forward_direction);
     pacman.position.add(vec);
 
-
-    // check bounds of walls
-    // let barrier = arenaSize/2 - 14;
-    // pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
-    // pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    // updates pac-man's position with respect to the boundaries
     updatePacPosition();
 
     let newVec = pacman.position.clone();
@@ -449,39 +445,37 @@ let handleShooting = () => {
       }
     }
   
-      // hallways
-      else if (projectile.position.x >= -arenaSize / 2 - hallwayLength && projectile.position.x <= -arenaSize / 2) {
-        barrier = doorWidth / 2 - projectileBuffer;
-        projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
-        if (projectile.position.z != oldPosition.z) {
-          deleteProjectile(projectile, pacman, scene);
-        }
+    // hallways
+    else if (projectile.position.x >= -arenaSize / 2 - hallwayLength && projectile.position.x <= -arenaSize / 2) {
+      barrier = doorWidth / 2 - projectileBuffer;
+      projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+      if (projectile.position.z != oldPosition.z) {
+        deleteProjectile(projectile, pacman, scene);
       }
-      else if (projectile.position.x <= arenaSize / 2 + hallwayLength && projectile.position.x >= arenaSize / 2) {
-        barrier = doorWidth / 2 - projectileBuffer;
-        projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
-        if (projectile.position.z != oldPosition.z) {
-          deleteProjectile(projectile, pacman, scene);
-        }
+    }
+    else if (projectile.position.x <= arenaSize / 2 + hallwayLength && projectile.position.x >= arenaSize / 2) {
+      barrier = doorWidth / 2 - projectileBuffer;
+      projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+      if (projectile.position.z != oldPosition.z) {
+        deleteProjectile(projectile, pacman, scene);
       }
-  
-      // hallways
-      else if (projectile.position.z >= -arenaSize / 2 - hallwayLength && projectile.position.z <= -arenaSize / 2) {
-        barrier = doorWidth / 2 - projectileBuffer;
-        projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
-        if (projectile.position.x != oldPosition.x) {
-          deleteProjectile(projectile, pacman, scene);
-        }
+    }
+
+    // hallways
+    else if (projectile.position.z >= -arenaSize / 2 - hallwayLength && projectile.position.z <= -arenaSize / 2) {
+      barrier = doorWidth / 2 - projectileBuffer;
+      projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+      if (projectile.position.x != oldPosition.x) {
+        deleteProjectile(projectile, pacman, scene);
       }
-      else if (projectile.position.z <= arenaSize / 2 + hallwayLength && projectile.position.z >= arenaSize / 2) {
-        barrier = doorWidth / 2 - projectileBuffer;
-        projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
-        if (projectile.position.x != oldPosition.x) {
-          deleteProjectile(projectile, pacman, scene);
-        }
+    }
+    else if (projectile.position.z <= arenaSize / 2 + hallwayLength && projectile.position.z >= arenaSize / 2) {
+      barrier = doorWidth / 2 - projectileBuffer;
+      projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+      if (projectile.position.x != oldPosition.x) {
+        deleteProjectile(projectile, pacman, scene);
       }
-  
-  
+    }
   
     else {
       let curRoom;
@@ -500,13 +494,6 @@ let handleShooting = () => {
         deleteProjectile(projectile, pacman, scene);
       }
     }
-
-
-    // handle collision
-    // if (Math.abs(projectile.position.x) > arenaSize/2 ||
-    //     Math.abs(projectile.position.z) > arenaSize/2) {
-    //   deleteProjectile(projectile, pacman, scene);
-    // }
   }
 }
 
@@ -603,21 +590,178 @@ let handleAI = () => {
       }
     }
 
-    // make occasional noise
-    enemy.makeNoise();
+    // COMMENTED OUT: make occasional noise
+    // enemy.makeNoise();
 
     // ghosts float along sine wave
     enemy.position.y = -20 + Math.sin(clock.getElapsedTime() * 5) * enemy.hoverHeight;
 
+    // determine what room pac-man is in
+    let pacRoom;
+    for (let room of rooms) {
+      if (room.isInside(pacman.position))  {
+        pacRoom = room;
+        break;
+      }
+    }
+    if (pacRoom == undefined) {
+      for (let hall of hallways) {
+        if (hall.isInside(pacman.position)) {
+          pacRoom = hall;
+          break;
+        }
+      }
+    }
 
-    let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
+    // determine what room the ghost is in
+    let enemyRoom;
+    for (let room of rooms) {
+      if (room.isInside(enemy.position))  {
+        enemyRoom = room;
+        break;
+      }
+    }
+    if (enemyRoom == undefined) {
+      for (let hall of hallways) {
+        if (hall.isInside(enemy.position)) {
+          enemyRoom = hall;
+          break;
+        }
+      }
+    }
+    // console.log(enemyRoom);
+
+    let vecDir;
+    if (pacRoom === enemyRoom) {
+      vecDir = pacman.position.clone().sub(enemy.position).setY(0).normalize();
+    }
+    else if (enemyRoom != undefined){
+      const MAIN_ZONE = 380;
+      const BRANCH_ZONE = 620
+      const ZONE_RADIUS = 20;
+      switch(enemyRoom.id) {
+        case "room1":
+          let room1Main = new THREE.Vector3(MAIN_ZONE, 0, 0);
+          let room1Branch = new THREE.Vector3(BRANCH_ZONE, 0, 0);
+          if (enemy.position.clone().sub(room1Branch).setY(0).length() < ZONE_RADIUS)
+            vecDir = room1Main.clone().sub(room1Branch).normalize();
+          else
+            vecDir = room1Branch.clone().sub(enemy.position).setY(0).normalize();
+          break;
+
+        case "room2":
+          let room2Main = new THREE.Vector3(0, 0, MAIN_ZONE);
+          let room2Branch = new THREE.Vector3(0, 0, BRANCH_ZONE);
+          if (enemy.position.clone().sub(room2Branch).setY(0).length() < ZONE_RADIUS)
+            vecDir = room2Main.clone().sub(room2Branch).normalize();
+          else
+            vecDir = room2Branch.clone().sub(enemy.position).setY(0).normalize();
+          break;
+
+        case "room3":
+          let room3Main = new THREE.Vector3(-MAIN_ZONE, 0, 0);
+          let room3Branch = new THREE.Vector3(-BRANCH_ZONE, 0, 0);
+          if (enemy.position.clone().sub(room3Branch).setY(0).length() < ZONE_RADIUS)
+            vecDir = room3Main.clone().sub(room3Branch).normalize();
+          else
+            vecDir = room3Branch.clone().sub(enemy.position).setY(0).normalize();
+          break;
+
+        case "room4":
+          let room4Main = new THREE.Vector3(0, 0, -MAIN_ZONE);
+          let room4Branch = new THREE.Vector3(0, 0, -BRANCH_ZONE);
+          if (enemy.position.clone().sub(room4Branch).setY(0).length() < ZONE_RADIUS)
+            vecDir = room4Main.clone().sub(room4Branch).normalize();
+          else
+            vecDir = room4Branch.clone().sub(enemy.position).setY(0).normalize();
+          break;
+        
+        case "main":
+          if (pacRoom.id === "room1" || pacRoom.id === "hallway1") {
+            let room1Main = new THREE.Vector3(MAIN_ZONE, 0, 0);
+            let room1Branch = new THREE.Vector3(BRANCH_ZONE, 0, 0);
+            if (enemy.position.clone().sub(room1Main).setY(0).length() < ZONE_RADIUS)
+              vecDir = room1Branch.clone().sub(room1Main).normalize();
+            else
+              vecDir = room1Main.clone().sub(enemy.position).setY(0).normalize();
+          }
+          else if (pacRoom.id === "room2" || pacRoom.id === "hallway2") {
+            let room2Main = new THREE.Vector3(0, 0, MAIN_ZONE);
+            let room2Branch = new THREE.Vector3(0, 0, BRANCH_ZONE);
+            if (enemy.position.clone().sub(room2Main).setY(0).length() < ZONE_RADIUS)
+              vecDir = room2Branch.clone().sub(room2Main).normalize();
+            else
+              vecDir = room2Main.clone().sub(enemy.position).setY(0).normalize();
+          }
+          else if (pacRoom.id === "room3" || pacRoom.id === "hallway3") {
+            let room3Main = new THREE.Vector3(-MAIN_ZONE, 0, 0);
+            let room3Branch = new THREE.Vector3(-BRANCH_ZONE, 0, 0);
+            if (enemy.position.clone().sub(room3Main).setY(0).length() < ZONE_RADIUS)
+              vecDir = room3Branch.clone().sub(room3Main).normalize();
+            else
+              vecDir = room3Main.clone().sub(enemy.position).setY(0).normalize();
+
+          }
+          else if (pacRoom.id === "room4" || pacRoom.id === "hallway4") {
+            let room4Main = new THREE.Vector3(0, 0, -MAIN_ZONE);
+            let room4Branch = new THREE.Vector3(0, 0, -BRANCH_ZONE);
+            if (enemy.position.clone().sub(room4Main).setY(0).length() < ZONE_RADIUS)
+              vecDir = room4Branch.clone().sub(room4Main).normalize();
+            else
+              vecDir = room4Main.clone().sub(enemy.position).setY(0).normalize();
+          }
+          break;
+        
+        case "hallway1":
+          if (pacRoom.id === "room1") {
+            vecDir = new THREE.Vector3(1, 0, 0);
+          }
+          else {
+            vecDir = new THREE.Vector3(-1, 0, 0);
+          }
+          break;
+        case "hallway2":
+          if (pacRoom.id === "room2") {
+            vecDir = new THREE.Vector3(0, 0, 1);
+          }
+          else {
+            vecDir = new THREE.Vector3(0, 0, -1);
+          }
+          break;
+        case "hallway3":
+          if (pacRoom.id === "room3") {
+            vecDir = new THREE.Vector3(-1, 0, 0);            
+          }
+          else {
+            vecDir = new THREE.Vector3(1, 0, 0);
+
+          }
+          break;
+        case "hallway4":
+          if (pacRoom.id === "room4") {
+            vecDir = new THREE.Vector3(0, 0, -1);            
+          }
+          else {
+            vecDir = new THREE.Vector3(0, 0, 1);
+          }
+          break;
+        // ghosts stay still
+        default:
+          vecDir = new THREE.Vector3();
+      }
+    }
+    else {
+      vecDir = new THREE.Vector3();
+      console.log("undefined?");
+    }
+
     let testPosition = enemy.position.clone()
-      .add(vec.clone().multiplyScalar(enemy.speed))
+      .add(vecDir.clone().multiplyScalar(enemy.speed))
     if (testPosition.distanceTo(pacman.position) > enemy.killDist) {
-      enemy.position.add(vec.clone().multiplyScalar(enemy.speed));
+      enemy.position.add(vecDir.clone().multiplyScalar(enemy.speed));
       
       // make sure enemy faces Pacman
-      let angle = new THREE.Vector3(0, 0, 1).angleTo(vec);
+      let angle = new THREE.Vector3(0, 0, 1).angleTo(vecDir);
       if (pacman.position.x - enemy.position.x < 0) {
         angle = Math.PI*2 - angle;
       }

@@ -141,7 +141,7 @@ class Hallway{
     }
 
     isInside(position) {
-        if (position.x >= this.minX && position.x <= this.maxX && position.z >= this.maxZ && this.maxZ >= this.minZ) {
+        if (position.x >= this.minX && position.x <= this.maxX && position.z >= this.minZ && position.z <= this.maxZ) {
             return true;
         }
         return false;
