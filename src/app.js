@@ -1,5 +1,8 @@
 import * as THREE from 'three';
-import {Pacman, Ghost, Pickup} from './objects';
+import {Pacman, Ghost, Pickup, Room, Doorwall, Hallway} from './objects';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import consts from './consts'
 
 /**********************************************************
@@ -15,14 +18,29 @@ let spaceDown = false; // prevent repetitive fires
 // for handling velocity
 let clock = new THREE.Clock();
 
-// game properties
+// GAME PROPERTIES
 let gameOver = false;
+
 let waveRestTime = consts.WAVE_RESET_TIME; 
 let waves = consts.WAVES;
+
 let enemies = new Set();
 let currentWave = 0;
 let startedRound = false;
 let startTime = 0;
+
+let rooms = []; // list of rooms
+let hallways = [];
+
+let arenaSize = 800; // size of the central room
+let branchSize = 600; // size of the branching rooms
+let hallwayLength = 200;
+
+
+let pacmanBuffer = 14;
+let ghostRadius = 15;
+let doorWidth = 70;
+
 let pickups = new Set();
 let betweenfruitSpawnTime = 10;  // time bewteen fruit spawns
 let lastFruitSpawnTime = 0;
@@ -32,8 +50,6 @@ let freeze = false;
 let freezeStart = 0;
 let star = false;
 let starStart = 0;
-
-let arenaSize = consts.ARENA_SIZE;
 
 /**********************************************************
  * SCENE + CAMERA
@@ -55,7 +71,6 @@ let scene = new THREE.Scene();
 let listener = new THREE.AudioListener();
 camera.add(listener);
 let audioLoader = new THREE.AudioLoader();
-
 /**********************************************************
  * GLOBAL MUSIC
  **********************************************************/
@@ -63,7 +78,7 @@ let globalMusic = new THREE.Audio(listener);
 audioLoader.load('./src/music/global_music.mp3', (buffer) => {
   globalMusic.setBuffer(buffer);
   globalMusic.setLoop(true);
-  globalMusic.setVolume(0.15);
+  globalMusic.setVolume(0); // was 0.15
   globalMusic.play();
 });
 
@@ -97,52 +112,45 @@ pacman.scale.multiplyScalar(10);
 scene.add(pacman);
 
 /**********************************************************
- * FLOOR
- **********************************************************/
-let floorGeo = new THREE.PlaneGeometry(arenaSize, arenaSize, 10, 10);
-let floorMaterial = new THREE.MeshBasicMaterial({
-  color: 0x1974d2,
-  side: THREE.DoubleSide,
-  transparent:true,
-  opacity: 0.6,
-});
-let floor = new THREE.Mesh(floorGeo, floorMaterial);
-floor.rotation.x = Math.PI/2;
-floor.position.y = -30;
-scene.add(floor);
+ *  ROOMS (FLOORS & WALLS)
+ ************************************************************/
+
+// parameters for which walls a room has
+let sides = {
+  right: false,
+  left: false,
+  up: false,
+  down: false
+};
+
+// the main room
+rooms.push(new Room('main', arenaSize, 0, 0, scene, sides));
+
+// rooms that branch off, each missing a wall
+sides.right = true; sides.left = true; sides.up = true;
+rooms.push(new Room('level2', branchSize, arenaSize/2 + branchSize / 2 + hallwayLength, 0, scene, sides));
+hallways.push(new Hallway('level2Hallway', hallwayLength, arenaSize / 2 + hallwayLength / 2, 0, scene, sides));
+
+sides.left = false; sides.down = true;
+rooms.push(new Room('level3', branchSize, 0, arenaSize/2 + branchSize / 2 + hallwayLength, scene, sides));
+hallways.push(new Hallway('level3Hallway', hallwayLength, 0, arenaSize / 2 + hallwayLength / 2, scene, sides));
+
+
+sides.up = false; sides.left = true;
+rooms.push(new Room('level4', branchSize, -1 * (arenaSize/2 + branchSize / 2 + hallwayLength), 0, scene, sides));
+hallways.push(new Hallway('level4Hallway', hallwayLength, -1 * (arenaSize / 2 + hallwayLength / 2), 0, scene, sides));
+
+
+sides.right = false; sides.up = true;
+rooms.push(new Room('level5', branchSize, 0, -1 * (arenaSize/2 + branchSize / 2 + hallwayLength), scene, sides));
+hallways.push(new Hallway('level5Hallway', hallwayLength, 0, -1 * (arenaSize / 2 + hallwayLength / 2), scene, sides));
+
 
 /**********************************************************
- * WALLS
+ * DOORWAY WALLS
  **********************************************************/
-let wallMaterial1 = new THREE.MeshBasicMaterial({
-  color: 0x8b0000,
-  side: THREE.DoubleSide,
-  wireframe: true
-});
-let wallMaterial2 = new THREE.MeshBasicMaterial({
-  color: 0xcfb53b,
-  side: THREE.DoubleSide,
-  wireframe: true
-});
-let wallGeo = new THREE.PlaneGeometry(arenaSize, 75, 75, 10);
-let wall = new THREE.Mesh(wallGeo, wallMaterial1);
-wall.rotation.y = Math.PI/2;
-wall.position.y = 7.5;
-wall.position.x = -arenaSize/2;
-scene.add(wall);
-wall = new THREE.Mesh(wallGeo, wallMaterial1);
-wall.rotation.y = Math.PI/2;
-wall.position.y = 7.5;
-wall.position.x = arenaSize/2;
-scene.add(wall);
-wall = new THREE.Mesh(wallGeo, wallMaterial2);
-wall.position.y = 7.5;
-wall.position.z = -arenaSize/2;
-scene.add(wall);
-wall = new THREE.Mesh(wallGeo, wallMaterial2);
-wall.position.y = 7.5;
-wall.position.z = arenaSize/2;
-scene.add(wall);
+
+let doorWalls = new Doorwall('doors', arenaSize, branchSize, 0, 0, scene);
 
 /**********************************************************
  * LIGHTS
@@ -168,7 +176,18 @@ scene.add( light );
 let renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
+// composer
+var composer = new EffectComposer( renderer );
+var renderPass = new RenderPass( scene, camera );
+composer.addPass( renderPass );
 
+// if we wanted to implement another sort of thing like bloom
+
+// var bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+// bloomPass.threshold = 0.5;
+// bloomPass.strength = 0.6;
+// bloomPass.radius = 0;
+// composer.addPass( bloomPass );
 /**********************************************************
  * CANVAS
  **********************************************************/
@@ -299,14 +318,85 @@ let handleMovement = () => {
     vec.setY(0).normalize().multiplyScalar(moveDistance*forward_direction);
     pacman.position.add(vec);
 
+
     // check bounds of walls
-    let barrier = arenaSize/2 - 14;
-    pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
-    pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    // let barrier = arenaSize/2 - 14;
+    // pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    // pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    updatePacPosition();
 
     let newVec = pacman.position.clone();
     let vecDiff = newVec.sub(oldVec);
     camera.position.add(vecDiff);
+  }
+}
+
+let updatePacPosition = function() {
+  let barrier;
+  // central x tunnel
+  if (pacman.position.x >= -doorWidth / 2 + pacmanBuffer && pacman.position.x <= doorWidth / 2  - pacmanBuffer) {
+    barrier = arenaSize / 2 + hallwayLength + branchSize - pacmanBuffer;
+    pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    // hallways
+    if (pacman.position.z >= -arenaSize / 2 - hallwayLength && pacman.position.z <= -arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    }
+    if (pacman.position.z <= arenaSize / 2 + hallwayLength && pacman.position.z >= arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    }
+  }
+
+ 
+
+  // central z tunnel
+  else if (pacman.position.z >= -doorWidth / 2 + pacmanBuffer && pacman.position.z <= doorWidth / 2  - pacmanBuffer) {
+    barrier = arenaSize / 2 + hallwayLength + branchSize - pacmanBuffer;
+    pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    // hallways
+    if (pacman.position.x >= -arenaSize / 2 - hallwayLength && pacman.position.x <= -arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    }
+    if (pacman.position.x <= arenaSize / 2 + hallwayLength && pacman.position.x >= arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    }
+  }
+
+    // hallways
+    else if (pacman.position.x >= -arenaSize / 2 - hallwayLength && pacman.position.x <= -arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    }
+    else if (pacman.position.x <= arenaSize / 2 + hallwayLength && pacman.position.x >= arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    }
+
+    // hallways
+    else if (pacman.position.z >= -arenaSize / 2 - hallwayLength && pacman.position.z <= -arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    }
+    else if (pacman.position.z <= arenaSize / 2 + hallwayLength && pacman.position.z >= arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    }
+
+
+
+  else {
+    let curRoom;
+    for (let room of rooms) {
+      if (room.isInside(pacman.position))  {
+        curRoom = room;
+        break;
+      }
+    }
+    pacman.position.setX(Math.max(Math.min(curRoom.maxX - pacmanBuffer, pacman.position.x), curRoom.minX + pacmanBuffer));
+    pacman.position.setZ(Math.max(Math.min(curRoom.maxZ - pacmanBuffer, pacman.position.z), curRoom.minZ + pacmanBuffer));
   }
 }
 
@@ -338,19 +428,130 @@ let handleShooting = () => {
       }
     }
 
-    // handle wall collision
-    if (Math.abs(projectile.position.x) > arenaSize/2 ||
-        Math.abs(projectile.position.z) > arenaSize/2) {
-      let sound = new THREE.Audio(listener);
-      audioLoader.load('./src/music/pop.mp3', (buffer) => {
-        sound.setBuffer(buffer);
-        sound.setVolume(0.05);
-        sound.play();
-      });
-      scene.remove(projectile);
-      pacman.projectiles.delete(projectile);
+    let barrier;
+    let projectileBuffer = projectile.speed + 20;
+    let oldPosition = projectile.position.clone();
+
+    // central x tunnel
+    if (projectile.position.x >= -doorWidth / 2 + projectileBuffer && projectile.position.x <= doorWidth / 2  - projectileBuffer) {
+      barrier = arenaSize / 2 + hallwayLength + branchSize - projectileBuffer;
+      projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+      if (projectile.position.z != oldPosition.z) {
+        deleteProjectile(projectile, pacman, scene);
+      }
+      // hallways
+      if (projectile.position.z >= -arenaSize / 2 - hallwayLength && projectile.position.z <= -arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+        if (projectile.position.x != oldPosition.x) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+      if (projectile.position.z <= arenaSize / 2 + hallwayLength && projectile.position.z >= arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+        if (projectile.position.x != oldPosition.x) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
     }
+  
+   
+  
+    // central z tunnel
+    else if (projectile.position.z >= -doorWidth / 2 + projectileBuffer && projectile.position.z <= doorWidth / 2  - projectileBuffer) {
+      barrier = arenaSize / 2 + hallwayLength + branchSize - projectileBuffer;
+      projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+      if (projectile.position.x != oldPosition.x) {
+        deleteProjectile(projectile, pacman, scene);
+      }
+      // hallways
+      if (projectile.position.x >= -arenaSize / 2 - hallwayLength && projectile.position.x <= -arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+        if (projectile.position.z != oldPosition.z) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+      if (projectile.position.x <= arenaSize / 2 + hallwayLength && projectile.position.x >= arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+        if (projectile.position.z != oldPosition.z) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+    }
+  
+      // hallways
+      else if (projectile.position.x >= -arenaSize / 2 - hallwayLength && projectile.position.x <= -arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+        if (projectile.position.z != oldPosition.z) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+      else if (projectile.position.x <= arenaSize / 2 + hallwayLength && projectile.position.x >= arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+        if (projectile.position.z != oldPosition.z) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+  
+      // hallways
+      else if (projectile.position.z >= -arenaSize / 2 - hallwayLength && projectile.position.z <= -arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+        if (projectile.position.x != oldPosition.x) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+      else if (projectile.position.z <= arenaSize / 2 + hallwayLength && projectile.position.z >= arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+        if (projectile.position.x != oldPosition.x) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+  
+  
+  
+    else {
+      let curRoom;
+      for (let room of rooms) {
+        if (room.isInside(projectile.position))  {
+          curRoom = room;
+          break;
+        }
+      }
+      projectile.position.setX(Math.max(Math.min(curRoom.maxX - projectileBuffer, projectile.position.x), curRoom.minX + projectileBuffer));
+      if (projectile.position.x != oldPosition.x) {
+        deleteProjectile(projectile, pacman, scene);
+      }
+      projectile.position.setZ(Math.max(Math.min(curRoom.maxZ - projectileBuffer, projectile.position.z), curRoom.minZ + projectileBuffer));
+      if (projectile.position.z != oldPosition.z) {
+        deleteProjectile(projectile, pacman, scene);
+      }
+    }
+
+
+    // handle collision
+    // if (Math.abs(projectile.position.x) > arenaSize/2 ||
+    //     Math.abs(projectile.position.z) > arenaSize/2) {
+    //   deleteProjectile(projectile, pacman, scene);
+    // }
   }
+}
+
+let deleteProjectile = function(projectile, pacman, scene) {
+  let sound = new THREE.Audio(listener);
+  audioLoader.load('./src/music/pop.mp3', (buffer) => {
+    sound.setBuffer(buffer);
+    sound.setVolume(0.05);
+    sound.play();
+  });
+  scene.remove(projectile);
+  pacman.projectiles.delete(projectile);
 }
 
 /**********************************************************
@@ -384,16 +585,20 @@ let handleRound = () => {
     for (let i = 0; i < waves[currentWave]; i++) {
       let ghost = new Ghost(listener, clock);
       ghost.scale.multiplyScalar(0.2);
-      ghost.position.y -= 5;
+      ghost.position.y -= 20;
       
-      // spawn randomly around edges of arena
-      let randVec = new THREE.Vector3(
-        (Math.random() < 0.5 ? -1 : 1)*
-          (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4),
-        0,
-        (Math.random() < 0.5 ? -1 : 1)*
-          (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4)
-      );
+      // spawn randomly around edges of arena such that ghosts are certain radius away from Pac-man
+      let randVec;
+      const SAFE_RADIUS = 75;
+
+      do {
+        let room = rooms[Math.floor(Math.random() * rooms.length)]; // picking a room
+        randVec = new THREE.Vector3(Math.random() * (room.maxX - room.minX - 2 * ghostRadius) + room.minX + ghostRadius,
+          0,
+          Math.random() * (room.maxZ - room.minZ - 2 * ghostRadius) + room.minZ + ghostRadius
+        );
+      } while (randVec.clone().add(ghost.position).sub(pacman.position).length() < SAFE_RADIUS)
+
       ghost.position.add(randVec);
 
       // make sure enemy faces Pacman
@@ -432,6 +637,19 @@ let handleAI = () => {
   }
 
   for (let enemy of enemies) {
+    // increasing the opacity of the ghosts
+    if (! (enemy.meshes === undefined)) {
+      for (let msh of enemy.meshes) {
+        if (!(msh.material === undefined) && msh.material.opacity == 1) {
+          break;
+        }
+        if (!(msh.material === undefined)) {
+          msh.material.opacity += 0.0008;
+          msh.material.transparent = true;
+        }
+      }
+    }
+
     let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
 
     // make sure enemy faces Pacman  
@@ -444,6 +662,10 @@ let handleAI = () => {
     // make occasional noise
     enemy.makeNoise();
 
+    // ghosts float along sine wave
+    enemy.position.y = -20 + Math.sin(clock.getElapsedTime() * 5) * enemy.hoverHeight;
+
+    let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
     let testPosition = enemy.position.clone()
       .add(vec.clone().multiplyScalar(enemy.speed));
     // If no collision, else collision
@@ -586,7 +808,10 @@ let onAnimationFrameHandler = (timeStamp) => {
     handleAI();
     handlePickups();
     scene.update && scene.update(timeStamp);
-    renderer.render(scene, camera);
+    
+    
+    composer.render();
+    // renderer.render(scene, camera);
   }
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
