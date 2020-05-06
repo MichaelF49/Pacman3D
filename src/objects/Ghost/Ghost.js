@@ -9,6 +9,7 @@ class Ghost extends Group {
     this.listener = listener;
     this.clock = clock;
 
+    this.health = 5;
     this.speed = 1.2;
     this.hoverHeight = Math.random() * 1.5 + 1.5;
     // KILL DIST PARAMETERS:
@@ -61,6 +62,7 @@ class Ghost extends Group {
           
         }
       }
+      
       // adding the group to the scene
       this.add(gltf.scene);
     });
