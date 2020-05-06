@@ -13,7 +13,7 @@ class Pacman extends Group {
     this.camera = camera;
     this.listener = listener;
 
-    this.health = 3;
+    this.health = consts.PACMAN_HEALTH;
     this.audioLoader = new AudioLoader();
     this.name = 'pacman';
     this.ammo = {};
@@ -23,7 +23,7 @@ class Pacman extends Group {
     this.ammo[consts.DEFAULT_FRUIT] = 1;
 
     this.projectiles = new Set();
-    this.currentFruit = consts.DEFAULT_FRUIT ;
+    this.currentFruit = consts.DEFAULT_FRUIT;
 
     const loader = new GLTFLoader();
     loader.load('./src/models/pacman.glb', (gltf) => {

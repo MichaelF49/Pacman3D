@@ -325,8 +325,8 @@ window.addEventListener('keyup', onKeyUp, false);
  **********************************************************/
 let handleMovement = () => {
 	let delta = consts.CLOCK.getDelta(); // seconds
-	let moveDistance = consts.SPEED*delta;
-	let rotateAngle = consts.TURN_SPEED*delta;
+	let moveDistance = consts.PACMAN_SPEED*delta;
+	let rotateAngle = consts.PACMAN_TURN_SPEED*delta;
 
   let forward_direction = Number(moveForward) - Number(moveBackward);
   let rotate_direction = Number(moveRight) - Number(moveLeft);

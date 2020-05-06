@@ -14,7 +14,6 @@ class Ghost extends Group {
       5 + 1.0*currentWave/(consts.WAVES.length - 1)*(consts.DIFFICULTY_SCALE.MAX_HEALTH - 5);
     this.speed =
       1.2 + 1.0*currentWave/(consts.WAVES.length - 1)*(consts.DIFFICULTY_SCALE.MAX_SPEED - 1.2);
-    console.log(this.health, this.speed);
     this.hoverHeight = Math.random()*1.5 + 1.5;
     // KILL DIST PARAMETERS:
     // 35 for mario ghosts

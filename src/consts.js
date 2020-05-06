@@ -4,8 +4,9 @@ export default {
   /**********************************************************
    * PACMAN
    **********************************************************/
-  SPEED: 200, // 200 pixels per s
-  TURN_SPEED: -Math.PI*3.0/5, // pi radians per s
+  PACMAN_SPEED: 200, // 200 pixels per s
+  PACMAN_TURN_SPEED: -Math.PI*3.0/5, // pi radians per s
+  PACMAN_HEALTH: 3,
 
   /**********************************************************
    * TIME
@@ -17,6 +18,8 @@ export default {
    **********************************************************/
   FRUIT: ['cherry', 'orange', 'melon'],
   FRUIT_SCALE: {'cherry': 0.5, 'orange': 111, 'melon': 0.06},
+  FRUIT_DAMAGE: {'cherry': 1, 'orange': 2.5, 'melon': 5},
+  FRUIT_SPEED: {'cherry': 0.4, 'orange': 0.3, 'melon': 0.2},
   DEFAULT_FRUIT: 'cherry',
   AMMO_INC: 5, // get 5 ammo per pickup
   MAX_AMMO_CAPACITY: 10, // max ammo per category
