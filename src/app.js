@@ -394,19 +394,134 @@ let handleShooting = () => {
       }
     }
 
-    // handle collision
-    if (Math.abs(projectile.position.x) > arenaSize/2 ||
-        Math.abs(projectile.position.z) > arenaSize/2) {
-      let sound = new THREE.Audio(listener);
-      audioLoader.load('./src/music/pop.mp3', (buffer) => {
-        sound.setBuffer(buffer);
-        sound.setVolume(0.05);
-        sound.play();
-      });
-      scene.remove(projectile);
-      pacman.projectiles.delete(projectile);
+
+    let barrier;
+    let projectileBuffer = projectile.speed + 20;
+    let oldPosition = projectile.position.clone();
+
+    // central x tunnel
+    if (projectile.position.x >= -doorWidth / 2 + projectileBuffer && projectile.position.x <= doorWidth / 2  - projectileBuffer) {
+      barrier = arenaSize / 2 + hallwayLength + branchSize - projectileBuffer;
+      projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+      if (projectile.position.z != oldPosition.z) {
+        deleteProjectile(projectile, pacman, scene);
+      }
+      // hallways
+      if (projectile.position.z >= -arenaSize / 2 - hallwayLength && projectile.position.z <= -arenaSize / 2) {
+        barrier = doorWidth / 2 - projectile;
+        projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+        if (projectile.position.x != oldPosition.x) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+      if (projectile.position.z <= arenaSize / 2 + hallwayLength && projectile.position.z >= arenaSize / 2) {
+        barrier = doorWidth / 2 - projectile;
+        projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+        if (projectile.position.x != oldPosition.x) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
     }
+  
+   
+  
+    // central z tunnel
+    else if (projectile.position.z >= -doorWidth / 2 + projectileBuffer && projectile.position.z <= doorWidth / 2  - projectileBuffer) {
+      barrier = arenaSize / 2 + hallwayLength + branchSize - projectileBuffer;
+      projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+      if (projectile.position.x != oldPosition.x) {
+        deleteProjectile(projectile, pacman, scene);
+      }
+      // hallways
+      if (projectile.position.x >= -arenaSize / 2 - hallwayLength && projectile.position.x <= -arenaSize / 2) {
+        barrier = doorWidth / 2 - projectile;
+        projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+        if (projectile.position.z != oldPosition.z) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+      if (projectile.position.x <= arenaSize / 2 + hallwayLength && projectile.position.x >= arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+        if (projectile.position.z != oldPosition.z) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+    }
+  
+      // hallways
+      else if (projectile.position.x >= -arenaSize / 2 - hallwayLength && projectile.position.x <= -arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+        if (projectile.position.z != oldPosition.z) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+      else if (projectile.position.x <= arenaSize / 2 + hallwayLength && projectile.position.x >= arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
+        if (projectile.position.z != oldPosition.z) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+  
+      // hallways
+      else if (projectile.position.z >= -arenaSize / 2 - hallwayLength && projectile.position.z <= -arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+        if (projectile.position.x != oldPosition.x) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+      else if (projectile.position.z <= arenaSize / 2 + hallwayLength && projectile.position.z >= arenaSize / 2) {
+        barrier = doorWidth / 2 - projectileBuffer;
+        projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
+        if (projectile.position.x != oldPosition.x) {
+          deleteProjectile(projectile, pacman, scene);
+        }
+      }
+  
+  
+  
+    else {
+      let curRoom;
+      for (let room of rooms) {
+        if (room.isInside(projectile.position))  {
+          curRoom = room;
+          break;
+        }
+      }
+      console.log(curRoom);
+      projectile.position.setX(Math.max(Math.min(curRoom.maxX - projectileBuffer, projectile.position.x), curRoom.minX + projectileBuffer));
+      console.log(projectile.position.x);
+      console.log(oldPosition.x);
+      if (projectile.position.x != oldPosition.x) {
+        deleteProjectile(projectile, pacman, scene);
+      }
+      projectile.position.setZ(Math.max(Math.min(curRoom.maxZ - projectileBuffer, projectile.position.z), curRoom.minZ + projectileBuffer));
+      if (projectile.position.z != oldPosition.z) {
+        deleteProjectile(projectile, pacman, scene);
+      }
+    }
+
+
+    // handle collision
+    // if (Math.abs(projectile.position.x) > arenaSize/2 ||
+    //     Math.abs(projectile.position.z) > arenaSize/2) {
+    //   deleteProjectile(projectile, pacman, scene);
+    // }
   }
+}
+
+let deleteProjectile = function(projectile, pacman, scene) {
+  let sound = new THREE.Audio(listener);
+  audioLoader.load('./src/music/pop.mp3', (buffer) => {
+    sound.setBuffer(buffer);
+    sound.setVolume(0.05);
+    sound.play();
+  });
+  scene.remove(projectile);
+  pacman.projectiles.delete(projectile);
 }
 
 /**********************************************************
