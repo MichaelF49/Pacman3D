@@ -27,6 +27,7 @@ let currentWave = 0;
 let startedRound = false;
 let startTime = 0;
 let rooms = []; // list of rooms
+let hallways = [];
 
 let arenaSize = 800; // size of the central room
 let branchSize = 600; // size of the branching rooms
@@ -116,21 +117,21 @@ rooms.push(new Room('main', arenaSize, 0, 0, scene, sides));
 // rooms that branch off, each missing a wall
 sides.right = true; sides.left = true; sides.up = true;
 rooms.push(new Room('level2', branchSize, arenaSize/2 + branchSize / 2 + hallwayLength, 0, scene, sides));
-rooms.push(new Hallway('level2Hallway', hallwayLength, arenaSize / 2 + hallwayLength / 2, 0, scene, sides));
+hallways.push(new Hallway('level2Hallway', hallwayLength, arenaSize / 2 + hallwayLength / 2, 0, scene, sides));
 
 sides.left = false; sides.down = true;
 rooms.push(new Room('level3', branchSize, 0, arenaSize/2 + branchSize / 2 + hallwayLength, scene, sides));
-rooms.push(new Hallway('level3Hallway', hallwayLength, 0, arenaSize / 2 + hallwayLength / 2, scene, sides));
+hallways.push(new Hallway('level3Hallway', hallwayLength, 0, arenaSize / 2 + hallwayLength / 2, scene, sides));
 
 
 sides.up = false; sides.left = true;
 rooms.push(new Room('level4', branchSize, -1 * (arenaSize/2 + branchSize / 2 + hallwayLength), 0, scene, sides));
-rooms.push(new Hallway('level4Hallway', hallwayLength, -1 * (arenaSize / 2 + hallwayLength / 2), 0, scene, sides));
+hallways.push(new Hallway('level4Hallway', hallwayLength, -1 * (arenaSize / 2 + hallwayLength / 2), 0, scene, sides));
 
 
 sides.right = false; sides.up = true;
 rooms.push(new Room('level5', branchSize, 0, -1 * (arenaSize/2 + branchSize / 2 + hallwayLength), scene, sides));
-rooms.push(new Hallway('level5Hallway', hallwayLength, 0, -1 * (arenaSize / 2 + hallwayLength / 2), scene, sides));
+hallways.push(new Hallway('level5Hallway', hallwayLength, 0, -1 * (arenaSize / 2 + hallwayLength / 2), scene, sides));
 
 
 /**********************************************************
@@ -306,26 +307,74 @@ let handleMovement = () => {
 
 let updatePacPosition = function() {
   let barrier;
+  // central x tunnel
   if (pacman.position.x >= -doorWidth / 2 + pacmanBuffer && pacman.position.x <= doorWidth / 2  - pacmanBuffer) {
     barrier = arenaSize / 2 + hallwayLength + branchSize - pacmanBuffer;
     pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    // hallways
+    if (pacman.position.z >= -arenaSize / 2 - hallwayLength && pacman.position.z <= -arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    }
+    if (pacman.position.z <= arenaSize / 2 + hallwayLength && pacman.position.z >= arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    }
   }
-  
+
+ 
+
+  // central z tunnel
   else if (pacman.position.z >= -doorWidth / 2 + pacmanBuffer && pacman.position.z <= doorWidth / 2  - pacmanBuffer) {
     barrier = arenaSize / 2 + hallwayLength + branchSize - pacmanBuffer;
     pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    // hallways
+    if (pacman.position.x >= -arenaSize / 2 - hallwayLength && pacman.position.x <= -arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    }
+    if (pacman.position.x <= arenaSize / 2 + hallwayLength && pacman.position.x >= arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    }
   }
+
+    // hallways
+    else if (pacman.position.x >= -arenaSize / 2 - hallwayLength && pacman.position.x <= -arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+      console.log(2);
+    }
+    else if (pacman.position.x <= arenaSize / 2 + hallwayLength && pacman.position.x >= arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+      console.log(3);
+    }
+
+    // hallways
+    else if (pacman.position.z >= -arenaSize / 2 - hallwayLength && pacman.position.z <= -arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+      console.log(4);
+    }
+    else if (pacman.position.z <= arenaSize / 2 + hallwayLength && pacman.position.z >= arenaSize / 2) {
+      barrier = doorWidth / 2 - pacmanBuffer;
+      pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+      console.log(5);
+    }
+
+
+
   else {
     let curRoom;
     for (let room of rooms) {
-      if (room.isInside(pacman.position))
+      if (room.isInside(pacman.position))  {
         curRoom = room;
         break;
+      }
     }
-    pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
-    for (let hallway of hallways) {
-
-    }
+    pacman.position.setX(Math.max(Math.min(curRoom.maxX - pacmanBuffer, pacman.position.x), curRoom.minX + pacmanBuffer));
+    pacman.position.setZ(Math.max(Math.min(curRoom.maxZ - pacmanBuffer, pacman.position.z), curRoom.minZ + pacmanBuffer));
   }
 }
 
