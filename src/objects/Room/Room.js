@@ -110,6 +110,12 @@ class Room{
             scene.add(wall);
         }
     }
+    isInside(position) {
+        if (position.x >= this.minX && position.x <= this.maxX && position.z >= this.maxZ && this.maxZ >= this.minZ) {
+            return true;
+        }
+        return false;
+    }
 }
 
 export default Room;
