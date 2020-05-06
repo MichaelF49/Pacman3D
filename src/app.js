@@ -408,14 +408,14 @@ let handleShooting = () => {
       }
       // hallways
       if (projectile.position.z >= -arenaSize / 2 - hallwayLength && projectile.position.z <= -arenaSize / 2) {
-        barrier = doorWidth / 2 - projectile;
+        barrier = doorWidth / 2 - projectileBuffer;
         projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
         if (projectile.position.x != oldPosition.x) {
           deleteProjectile(projectile, pacman, scene);
         }
       }
       if (projectile.position.z <= arenaSize / 2 + hallwayLength && projectile.position.z >= arenaSize / 2) {
-        barrier = doorWidth / 2 - projectile;
+        barrier = doorWidth / 2 - projectileBuffer;
         projectile.position.setX(Math.max(Math.min(barrier, projectile.position.x), -barrier));
         if (projectile.position.x != oldPosition.x) {
           deleteProjectile(projectile, pacman, scene);
@@ -434,7 +434,7 @@ let handleShooting = () => {
       }
       // hallways
       if (projectile.position.x >= -arenaSize / 2 - hallwayLength && projectile.position.x <= -arenaSize / 2) {
-        barrier = doorWidth / 2 - projectile;
+        barrier = doorWidth / 2 - projectileBuffer;
         projectile.position.setZ(Math.max(Math.min(barrier, projectile.position.z), -barrier));
         if (projectile.position.z != oldPosition.z) {
           deleteProjectile(projectile, pacman, scene);
