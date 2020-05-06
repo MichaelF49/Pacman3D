@@ -32,7 +32,10 @@ let arenaSize = 800; // size of the central room
 let branchSize = 600; // size of the branching rooms
 let hallwayLength = 200;
 
+
+let pacmanBuffer = 14;
 let ghostRadius = 15;
+let doorWidth = 70;
 
 
 /**********************************************************
@@ -55,7 +58,6 @@ let scene = new THREE.Scene();
 let listener = new THREE.AudioListener();
 camera.add(listener);
 let audioLoader = new THREE.AudioLoader();
-
 /**********************************************************
  * GLOBAL MUSIC
  **********************************************************/
@@ -289,14 +291,41 @@ let handleMovement = () => {
     vec.setY(0).normalize().multiplyScalar(moveDistance*forward_direction);
     pacman.position.add(vec);
 
+
     // check bounds of walls
-    let barrier = arenaSize/2 - 14;
-    pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
-    pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    // let barrier = arenaSize/2 - 14;
+    // pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    // pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+    updatePacPosition();
 
     let newVec = pacman.position.clone();
     let vecDiff = newVec.sub(oldVec);
     camera.position.add(vecDiff);
+  }
+}
+
+let updatePacPosition = function() {
+  let barrier;
+  if (pacman.position.x >= -doorWidth / 2 + pacmanBuffer && pacman.position.x <= doorWidth / 2  - pacmanBuffer) {
+    barrier = arenaSize / 2 + hallwayLength + branchSize - pacmanBuffer;
+    pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
+  }
+  
+  else if (pacman.position.z >= -doorWidth / 2 + pacmanBuffer && pacman.position.z <= doorWidth / 2  - pacmanBuffer) {
+    barrier = arenaSize / 2 + hallwayLength + branchSize - pacmanBuffer;
+    pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+  }
+  else {
+    let curRoom;
+    for (let room of rooms) {
+      if (room.isInside(pacman.position))
+        curRoom = room;
+        break;
+    }
+    pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
+    for (let hallway of hallways) {
+
+    }
   }
 }
 
