@@ -50,19 +50,19 @@ let scene = new THREE.Scene();
  * AUDIO
  **********************************************************/
 let listener = new THREE.AudioListener();
-camera.add(listener);
-let audioLoader = new THREE.AudioLoader();
+// camera.add(listener);
+// let audioLoader = new THREE.AudioLoader();
 
 /**********************************************************
  * GLOBAL MUSIC
  **********************************************************/
-let globalMusic = new THREE.Audio(listener);
-audioLoader.load('./src/music/global_music.mp3', (buffer) => {
-  globalMusic.setBuffer(buffer);
-  globalMusic.setLoop(true);
-  globalMusic.setVolume(0.15);
-  globalMusic.play();
-});
+// let globalMusic = new THREE.Audio(listener);
+// audioLoader.load('./src/music/global_music.mp3', (buffer) => {
+//   globalMusic.setBuffer(buffer);
+//   globalMusic.setLoop(true);
+//   globalMusic.setVolume(0.15);
+//   globalMusic.play();
+// });
 
 /**********************************************************
  * SKYBOX
@@ -125,7 +125,7 @@ rooms.push(new Room('level5', branchSize, 0, -900, scene, sides));
  * DOORWAY WALLS
  **********************************************************/
 
-let doorWalls = new Doorwall('doors', arenaSize, 0, 0, scene);
+let doorWalls = new Doorwall('doors', arenaSize, branchSize, 0, 0, scene);
 
 /**********************************************************
  * LIGHTS

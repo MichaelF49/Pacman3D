@@ -1,7 +1,7 @@
 import {PlaneGeometry, MeshBasicMaterial, Mesh, DoubleSide} from 'three';
 
 class Doorwall{
-    constructor(roomName, arenaSize, x, z, scene) {
+    constructor(roomName, arenaSize, branchSize, x, z, scene) {
         let doorWidth = 70;
         this.id = roomName; // setting id of room, to be used for pathing algorithm
                             // possibly also used for defining the characteristics of the room
@@ -35,7 +35,6 @@ class Doorwall{
         /**********************************************************
          * Construction of the Walls
          **********************************************************/
-
         let wallGeo;
         let wall;
 
@@ -100,6 +99,72 @@ class Doorwall{
         wall.position.y = 7.5;
         wall.position.z = z - arenaSize / 2;
         wall.position.x = x + (arenaSize - doorWidth) / 4 + doorWidth / 2;
+        scene.add(wall);
+
+        /**********************************************************
+         * Doorwalls for Branch Rooms
+         **********************************************************/
+        
+        let newX = 900;
+        let newZ = 900;
+        // new wall geometry for the smaller room
+        wallGeo = new PlaneGeometry((branchSize - doorWidth) / 2, 75, 38, 10);
+
+        // Doorwall for Branch Room #1
+        wall = new Mesh(wallGeo, wallMaterial1);
+        wall.rotation.y = Math.PI / 2;
+        wall.position.y = 7.5;
+        wall.position.x = newX - branchSize / 2;
+        wall.position.z = z - (branchSize - doorWidth) / 4 - doorWidth / 2;
+        scene.add(wall);
+        
+        wall = new Mesh(wallGeo, wallMaterial1);
+        wall.rotation.y = Math.PI/2;
+        wall.position.y = 7.5;
+        wall.position.x = newX - branchSize / 2;
+        wall.position.z = z + (branchSize - doorWidth) / 4 + doorWidth / 2;
+        scene.add(wall);
+
+        // Doorwall for Branch Room #2        
+        wall = new Mesh(wallGeo, wallMaterial2);
+        wall.rotation.y = Math.PI / 2;
+        wall.position.y = 7.5;
+        wall.position.x = -newX + branchSize / 2;
+        wall.position.z = z - (branchSize - doorWidth) / 4 - doorWidth / 2;
+        scene.add(wall);
+
+        wall = new Mesh(wallGeo, wallMaterial2);
+        wall.rotation.y = Math.PI/2;
+        wall.position.y = 7.5;
+        wall.position.x = -newX + branchSize / 2;
+        wall.position.z = z + (branchSize - doorWidth) / 4 + doorWidth / 2;
+        scene.add(wall);
+
+        // Doorwalls #3 and #4 are parallel to each other.
+        // Doorwall for Branch Room #3
+        wall = new Mesh(wallGeo, wallMaterial3);
+        wall.position.y = 7.5;
+        wall.position.z = -newZ + branchSize / 2;
+        wall.position.x = x - (branchSize - doorWidth) / 4 - doorWidth / 2;
+        scene.add(wall);
+        
+        wall = new Mesh(wallGeo, wallMaterial3);
+        wall.position.y = 7.5;
+        wall.position.z = -newZ + branchSize / 2;
+        wall.position.x = x + (branchSize - doorWidth) / 4 + doorWidth / 2;
+        scene.add(wall);
+
+        // Doorwall for Branch Room #4
+        wall = new Mesh(wallGeo, wallMaterial4);
+        wall.position.y = 7.5;
+        wall.position.z = newZ - branchSize / 2;
+        wall.position.x = x - (branchSize - doorWidth) / 4 - doorWidth / 2;
+        scene.add(wall);
+        
+        wall = new Mesh(wallGeo, wallMaterial4);
+        wall.position.y = 7.5;
+        wall.position.z = newZ - branchSize / 2;
+        wall.position.x = x + (branchSize - doorWidth) / 4 + doorWidth / 2;
         scene.add(wall);
     }
 }
