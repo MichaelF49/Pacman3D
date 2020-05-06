@@ -1,8 +1,9 @@
 import * as THREE from 'three';
-import {Pacman, Ghost, Room, Doorwall, Hallway} from './objects';
+import {Pacman, Ghost, Pickup, Room, Doorwall, Hallway} from './objects';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import consts from './consts'
 
 /**********************************************************
  * OTHER GLOBAL VARIABLES
@@ -19,13 +20,15 @@ let clock = new THREE.Clock();
 
 // GAME PROPERTIES
 let gameOver = false;
-let waveRestTime = 8; // 8 s between waves
 
-let waves = [3, 6, 12]; // number of ghosts per wave.
+let waveRestTime = consts.WAVE_RESET_TIME; 
+let waves = consts.WAVES;
+
 let enemies = new Set();
 let currentWave = 0;
 let startedRound = false;
 let startTime = 0;
+
 let rooms = []; // list of rooms
 let hallways = [];
 
@@ -38,6 +41,15 @@ let pacmanBuffer = 14;
 let ghostRadius = 15;
 let doorWidth = 70;
 
+let pickups = new Set();
+let betweenfruitSpawnTime = 10;  // time bewteen fruit spawns
+let lastFruitSpawnTime = 0;
+let betweenPowerupSpawnTime = 20;  // time bewteen powerup spawns
+let lastPowerupSpawnTime = 0;
+let freeze = false;
+let freezeStart = 0;
+let star = false;
+let starStart = 0;
 
 /**********************************************************
  * SCENE + CAMERA
@@ -222,6 +234,21 @@ let onKeyDown = (event) => {
       }
       break;
     }
+    case 49: {
+      // 1
+      pacman.switchFruit(1)
+      break;
+    }
+    case 50: {
+      // 2
+      pacman.switchFruit(2)
+      break;
+    }
+    case 51: {
+      // 2
+      pacman.switchFruit(3)
+      break;
+    }
   }
 };
 
@@ -249,7 +276,6 @@ let onKeyUp = (event) => {
     }
     case 32: {
       // space
-      // d
       spaceDown = false;
       break;
     }
@@ -379,21 +405,28 @@ let updatePacPosition = function() {
  **********************************************************/
 let handleShooting = () => {
   for (let projectile of pacman.projectiles) {
+    // move projectile through scene
     let projectileVec = projectile.direction;
     projectile.position.add(projectileVec.clone().multiplyScalar(projectile.speed));
 
+    // handle enemy collision
     for (let enemy of enemies) {
       let hitDist = enemy.position.clone().setY(0).
         distanceTo(projectile.position.clone().setY(0));
+      // enemy takes damage
       if (hitDist < 25) {
-        scene.remove(enemy);
         scene.remove(projectile);
         pacman.projectiles.delete(projectile);
-        enemies.delete(enemy);
-        enemy.death();
+        enemy.health -= projectile.damage;
+
+        // enemy has no health, kill and delete from scene
+        if (enemy.health <= 0) {
+          scene.remove(enemy);
+          enemies.delete(enemy);
+          enemy.death();
+        }
       }
     }
-
 
     let barrier;
     let projectileBuffer = projectile.speed + 20;
@@ -548,6 +581,7 @@ let handleRound = () => {
       sound.play();
     });
 
+    // spawn enemies
     for (let i = 0; i < waves[currentWave]; i++) {
       let ghost = new Ghost(listener, clock);
       ghost.scale.multiplyScalar(0.2);
@@ -566,6 +600,14 @@ let handleRound = () => {
       } while (randVec.clone().add(ghost.position).sub(pacman.position).length() < SAFE_RADIUS)
 
       ghost.position.add(randVec);
+
+      // make sure enemy faces Pacman
+      let vec = pacman.position.clone().sub(ghost.position).setY(0).normalize();
+      let angle = new THREE.Vector3(0, 0, 1).angleTo(vec);
+      if (pacman.position.x - ghost.position.x < 0) {
+        angle = Math.PI*2 - angle;
+      }
+      ghost.rotation.y = angle;
 
       enemies.add(ghost);
       scene.add(ghost);
@@ -589,9 +631,14 @@ let handleRound = () => {
  * AI HANDLER
  **********************************************************/
 let handleAI = () => {
+  // freeze ability active
+  if (freeze) {
+    return;
+  }
+
   for (let enemy of enemies) {
-      // increasing the opacity of the ghosts
-      if (! (enemy.meshes === undefined)) {
+    // increasing the opacity of the ghosts
+    if (! (enemy.meshes === undefined)) {
       for (let msh of enemy.meshes) {
         if (!(msh.material === undefined) && msh.material.opacity == 1) {
           break;
@@ -603,35 +650,148 @@ let handleAI = () => {
       }
     }
 
+    let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
+
+    // make sure enemy faces Pacman  
+    let angle = new THREE.Vector3(0, 0, 1).angleTo(vec);
+    if (pacman.position.x - enemy.position.x < 0) {
+      angle = Math.PI*2 - angle;
+    }
+    enemy.rotation.y = angle;
+
     // make occasional noise
     enemy.makeNoise();
 
     // ghosts float along sine wave
     enemy.position.y = -20 + Math.sin(clock.getElapsedTime() * 5) * enemy.hoverHeight;
 
-
     let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
     let testPosition = enemy.position.clone()
-      .add(vec.clone().multiplyScalar(enemy.speed))
+      .add(vec.clone().multiplyScalar(enemy.speed));
+    // If no collision, else collision
     if (testPosition.distanceTo(pacman.position) > enemy.killDist) {
+      // move enemy towards pacman
       enemy.position.add(vec.clone().multiplyScalar(enemy.speed));
-      
-      // make sure enemy faces Pacman
-      let angle = new THREE.Vector3(0, 0, 1).angleTo(vec);
-      if (pacman.position.x - enemy.position.x < 0) {
-        angle = Math.PI*2 - angle;
-      }
-      enemy.rotation.y = angle;
     } else {
-      // defeat
-      globalMusic.stop();
+      scene.remove(enemy);
+      enemies.delete(enemy);
+      enemy.death();
+
+      // invincible, take no damage
+      if (star) {
+        return;
+      }
+
+      // take damage
+      pacman.health--;
+      if (pacman.health <= 0) {
+        // defeat
+        globalMusic.stop();
+        let sound = new THREE.Audio(listener);
+        audioLoader.load('./src/music/defeat.mp3', (buffer) => {
+          sound.setBuffer(buffer);
+          sound.setVolume(0.25);
+          sound.play();
+        });
+        gameOver = true;
+      }
+    }
+  }
+}
+
+/**********************************************************
+ * PICKUPS HANDLER
+ **********************************************************/
+let handlePickups = () => {
+  // Check timers
+  if (freeze && clock.getElapsedTime() - freezeStart > consts.FREEZE_TIME) {
+    freeze = false;
+  }
+  if (star && clock.getElapsedTime() - starStart > consts.STAR_TIME) {
+    star = false;
+  }
+
+  // Spawn fruit
+  if (clock.getElapsedTime() - lastFruitSpawnTime > betweenfruitSpawnTime) {
+    lastFruitSpawnTime = clock.getElapsedTime();
+
+    // Choose random non-cherry fruit to spawn
+    let fruitIndex = Number.parseInt(Math.random()*(consts.FRUIT.length - 1)) + 1;
+    let fruit = consts.FRUIT[fruitIndex], 
+        scale = consts.FRUIT_SCALE[fruit];
+
+    // Create ammo Pickup object
+    let pickup = new Pickup(fruit, 'ammo')
+    pickup.scale.multiplyScalar(scale);
+    let spawnPos = new THREE.Vector3(
+      Math.random()*arenaSize - arenaSize/2, 
+      -20, 
+      Math.random()*arenaSize - arenaSize/2
+    );
+    pickup.position.add(spawnPos);
+
+    scene.add(pickup)
+    pickups.add(pickup)
+  }
+
+  // Spawn powerup
+  if (clock.getElapsedTime() - lastPowerupSpawnTime > betweenPowerupSpawnTime) {
+    lastPowerupSpawnTime = clock.getElapsedTime();
+
+    // Choose random powerup to spawn
+    let powerupIndex = parseInt(Math.random()*consts.POWERUP.length);
+    let powerup = consts.POWERUP[powerupIndex], 
+        scale = consts.POWERUP_SCALE[powerup];
+
+    // Create powerup Pickup object
+    let pickup = new Pickup(powerup, 'powerup')
+    pickup.scale.multiplyScalar(scale);
+    let spawnPos = new THREE.Vector3(
+      Math.random() * arenaSize - arenaSize/2, 
+      -20, 
+      Math.random() * arenaSize - arenaSize/2
+    );
+    pickup.position.add(spawnPos);
+
+    scene.add(pickup);
+    pickups.add(pickup);
+  }
+
+  for (let pickup of pickups) {
+    let hitDist = pickup.position.clone().setY(0).
+      distanceTo(pacman.position.clone().setY(0));
+    if (hitDist < 25) {
+      scene.remove(pickup);
+      pickups.delete(pickup);
+      
       let sound = new THREE.Audio(listener);
-      audioLoader.load('./src/music/defeat.mp3', (buffer) => {
+      audioLoader.load('./src/music/pop.mp3', (buffer) => {
         sound.setBuffer(buffer);
-        sound.setVolume(0.25);
+        sound.setVolume(0.20);
         sound.play();
       });
-      gameOver = true;
+
+      // ammo effect
+      if (pickup.type == 'ammo') {
+        pacman.ammo[pickup.name] =
+          Math.min(consts.MAX_AMMO_CAPACITY, pacman.ammo[pickup.name] + consts.AMMO_INC);
+      }
+
+      // powerup effect
+      if (pickup.type == 'powerup') {
+        switch (pickup.name) {
+          case 'freeze': {
+            freeze = true;
+            freezeStart = clock.getElapsedTime();
+            break;
+          }
+          case 'star': {
+            star = true;
+            starStart = clock.getElapsedTime();
+            break;
+          }
+        }
+      }
     }
   }
 }
@@ -646,6 +806,7 @@ let onAnimationFrameHandler = (timeStamp) => {
     handleShooting();
     handleRound();
     handleAI();
+    handlePickups();
     scene.update && scene.update(timeStamp);
     
     
