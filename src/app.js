@@ -343,24 +343,20 @@ let updatePacPosition = function() {
     else if (pacman.position.x >= -arenaSize / 2 - hallwayLength && pacman.position.x <= -arenaSize / 2) {
       barrier = doorWidth / 2 - pacmanBuffer;
       pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
-      console.log(2);
     }
     else if (pacman.position.x <= arenaSize / 2 + hallwayLength && pacman.position.x >= arenaSize / 2) {
       barrier = doorWidth / 2 - pacmanBuffer;
       pacman.position.setZ(Math.max(Math.min(barrier, pacman.position.z), -barrier));
-      console.log(3);
     }
 
     // hallways
     else if (pacman.position.z >= -arenaSize / 2 - hallwayLength && pacman.position.z <= -arenaSize / 2) {
       barrier = doorWidth / 2 - pacmanBuffer;
       pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
-      console.log(4);
     }
     else if (pacman.position.z <= arenaSize / 2 + hallwayLength && pacman.position.z >= arenaSize / 2) {
       barrier = doorWidth / 2 - pacmanBuffer;
       pacman.position.setX(Math.max(Math.min(barrier, pacman.position.x), -barrier));
-      console.log(5);
     }
 
 
