@@ -28,10 +28,10 @@ let betweenfruitSpawnTime = 10;  // time bewteen fruit spawns
 let lastFruitSpawnTime = 0;
 let betweenPowerupSpawnTime = 20;  // time bewteen powerup spawns
 let lastPowerupSpawnTime = 0;
-let freeze = false
-let freezeStart = 0
-let star = false
-let starStart = 0
+let freeze = false;
+let freezeStart = 0;
+let star = false;
+let starStart = 0;
 
 let arenaSize = consts.ARENA_SIZE;
 
@@ -396,6 +396,14 @@ let handleRound = () => {
       );
       ghost.position.add(randVec);
 
+      // make sure enemy faces Pacman
+      let vec = pacman.position.clone().sub(ghost.position).setY(0).normalize();
+      let angle = new THREE.Vector3(0, 0, 1).angleTo(vec);
+      if (pacman.position.x - ghost.position.x < 0) {
+        angle = Math.PI*2 - angle;
+      }
+      ghost.rotation.y = angle;
+
       enemies.add(ghost);
       scene.add(ghost);
     }
@@ -418,6 +426,10 @@ let handleRound = () => {
  * AI HANDLER
  **********************************************************/
 let handleAI = () => {
+  // freeze ability active
+  if (freeze) {
+    return;
+  }
 
   for (let enemy of enemies) {
     let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
@@ -428,11 +440,6 @@ let handleAI = () => {
       angle = Math.PI*2 - angle;
     }
     enemy.rotation.y = angle;
-
-    // freeze ability active
-    if (freeze) {
-      return
-    }
 
     // make occasional noise
     enemy.makeNoise();
@@ -476,29 +483,29 @@ let handleAI = () => {
 let handlePickups = () => {
   // Check timers
   if (freeze && clock.getElapsedTime() - freezeStart > consts.FREEZE_TIME) {
-    freeze = false
+    freeze = false;
   }
   if (star && clock.getElapsedTime() - starStart > consts.STAR_TIME) {
-    star = false
+    star = false;
   }
 
   // Spawn fruit
   if (clock.getElapsedTime() - lastFruitSpawnTime > betweenfruitSpawnTime) {
-    lastFruitSpawnTime = clock.getElapsedTime()
+    lastFruitSpawnTime = clock.getElapsedTime();
 
     // Choose random non-cherry fruit to spawn
-    let fruitIndex = (Math.random() > 0.5) ? 1 : 2;
+    let fruitIndex = Number.parseInt(Math.random()*(consts.FRUIT.length - 1)) + 1;
     let fruit = consts.FRUIT[fruitIndex], 
-        scale = consts.FRUIT_SCALE[fruit]
+        scale = consts.FRUIT_SCALE[fruit];
 
     // Create ammo Pickup object
     let pickup = new Pickup(fruit, 'ammo')
     pickup.scale.multiplyScalar(scale);
     let spawnPos = new THREE.Vector3(
-      Math.random() * arenaSize - arenaSize / 2, 
+      Math.random()*arenaSize - arenaSize/2, 
       -20, 
-      Math.random() * arenaSize - arenaSize / 2
-    )
+      Math.random()*arenaSize - arenaSize/2
+    );
     pickup.position.add(spawnPos);
 
     scene.add(pickup)
@@ -507,33 +514,33 @@ let handlePickups = () => {
 
   // Spawn powerup
   if (clock.getElapsedTime() - lastPowerupSpawnTime > betweenPowerupSpawnTime) {
-    lastPowerupSpawnTime = clock.getElapsedTime()
+    lastPowerupSpawnTime = clock.getElapsedTime();
 
     // Choose random powerup to spawn
-    let powerupIndex = parseInt(Math.random() * consts.POWERUP.length)
+    let powerupIndex = parseInt(Math.random()*consts.POWERUP.length);
     let powerup = consts.POWERUP[powerupIndex], 
-        scale = consts.POWERUP_SCALE[powerup]
+        scale = consts.POWERUP_SCALE[powerup];
 
     // Create powerup Pickup object
     let pickup = new Pickup(powerup, 'powerup')
     pickup.scale.multiplyScalar(scale);
     let spawnPos = new THREE.Vector3(
-      Math.random() * arenaSize - arenaSize / 2, 
+      Math.random() * arenaSize - arenaSize/2, 
       -20, 
-      Math.random() * arenaSize - arenaSize / 2
-    )
+      Math.random() * arenaSize - arenaSize/2
+    );
     pickup.position.add(spawnPos);
 
-    scene.add(pickup)
-    pickups.add(pickup)
+    scene.add(pickup);
+    pickups.add(pickup);
   }
 
   for (let pickup of pickups) {
     let hitDist = pickup.position.clone().setY(0).
-      distanceTo(pacman.position.clone().setY(0))
+      distanceTo(pacman.position.clone().setY(0));
     if (hitDist < 25) {
-      scene.remove(pickup)
-      pickups.delete(pickup)
+      scene.remove(pickup);
+      pickups.delete(pickup);
       
       let sound = new THREE.Audio(listener);
       audioLoader.load('./src/music/pop.mp3', (buffer) => {
@@ -544,21 +551,22 @@ let handlePickups = () => {
 
       // ammo effect
       if (pickup.type == 'ammo') {
-        pacman.ammo[pickup.name] += consts.AMMO_INC
+        pacman.ammo[pickup.name] =
+          Math.min(consts.MAX_AMMO_CAPACITY, pacman.ammo[pickup.name] + consts.AMMO_INC);
       }
 
       // powerup effect
       if (pickup.type == 'powerup') {
         switch (pickup.name) {
           case 'freeze': {
-            freeze = true
-            freezeStart = clock.getElapsedTime()
-            break
+            freeze = true;
+            freezeStart = clock.getElapsedTime();
+            break;
           }
           case 'star': {
-            star = true
-            starStart = clock.getElapsedTime()
-            break
+            star = true;
+            starStart = clock.getElapsedTime();
+            break;
           }
         }
       }
