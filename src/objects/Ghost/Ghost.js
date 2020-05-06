@@ -4,12 +4,11 @@ import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import consts from '../../consts'
 
 class Ghost extends Group {
-  constructor(listener, clock, currentWave) {
+  constructor(listener, currentWave) {
     // Call parent Group() constructor
     super();
 
     this.listener = listener;
-    this.clock = clock;
 
     this.health =
       5 + 1.0*currentWave/(consts.WAVES.length - 1)*(consts.DIFFICULTY_SCALE.MAX_HEALTH - 5);
@@ -22,7 +21,7 @@ class Ghost extends Group {
     // 25 for pac-man ghosts
     this.killDist = 25;
     this.noiseTimeDiff = 12 - 8 * Math.random();
-    this.oldTime = this.clock.getElapsedTime();
+    this.oldTime = consts.CLOCK.getElapsedTime();
     this.name = 'ghost';
     this.audioLoader = new AudioLoader();
     this.meshes = [];
@@ -74,7 +73,7 @@ class Ghost extends Group {
   }
 
   makeNoise() {
-    if (this.clock.getElapsedTime() - this.oldTime > this.noiseTimeDiff) {
+    if (consts.CLOCK.getElapsedTime() - this.oldTime > this.noiseTimeDiff) {
       let file = (Math.random() > 0.5) ?
         './src/music/ghost_noise1.mp3' : './src/music/ghost_noise2.mp3';
 
@@ -85,7 +84,7 @@ class Ghost extends Group {
         sound.play();
       });
 
-      this.oldTime = this.clock.getElapsedTime();
+      this.oldTime = consts.CLOCK.getElapsedTime();
       this.noiseTimeDiff = 12 - 8*Math.random();
     }
   }

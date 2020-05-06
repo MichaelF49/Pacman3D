@@ -18,11 +18,6 @@ import consts from './consts'
   let spaceDown = false; // prevent repetitive fires
 
   // ------------------------------
-  // time
-  // ------------------------------
-  let clock = new THREE.Clock();
-
-  // ------------------------------
   // game properties
   // ------------------------------
   let gameOver = false;
@@ -329,7 +324,7 @@ window.addEventListener('keyup', onKeyUp, false);
  * MOVEMENT HANDLER
  **********************************************************/
 let handleMovement = () => {
-	let delta = clock.getDelta(); // seconds
+	let delta = consts.CLOCK.getDelta(); // seconds
 	let moveDistance = consts.SPEED*delta;
 	let rotateAngle = consts.TURN_SPEED*delta;
 
@@ -619,12 +614,12 @@ let handleWave = () => {
     // new wave should start, begin countdown
     if (!startedWave) {
       startedWave = true;
-      startTime = clock.getElapsedTime();
+      startTime = consts.CLOCK.getElapsedTime();
       return;
     }
 
     // wait for countdown to finish
-    if (clock.getElapsedTime() - startTime < consts.WAVE_RESET_TIME) {
+    if (consts.CLOCK.getElapsedTime() - startTime < consts.WAVE_RESET_TIME) {
       return;
     }
     // reset flag back
@@ -640,7 +635,7 @@ let handleWave = () => {
 
     // spawn enemies
     for (let i = 0; i < consts.WAVES[currentWave]; i++) {
-      let ghost = new Ghost(listener, clock, currentWave);
+      let ghost = new Ghost(listener, currentWave);
       ghost.scale.multiplyScalar(0.2);
       ghost.position.y -= 20;
 
@@ -713,7 +708,7 @@ let handleAI = () => {
     enemy.makeNoise();
 
     // ghosts float along sine wave
-    enemy.position.y = -20 + Math.sin(clock.getElapsedTime()*5)*enemy.hoverHeight;
+    enemy.position.y = -20 + Math.sin(consts.CLOCK.getElapsedTime()*5)*enemy.hoverHeight;
 
     // determine what room pac-man is in
     let pacRoom;
@@ -923,16 +918,16 @@ let handleAI = () => {
  **********************************************************/
 let handlePickups = () => {
   // Check timers
-  if (freeze && clock.getElapsedTime() - freezeStart > consts.FREEZE_TIME) {
+  if (freeze && consts.CLOCK.getElapsedTime() - freezeStart > consts.FREEZE_TIME) {
     freeze = false;
   }
-  if (star && clock.getElapsedTime() - starStart > consts.STAR_TIME) {
+  if (star && consts.CLOCK.getElapsedTime() - starStart > consts.STAR_TIME) {
     star = false;
   }
 
   // Spawn fruit
-  if (clock.getElapsedTime() - lastFruitSpawnTime > consts.FRUIT_SPAWN_TIME) {
-    lastFruitSpawnTime = clock.getElapsedTime();
+  if (consts.CLOCK.getElapsedTime() - lastFruitSpawnTime > consts.FRUIT_SPAWN_TIME) {
+    lastFruitSpawnTime = consts.CLOCK.getElapsedTime();
 
     // Choose random non-cherry fruit to spawn
     let fruitIndex = Number.parseInt(Math.random()*(consts.FRUIT.length - 1)) + 1;
@@ -954,8 +949,8 @@ let handlePickups = () => {
   }
 
   // Spawn powerup
-  if (clock.getElapsedTime() - lastPowerupSpawnTime > consts.POWERUP_SPAWN_TIME) {
-    lastPowerupSpawnTime = clock.getElapsedTime();
+  if (consts.CLOCK.getElapsedTime() - lastPowerupSpawnTime > consts.POWERUP_SPAWN_TIME) {
+    lastPowerupSpawnTime = consts.CLOCK.getElapsedTime();
 
     // Choose random powerup to spawn
     let powerupIndex = parseInt(Math.random()*consts.POWERUP.length);
@@ -1001,12 +996,12 @@ let handlePickups = () => {
         switch (pickup.name) {
           case 'freeze': {
             freeze = true;
-            freezeStart = clock.getElapsedTime();
+            freezeStart = consts.CLOCK.getElapsedTime();
             break;
           }
           case 'star': {
             star = true;
-            starStart = clock.getElapsedTime();
+            starStart = consts.CLOCK.getElapsedTime();
             break;
           }
         }
