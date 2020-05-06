@@ -24,14 +24,14 @@ let currentWave = 0;
 let startedRound = false;
 let startTime = 0;
 let pickups = new Set();
-let betweenfruitSpawnTime = 1;  // 1 s bewteen fruit spawns
+let betweenfruitSpawnTime = 10;  // time bewteen fruit spawns
 let lastFruitSpawnTime = 0;
-let betweenPowerupSpawnTime = 1;  // 1 s bewteen fruit spawns
+let betweenPowerupSpawnTime = 20;  // time bewteen powerup spawns
 let lastPowerupSpawnTime = 0;
-let freeze = false
-let freezeStart = 0
-let star = false
-let starStart = 0
+let freeze = false;
+let freezeStart = 0;
+let star = false;
+let starStart = 0;
 
 let arenaSize = consts.ARENA_SIZE;
 
@@ -257,7 +257,6 @@ let onKeyUp = (event) => {
     }
     case 32: {
       // space
-      // d
       spaceDown = false;
       break;
     }
@@ -316,22 +315,30 @@ let handleMovement = () => {
  **********************************************************/
 let handleShooting = () => {
   for (let projectile of pacman.projectiles) {
+    // move projectile through scene
     let projectileVec = projectile.direction;
     projectile.position.add(projectileVec.clone().multiplyScalar(projectile.speed));
 
+    // handle enemy collision
     for (let enemy of enemies) {
       let hitDist = enemy.position.clone().setY(0).
         distanceTo(projectile.position.clone().setY(0));
+      // enemy takes damage
       if (hitDist < 25) {
-        scene.remove(enemy);
         scene.remove(projectile);
         pacman.projectiles.delete(projectile);
-        enemies.delete(enemy);
-        enemy.death();
+        enemy.health -= projectile.damage;
+
+        // enemy has no health, kill and delete from scene
+        if (enemy.health <= 0) {
+          scene.remove(enemy);
+          enemies.delete(enemy);
+          enemy.death();
+        }
       }
     }
 
-    // handle collision
+    // handle wall collision
     if (Math.abs(projectile.position.x) > arenaSize/2 ||
         Math.abs(projectile.position.z) > arenaSize/2) {
       let sound = new THREE.Audio(listener);
@@ -373,6 +380,7 @@ let handleRound = () => {
       sound.play();
     });
 
+    // spawn enemies
     for (let i = 0; i < waves[currentWave]; i++) {
       let ghost = new Ghost(listener, clock);
       ghost.scale.multiplyScalar(0.2);
@@ -387,6 +395,14 @@ let handleRound = () => {
           (Math.floor(Math.random()*arenaSize/4 - 15) + arenaSize/4)
       );
       ghost.position.add(randVec);
+
+      // make sure enemy faces Pacman
+      let vec = pacman.position.clone().sub(ghost.position).setY(0).normalize();
+      let angle = new THREE.Vector3(0, 0, 1).angleTo(vec);
+      if (pacman.position.x - ghost.position.x < 0) {
+        angle = Math.PI*2 - angle;
+      }
+      ghost.rotation.y = angle;
 
       enemies.add(ghost);
       scene.add(ghost);
@@ -410,42 +426,53 @@ let handleRound = () => {
  * AI HANDLER
  **********************************************************/
 let handleAI = () => {
+  // freeze ability active
+  if (freeze) {
+    return;
+  }
+
   for (let enemy of enemies) {
+    let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
+
+    // make sure enemy faces Pacman  
+    let angle = new THREE.Vector3(0, 0, 1).angleTo(vec);
+    if (pacman.position.x - enemy.position.x < 0) {
+      angle = Math.PI*2 - angle;
+    }
+    enemy.rotation.y = angle;
+
     // make occasional noise
     enemy.makeNoise();
 
-    let vec = pacman.position.clone().sub(enemy.position).setY(0).normalize();
     let testPosition = enemy.position.clone()
-      .add(vec.clone().multiplyScalar(enemy.speed))
-
+      .add(vec.clone().multiplyScalar(enemy.speed));
     // If no collision, else collision
     if (testPosition.distanceTo(pacman.position) > enemy.killDist) {
-      if (freeze) return
+      // move enemy towards pacman
       enemy.position.add(vec.clone().multiplyScalar(enemy.speed));
-      
-      // make sure enemy faces Pacman
-      let angle = new THREE.Vector3(0, 0, 1).angleTo(vec);
-      if (pacman.position.x - enemy.position.x < 0) {
-        angle = Math.PI*2 - angle;
-      }
-      enemy.rotation.y = angle;
     } else {
+      scene.remove(enemy);
+      enemies.delete(enemy);
+      enemy.death();
+
+      // invincible, take no damage
       if (star) {
-        scene.remove(enemy);
-        enemies.delete(enemy);
-        enemy.death();
         return;
       }
 
-      // defeat
-      globalMusic.stop();
-      let sound = new THREE.Audio(listener);
-      audioLoader.load('./src/music/defeat.mp3', (buffer) => {
-        sound.setBuffer(buffer);
-        sound.setVolume(0.25);
-        sound.play();
-      });
-      gameOver = true;
+      // take damage
+      pacman.health--;
+      if (pacman.health <= 0) {
+        // defeat
+        globalMusic.stop();
+        let sound = new THREE.Audio(listener);
+        audioLoader.load('./src/music/defeat.mp3', (buffer) => {
+          sound.setBuffer(buffer);
+          sound.setVolume(0.25);
+          sound.play();
+        });
+        gameOver = true;
+      }
     }
   }
 }
@@ -456,29 +483,29 @@ let handleAI = () => {
 let handlePickups = () => {
   // Check timers
   if (freeze && clock.getElapsedTime() - freezeStart > consts.FREEZE_TIME) {
-    freeze = false
+    freeze = false;
   }
   if (star && clock.getElapsedTime() - starStart > consts.STAR_TIME) {
-    star = false
+    star = false;
   }
 
   // Spawn fruit
   if (clock.getElapsedTime() - lastFruitSpawnTime > betweenfruitSpawnTime) {
-    lastFruitSpawnTime = clock.getElapsedTime()
+    lastFruitSpawnTime = clock.getElapsedTime();
 
-    // Choose random fruit to spawn
-    let fruitIndex = parseInt(Math.random() * consts.FRUIT.length)
+    // Choose random non-cherry fruit to spawn
+    let fruitIndex = Number.parseInt(Math.random()*(consts.FRUIT.length - 1)) + 1;
     let fruit = consts.FRUIT[fruitIndex], 
-        scale = consts.FRUIT_SCALE[fruit]
+        scale = consts.FRUIT_SCALE[fruit];
 
     // Create ammo Pickup object
     let pickup = new Pickup(fruit, 'ammo')
     pickup.scale.multiplyScalar(scale);
     let spawnPos = new THREE.Vector3(
-      Math.random() * arenaSize - arenaSize / 2, 
+      Math.random()*arenaSize - arenaSize/2, 
       -20, 
-      Math.random() * arenaSize - arenaSize / 2
-    )
+      Math.random()*arenaSize - arenaSize/2
+    );
     pickup.position.add(spawnPos);
 
     scene.add(pickup)
@@ -487,33 +514,33 @@ let handlePickups = () => {
 
   // Spawn powerup
   if (clock.getElapsedTime() - lastPowerupSpawnTime > betweenPowerupSpawnTime) {
-    lastPowerupSpawnTime = clock.getElapsedTime()
+    lastPowerupSpawnTime = clock.getElapsedTime();
 
     // Choose random powerup to spawn
-    let powerupIndex = parseInt(Math.random() * consts.POWERUP.length)
+    let powerupIndex = parseInt(Math.random()*consts.POWERUP.length);
     let powerup = consts.POWERUP[powerupIndex], 
-        scale = consts.POWERUP_SCALE[powerup]
+        scale = consts.POWERUP_SCALE[powerup];
 
     // Create powerup Pickup object
     let pickup = new Pickup(powerup, 'powerup')
     pickup.scale.multiplyScalar(scale);
     let spawnPos = new THREE.Vector3(
-      Math.random() * arenaSize - arenaSize / 2, 
+      Math.random() * arenaSize - arenaSize/2, 
       -20, 
-      Math.random() * arenaSize - arenaSize / 2
-    )
+      Math.random() * arenaSize - arenaSize/2
+    );
     pickup.position.add(spawnPos);
 
-    scene.add(pickup)
-    pickups.add(pickup)
+    scene.add(pickup);
+    pickups.add(pickup);
   }
 
   for (let pickup of pickups) {
     let hitDist = pickup.position.clone().setY(0).
-      distanceTo(pacman.position.clone().setY(0))
+      distanceTo(pacman.position.clone().setY(0));
     if (hitDist < 25) {
-      scene.remove(pickup)
-      pickups.delete(pickup)
+      scene.remove(pickup);
+      pickups.delete(pickup);
       
       let sound = new THREE.Audio(listener);
       audioLoader.load('./src/music/pop.mp3', (buffer) => {
@@ -524,21 +551,22 @@ let handlePickups = () => {
 
       // ammo effect
       if (pickup.type == 'ammo') {
-        pacman.ammo[pickup.name] += consts.AMMO_INC
+        pacman.ammo[pickup.name] =
+          Math.min(consts.MAX_AMMO_CAPACITY, pacman.ammo[pickup.name] + consts.AMMO_INC);
       }
 
       // powerup effect
       if (pickup.type == 'powerup') {
         switch (pickup.name) {
           case 'freeze': {
-            freeze = true
-            freezeStart = clock.getElapsedTime()
-            break
+            freeze = true;
+            freezeStart = clock.getElapsedTime();
+            break;
           }
           case 'star': {
-            star = true
-            starStart = clock.getElapsedTime()
-            break
+            star = true;
+            starStart = clock.getElapsedTime();
+            break;
           }
         }
       }

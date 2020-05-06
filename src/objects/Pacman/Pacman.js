@@ -12,16 +12,17 @@ class Pacman extends Group {
     this.camera = camera;
     this.listener = listener;
 
+    this.health = 3;
     this.audioLoader = new AudioLoader();
     this.name = 'pacman';
-    this.ammo = {}
+    this.ammo = {};
     for (let i = 0; i < consts.FRUIT.length; i++) {
-      this.ammo[consts.FRUIT[i]] = 0
+      this.ammo[consts.FRUIT[i]] = 0;
     }
-    this.ammo[consts.DEFAULT_FRUIT] = Number.MAX_SAFE_INTEGER
+    this.ammo[consts.DEFAULT_FRUIT] = 1;
 
     this.projectiles = new Set();
-    this.currentFruit = consts.DEFAULT_FRUIT  // should make const file and get from there
+    this.currentFruit = consts.DEFAULT_FRUIT ;
 
     const loader = new GLTFLoader();
     loader.load('./src/models/pacman.glb', (gltf) => {
@@ -32,7 +33,10 @@ class Pacman extends Group {
   shoot() {
     if (this.ammo[this.currentFruit] > 0) {
       // there is ammo, fire a projectile
-      this.ammo[this.currentFruit]--;
+      if (this.currentFruit !== consts.DEFAULT_FRUIT) {
+        // only subtract if special ammo
+        this.ammo[this.currentFruit]--;
+      }
 
       let vec = this.position.clone().sub(this.camera.position);
       vec.setY(this.position.Y - 5).normalize();
@@ -63,7 +67,7 @@ class Pacman extends Group {
   }
 
   switchFruit(index) {
-    this.currentFruit = consts.FRUIT[index - 1]
+    this.currentFruit = consts.FRUIT[index - 1];
   }
 }
 
