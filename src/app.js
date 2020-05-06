@@ -4,42 +4,13 @@ import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass';
 
 import {Doorwall, Ghost, Hallway, Pacman, Pickup, Room} from './objects';
 import consts from './consts'
+import globals from './globals'
 
 /**********************************************************
- * GLOBAL VARIABLES
+ * OTHER VARIABLES
  **********************************************************/
-  // ------------------------------
-  // keyboard control variables
-  // ------------------------------
-  let moveForward = false;
-  let moveBackward = false;
-  let moveLeft = false;
-  let moveRight = false;
-  let spaceDown = false; // prevent repetitive fires
-
-  // ------------------------------
-  // game properties
-  // ------------------------------
-  let gameOver = false;
-
-  let enemies = new Set();
-  let currentWave = 0;
-  let startedWave = false;
-  let startTime = 0;
-
-  let rooms = []; // list of rooms
-  let hallways = [];
-
   let pacmanBuffer = 14;
   let ghostRadius = 15;
-
-  let pickups = new Set();
-  let lastFruitSpawnTime = 0;
-  let lastPowerupSpawnTime = 0;
-  let freeze = false;
-  let freezeStart = 0;
-  let star = false;
-  let starStart = 0;
 
 /**********************************************************
  * SCENE + CAMERA
@@ -114,70 +85,88 @@ let sides = {
 };
 
 // the main room
-rooms.push(new Room('main', consts.ARENA_SIZE, 0, 0, scene, sides));
+globals.rooms.push(new Room('main', consts.ARENA_SIZE, 0, 0, scene, sides));
 
 // rooms that branch off, each missing a wall
 sides.right = true;
 sides.left = true;
 sides.up = true;
-rooms.push(new Room('room1',
-                     consts.BRANCH_SIZE,
-                     consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH,
-                     0,
-                     scene,
-                     sides));
-hallways.push(new Hallway('hallway1',
-                           consts.HALLWAY_LENGTH,
-                           consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2,
-                           0,
-                           scene,
-                           sides));
+globals.rooms.push(
+  new Room('room1',
+           consts.BRANCH_SIZE,
+           consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH,
+           0,
+           scene,
+           sides)
+);
+globals.hallways.push(
+  new Hallway('hallway1',
+              consts.HALLWAY_LENGTH,
+              consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2,
+              0,
+              scene,
+              sides)
+);
 
 sides.left = false;
 sides.down = true;
-rooms.push(new Room('room2',
-                     consts.BRANCH_SIZE,
-                     0,
-                     consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH,
-                     scene,
-                     sides));
-hallways.push(new Hallway('hallway2',
-                           consts.HALLWAY_LENGTH,
-                           0,
-                           consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2,
-                           scene,
-                           sides));
+globals.rooms.push(
+  new Room('room2',
+           consts.BRANCH_SIZE,
+           0,
+           consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH,
+           scene,
+           sides)
+);
+globals.hallways.push(
+  new Hallway('hallway2',
+              consts.HALLWAY_LENGTH,
+              0,
+              consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2,
+              scene,
+              sides)
+);
 
 sides.up = false;
 sides.left = true;
-rooms.push(new Room('room3',
-                     consts.BRANCH_SIZE,
-                     -(consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH),
-                     0,
-                     scene,
-                     sides));
-hallways.push(new Hallway('hallway3',
-                           consts.HALLWAY_LENGTH,
-                           -(consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2),
-                           0,
-                           scene,
-                           sides));
+globals.rooms.push(
+  new Room('room3',
+           consts.BRANCH_SIZE,
+           -(consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH),
+           0,
+           scene,
+           sides
+          )
+);
+globals.hallways.push(
+  new Hallway('hallway3',
+              consts.HALLWAY_LENGTH,
+              -(consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2),
+              0,
+              scene,
+              sides)
+);
 
 
 sides.right = false;
 sides.up = true;
-rooms.push(new Room('room4',
-                    consts.BRANCH_SIZE,
-                    0,
-                    -(consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH),
-                    scene,
-                    sides));
-hallways.push(new Hallway('hallway4',
-                           consts.HALLWAY_LENGTH,
-                           0,
-                           -(consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2),
-                           scene,
-                           sides));
+globals.rooms.push(
+  new Room('room4',
+           consts.BRANCH_SIZE,
+           0,
+           -(consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH),
+           scene,
+           sides
+          )
+);
+globals.hallways.push(
+  new Hallway('hallway4',
+              consts.HALLWAY_LENGTH,
+              0,
+              -(consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2),
+              scene,
+              sides)
+);
 
 /**********************************************************
  * DOORWAY WALLS
@@ -242,29 +231,29 @@ let onKeyDown = (event) => {
   switch (event.keyCode) {
     case 87: {
       // w
-      moveForward = true;
+      globals.moveForward = true;
       break;
     }
     case 65: {
       // a
-      moveLeft = true;
+      globals.moveLeft = true;
       break;
     }
     case 83: {
       // s
-      moveBackward = true;
+      globals.moveBackward = true;
       break;
     }
     case 68: {
       // d
-      moveRight = true;
+      globals.moveRight = true;
       break;
     }
     case 32: {
       // space
-      if (!spaceDown && !gameOver) {
+      if (!globals.spaceDown && !globals.gameOver) {
         pacman.shoot();
-        spaceDown = true;
+        globals.spaceDown = true;
       }
       break;
     }
@@ -290,27 +279,27 @@ let onKeyUp = (event) => {
   switch (event.keyCode) {
     case 87: {
       // w
-      moveForward = false;
+      globals.moveForward = false;
       break;
     }
     case 65: {
       // a
-      moveLeft = false;
+      globals.moveLeft = false;
       break;
     }
     case 83: {
       // s
-      moveBackward = false;
+      globals.moveBackward = false;
       break;
     }
     case 68: {
       // d
-      moveRight = false;
+      globals.moveRight = false;
       break;
     }
     case 32: {
       // space
-      spaceDown = false;
+      globals.spaceDown = false;
       break;
     }
   }
@@ -328,11 +317,11 @@ let handleMovement = () => {
 	let moveDistance = consts.PACMAN_SPEED*delta;
 	let rotateAngle = consts.PACMAN_TURN_SPEED*delta;
 
-  let forward_direction = Number(moveForward) - Number(moveBackward);
-  let rotate_direction = Number(moveRight) - Number(moveLeft);
+  let forward_direction = Number(globals.moveForward) - Number(globals.moveBackward);
+  let rotate_direction = Number(globals.moveRight) - Number(globals.moveLeft);
 
   // left/right rotation
-  if (moveLeft || moveRight) {
+  if (globals.moveLeft || globals.moveRight) {
     let q = new THREE.Quaternion();
     q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotateAngle*rotate_direction);
 
@@ -345,7 +334,7 @@ let handleMovement = () => {
   }
 
   // front/back movement
-  if (moveForward || moveBackward) {
+  if (globals.moveForward || globals.moveBackward) {
     let oldVec = pacman.position.clone();
 
     let vec = new THREE.Vector3().subVectors(pacman.position, camera.position);
@@ -423,7 +412,7 @@ let updatePacPosition = () => {
   }
   else {
     let curRoom;
-    for (let room of rooms) {
+    for (let room of globals.rooms) {
       if (room.isInside(pacman.position))  {
         curRoom = room;
         break;
@@ -455,7 +444,7 @@ let handleShooting = () => {
     projectile.position.add(projectileVec.clone().multiplyScalar(projectile.speed));
 
     // handle enemy collision
-    for (let enemy of enemies) {
+    for (let enemy of globals.enemies) {
       let hitDist = enemy.position.clone().setY(0).
         distanceTo(projectile.position.clone().setY(0));
       // enemy takes damage
@@ -467,7 +456,7 @@ let handleShooting = () => {
         // enemy has no health, kill and delete from scene
         if (enemy.health <= 0) {
           scene.remove(enemy);
-          enemies.delete(enemy);
+          globals.enemies.delete(enemy);
           enemy.death();
         }
       }
@@ -565,7 +554,7 @@ let handleShooting = () => {
     }
     else {
       let curRoom;
-      for (let room of rooms) {
+      for (let room of globals.rooms) {
         if (room.isInside(projectile.position))  {
           curRoom = room;
           break;
@@ -610,20 +599,20 @@ let deleteProjectile = (projectile, pacman, scene) => {
  * GAME WAVE HANDLER
  **********************************************************/
 let handleWave = () => {
-  if (enemies.size === 0 && currentWave < consts.WAVES.length) {
+  if (globals.enemies.size === 0 && globals.currentWave < consts.WAVES.length) {
     // new wave should start, begin countdown
-    if (!startedWave) {
-      startedWave = true;
-      startTime = consts.CLOCK.getElapsedTime();
+    if (!globals.startedWave) {
+      globals.startedWave = true;
+      globals.startTime = consts.CLOCK.getElapsedTime();
       return;
     }
 
     // wait for countdown to finish
-    if (consts.CLOCK.getElapsedTime() - startTime < consts.WAVE_RESET_TIME) {
+    if (consts.CLOCK.getElapsedTime() - globals.startTime < consts.WAVE_RESET_TIME) {
       return;
     }
     // reset flag back
-    startedWave = false;
+    globals.startedWave = false;
 
     // start new wave
     let sound = new THREE.Audio(listener);
@@ -633,9 +622,9 @@ let handleWave = () => {
       sound.play();
     });
 
-    // spawn enemies
-    for (let i = 0; i < consts.WAVES[currentWave]; i++) {
-      let ghost = new Ghost(listener, currentWave);
+    // spawn globals.enemies
+    for (let i = 0; i < consts.WAVES[globals.currentWave]; i++) {
+      let ghost = new Ghost(listener, globals.currentWave);
       ghost.scale.multiplyScalar(0.2);
       ghost.position.y -= 20;
 
@@ -643,7 +632,8 @@ let handleWave = () => {
       // away from pacman
       let randVec;
       do {
-        let room = rooms[Math.floor(Math.random()*rooms.length)]; // picking a room
+        // picking a room
+        let room = globals.rooms[Math.floor(Math.random()*globals.rooms.length)];
         randVec = new THREE.Vector3(
           Math.random()*(room.maxX - room.minX - 2*ghostRadius) + room.minX + ghostRadius,
           0,
@@ -662,14 +652,14 @@ let handleWave = () => {
       }
       ghost.rotation.y = angle;
 
-      enemies.add(ghost);
+      globals.enemies.add(ghost);
       scene.add(ghost);
     }
 
-    currentWave++;
+    globals.currentWave++;
   }
   // victory
-  else if (enemies.size === 0 && currentWave === consts.WAVES.length) {
+  else if (globals.enemies.size === 0 && globals.currentWave === consts.WAVES.length) {
     globalMusic.stop();
     let sound = new THREE.Audio(listener);
     audioLoader.load('./src/music/victory.mp3', (buffer) => {
@@ -677,7 +667,7 @@ let handleWave = () => {
       sound.setVolume(0.25);
       sound.play();
     });
-    gameOver = true;
+    globals.gameOver = true;
   }
 };
 
@@ -686,11 +676,11 @@ let handleWave = () => {
  **********************************************************/
 let handleAI = () => {
   // freeze ability active
-  if (freeze) {
+  if (globals.freeze) {
     return;
   }
 
-  for (let enemy of enemies) {
+  for (let enemy of globals.enemies) {
     // increasing the opacity of the ghosts
     if (enemy.meshes !== undefined) {
       for (let msh of enemy.meshes) {
@@ -712,14 +702,14 @@ let handleAI = () => {
 
     // determine what room pac-man is in
     let pacRoom;
-    for (let room of rooms) {
+    for (let room of globals.rooms) {
       if (room.isInside(pacman.position))  {
         pacRoom = room;
         break;
       }
     }
     if (pacRoom == undefined) {
-      for (let hall of hallways) {
+      for (let hall of globals.hallways) {
         if (hall.isInside(pacman.position)) {
           pacRoom = hall;
           break;
@@ -729,14 +719,14 @@ let handleAI = () => {
 
     // determine what room the ghost is in
     let enemyRoom;
-    for (let room of rooms) {
+    for (let room of globals.rooms) {
       if (room.isInside(enemy.position))  {
         enemyRoom = room;
         break;
       }
     }
     if (enemyRoom == undefined) {
-      for (let hall of hallways) {
+      for (let hall of globals.hallways) {
         if (hall.isInside(enemy.position)) {
           enemyRoom = hall;
           break;
@@ -888,11 +878,11 @@ let handleAI = () => {
     // damage applied
     else {
       scene.remove(enemy);
-      enemies.delete(enemy);
+      globals.enemies.delete(enemy);
       enemy.death();
 
       // invincible
-      if (star) {
+      if (globals.star) {
         return;
       }
 
@@ -907,7 +897,7 @@ let handleAI = () => {
           sound.setVolume(0.25);
           sound.play();
         });
-        gameOver = true;
+        globals.gameOver = true;
       }
     }
   }
@@ -918,16 +908,18 @@ let handleAI = () => {
  **********************************************************/
 let handlePickups = () => {
   // Check timers
-  if (freeze && consts.CLOCK.getElapsedTime() - freezeStart > consts.FREEZE_TIME) {
-    freeze = false;
+  if (globals.freeze &&
+      consts.CLOCK.getElapsedTime() - globals.freezeStart > consts.FREEZE_TIME) {
+    globals.freeze = false;
   }
-  if (star && consts.CLOCK.getElapsedTime() - starStart > consts.STAR_TIME) {
-    star = false;
+  if (globals.star &&
+      consts.CLOCK.getElapsedTime() - globals.starStart > consts.STAR_TIME) {
+    globals.star = false;
   }
 
   // Spawn fruit
-  if (consts.CLOCK.getElapsedTime() - lastFruitSpawnTime > consts.FRUIT_SPAWN_TIME) {
-    lastFruitSpawnTime = consts.CLOCK.getElapsedTime();
+  if (consts.CLOCK.getElapsedTime() - globals.lastFruitSpawnTime > consts.FRUIT_SPAWN_TIME) {
+    globals.lastFruitSpawnTime = consts.CLOCK.getElapsedTime();
 
     // Choose random non-cherry fruit to spawn
     let fruitIndex = Number.parseInt(Math.random()*(consts.FRUIT.length - 1)) + 1;
@@ -945,12 +937,12 @@ let handlePickups = () => {
     pickup.position.add(spawnPos);
 
     scene.add(pickup)
-    pickups.add(pickup)
+    globals.pickups.add(pickup)
   }
 
   // Spawn powerup
-  if (consts.CLOCK.getElapsedTime() - lastPowerupSpawnTime > consts.POWERUP_SPAWN_TIME) {
-    lastPowerupSpawnTime = consts.CLOCK.getElapsedTime();
+  if (consts.CLOCK.getElapsedTime() - globals.lastPowerupSpawnTime > consts.POWERUP_SPAWN_TIME) {
+    globals.lastPowerupSpawnTime = consts.CLOCK.getElapsedTime();
 
     // Choose random powerup to spawn
     let powerupIndex = parseInt(Math.random()*consts.POWERUP.length);
@@ -968,15 +960,15 @@ let handlePickups = () => {
     pickup.position.add(spawnPos);
 
     scene.add(pickup);
-    pickups.add(pickup);
+    globals.pickups.add(pickup);
   }
 
-  for (let pickup of pickups) {
+  for (let pickup of globals.pickups) {
     let hitDist = pickup.position.clone().setY(0).
       distanceTo(pacman.position.clone().setY(0));
     if (hitDist < 25) {
       scene.remove(pickup);
-      pickups.delete(pickup);
+      globals.pickups.delete(pickup);
 
       let sound = new THREE.Audio(listener);
       audioLoader.load('./src/music/pop.mp3', (buffer) => {
@@ -995,13 +987,13 @@ let handlePickups = () => {
       if (pickup.type == 'powerup') {
         switch (pickup.name) {
           case 'freeze': {
-            freeze = true;
-            freezeStart = consts.CLOCK.getElapsedTime();
+            globals.freeze = true;
+            globals.freezeStart = consts.CLOCK.getElapsedTime();
             break;
           }
           case 'star': {
-            star = true;
-            starStart = consts.CLOCK.getElapsedTime();
+            globals.star = true;
+            globals.starStart = consts.CLOCK.getElapsedTime();
             break;
           }
         }
@@ -1014,7 +1006,7 @@ let handlePickups = () => {
  * RENDER HANDLER
  **********************************************************/
 let onAnimationFrameHandler = (timeStamp) => {
-  if (!gameOver) {
+  if (!globals.gameOver) {
     window.requestAnimationFrame(onAnimationFrameHandler);
     handleMovement();
     handleShooting();
