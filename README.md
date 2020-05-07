@@ -15,7 +15,7 @@ Final project for COS 426 (Spring 2020).
 Download the repository, run `npm install` in the project directory and then `npm start`.
 The game is hosted on port 8080.
 
-Check out the working [demo](http://https://michaelf49.github.io/Pacman3D/)!
+Check out the working [demo](http://michaelf49.github.io/Pacman3D/)!
 
 ## License
 [MIT](./LICENSE)
