@@ -1,20 +1,17 @@
-import {Audio, AudioLoader, Group} from 'three';
+import {Audio, Group} from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 
 import {Projectile} from '../Projectile';
+
 import consts from '../../consts';
+import globals from '../../globals';
 
 class Pacman extends Group {
-  constructor(scene, camera, listener) {
+  constructor() {
     // Call parent Group() constructor
     super();
 
-    this.scene = scene;
-    this.camera = camera;
-    this.listener = listener;
-
     this.health = consts.PACMAN_HEALTH;
-    this.audioLoader = new AudioLoader();
     this.name = 'pacman';
     this.ammo = {};
     for (let i = 0; i < consts.FRUIT.length; i++) {
@@ -39,19 +36,19 @@ class Pacman extends Group {
         this.ammo[this.currentFruit]--;
       }
 
-      let vec = this.position.clone().sub(this.camera.position);
+      let vec = this.position.clone().sub(globals.camera.position);
       vec.setY(this.position.Y - 5).normalize();
 
       let proj = new Projectile(vec, this.currentFruit);
       proj.scale.multiplyScalar(consts.FRUIT_SCALE[this.currentFruit]);
       proj.position.add(this.position);
 
-      this.scene.add(proj);
+      globals.scene.add(proj);
       this.projectiles.add(proj);
 
       // play proj sound
-      let sound = new Audio(this.listener);
-      this.audioLoader.load('./src/music/cherry_blast.mp3', (buffer) => {
+      let sound = new Audio(globals.listener);
+      globals.audioLoader.load('./src/music/cherry_blast.mp3', (buffer) => {
         sound.setBuffer(buffer);
         sound.setVolume(0.3);
         sound.play();
@@ -59,8 +56,8 @@ class Pacman extends Group {
     }
     // no ammo, play empty ammo sound
     else {
-      let sound = new Audio(this.listener);
-      this.audioLoader.load('./src/music/no_ammo.mp3', (buffer) => {
+      let sound = new Audio(globals.listener);
+      globals.audioLoader.load('./src/music/no_ammo.mp3', (buffer) => {
         sound.setBuffer(buffer);
         sound.setVolume(0.2);
         sound.play();

@@ -1,7 +1,9 @@
-import {DoubleSide, MeshBasicMaterial, Mesh, PlaneGeometry} from 'three';
+import {DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry} from 'three';
+
+import globals from '../../globals';
 
 class Hallway {
-  constructor(roomName, hallwayLength, x, z, scene, sides) {
+  constructor(roomName, hallwayLength, x, z, sides) {
     let doorWidth = 70;
     this.zAxis = false;
     // setting id of hallway, to be used for pathing algorithm
@@ -54,7 +56,7 @@ class Hallway {
     floor.position.y = -30;
     floor.position.x = x;
     floor.position.z = z;
-    scene.add(floor);
+    globals.scene.add(floor);
 
     /**********************************************************
      * WALLS
@@ -93,23 +95,23 @@ class Hallway {
       wall.position.y = 7.5;
       wall.position.x = x + doorWidth/2;
       wall.position.z = z;
-      scene.add(wall);
+      globals.scene.add(wall);
       wall = new Mesh(longWallGeo, wallMaterial1);
       wall.rotation.y = Math.PI/2;
       wall.position.y = 7.5;
       wall.position.x = x - doorWidth/2;
       wall.position.z = z;
-      scene.add(wall);
+      globals.scene.add(wall);
       wall = new Mesh(doorWallGeo, wallMaterial2);
       wall.position.y = 7.5;
       wall.position.x = x;
       wall.position.z = z - hallwayLength/2;
-      scene.add(wall);
+      globals.scene.add(wall);
       wall = new Mesh(doorWallGeo, wallMaterial2);
       wall.position.y = 7.5;
       wall.position.x = x;
       wall.position.z = z + hallwayLength/2;
-      scene.add(wall);
+      globals.scene.add(wall);
     }
     else {
       wall = new Mesh(doorWallGeo, wallMaterial2);
@@ -117,23 +119,23 @@ class Hallway {
       wall.position.y = 7.5;
       wall.position.x = x + hallwayLength/2;
       wall.position.z = z;
-      scene.add(wall);
+      globals.scene.add(wall);
       wall = new Mesh(doorWallGeo, wallMaterial2);
       wall.rotation.y = Math.PI/2;
       wall.position.y = 7.5;
       wall.position.x = x - hallwayLength/2;
       wall.position.z = z;
-      scene.add(wall);
+      globals.scene.add(wall);
       wall = new Mesh(longWallGeo, wallMaterial1);
       wall.position.y = 7.5;
       wall.position.x = x;
       wall.position.z = z - doorWidth/2;
-      scene.add(wall);
+      globals.scene.add(wall);
       wall = new Mesh(longWallGeo, wallMaterial1);
       wall.position.y = 7.5;
       wall.position.x = x;
       wall.position.z = z + doorWidth/2;
-      scene.add(wall);
+      globals.scene.add(wall);
     }
   }
 

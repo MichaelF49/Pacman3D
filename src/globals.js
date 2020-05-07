@@ -1,5 +1,21 @@
 export default {
   /**********************************************************
+   * SCENE OBJECTS
+   **********************************************************/
+  camera: null,
+  scene: null,
+  renderer: null,
+  composer: null,
+  pacman: null,
+
+  /**********************************************************
+   * AUDIO
+   **********************************************************/
+  listener: null,
+  audioLoader: null,
+  globalMusic: null,
+
+  /**********************************************************
    * KEYBOARD CONTROLS
    **********************************************************/
   moveForward: false,
@@ -12,6 +28,7 @@ export default {
    * GAME PROPERTIES
    **********************************************************/
   gameOver: false,
+  clock: null,
 
   enemies: new Set(),
   currentWave: 0,
@@ -20,9 +37,6 @@ export default {
 
   rooms: [], // list of rooms
   hallways: [],
-
-  pacmanBuffer: 14,
-  ghostRadius: 15,
 
   pickups: new Set(),
   lastFruitSpawnTime: 0,
