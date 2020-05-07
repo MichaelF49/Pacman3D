@@ -74,7 +74,9 @@ let handleWave = () => {
       sound.setVolume(0.25);
       sound.play();
     });
+
     globals.gameOver = true;
+    console.log("final score: ", globals.score);
   }
 }
 

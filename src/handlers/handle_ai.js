@@ -3,11 +3,6 @@ import {Audio, Vector3} from 'three';
 import globals from '../globals';
 
 let handleAI = () => {
-  // freeze ability active
-  if (globals.freeze) {
-    return;
-  }
-
   for (let enemy of globals.enemies) {
     // increasing the opacity of the ghosts
     if (enemy.meshes !== undefined) {
@@ -66,7 +61,7 @@ let handleAI = () => {
     if (pacRoom === enemyRoom) {
       vecDir = globals.pacman.position.clone().sub(enemy.position).setY(0).normalize();
     }
-    else if (enemyRoom != undefined){
+    else if (enemyRoom != undefined) {
       const MAIN_ZONE = 380;
       const BRANCH_ZONE = 620
       const ZONE_RADIUS = 20;
@@ -194,7 +189,9 @@ let handleAI = () => {
     let testPosition = enemy.position.clone()
       .add(vecDir.clone().multiplyScalar(enemy.speed))
     if (testPosition.distanceTo(globals.pacman.position) > enemy.killDist) {
-      enemy.position.add(vecDir.clone().multiplyScalar(enemy.speed));
+      if (!globals.freeze) {
+        enemy.position.add(vecDir.clone().multiplyScalar(enemy.speed));
+      }
 
       // make sure enemy faces Pacman
       let angle = new Vector3(0, 0, 1).angleTo(vecDir);
@@ -225,7 +222,9 @@ let handleAI = () => {
           sound.setVolume(0.25);
           sound.play();
         });
+
         globals.gameOver = true;
+        console.log("final score: ", globals.score);
       }
     }
   }

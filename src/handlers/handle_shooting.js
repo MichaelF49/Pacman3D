@@ -35,6 +35,7 @@ let handleShooting = () => {
           globals.scene.remove(enemy);
           globals.enemies.delete(enemy);
           enemy.death();
+          globals.score += 100;
         }
       }
     }

@@ -29,6 +29,7 @@ export default {
    **********************************************************/
   gameOver: false,
   clock: null,
+  score: 0,
 
   enemies: new Set(),
   currentWave: 0,
