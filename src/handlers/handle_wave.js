@@ -5,8 +5,8 @@ import {Ghost} from '../objects'
 import consts from '../consts';
 import globals from '../globals';
 
-import WAVE_START_mp3 from '../music/wave_start.mp3';
-import VICTORY_mp3 from '../music/victory.mp3';
+import WAVE_START_mp3 from '../audio/wave_start.mp3';
+import VICTORY_mp3 from '../audio/victory.mp3';
 
 let handleWave = () => {
   if (globals.enemies.size === 0 && globals.currentWave < consts.WAVES.length) {

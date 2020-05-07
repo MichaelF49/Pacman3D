@@ -4,9 +4,9 @@ import consts from '../../consts'
 import globals from '../../globals';
 
 import GHOST_glb from '../../models/blue_ghost6.glb';
-import GHOST_DEATH_mp3 from '../../music/ghost_death.mp3';
-import GHOST_NOISE1_mp3 from '../../music/ghost_noise1.mp3';
-import GHOST_NOISE2_mp3 from '../../music/ghost_noise2.mp3';
+import GHOST_DEATH_mp3 from '../../audio/ghost_death.mp3';
+import GHOST_NOISE1_mp3 from '../../audio/ghost_noise1.mp3';
+import GHOST_NOISE2_mp3 from '../../audio/ghost_noise2.mp3';
 
 class Ghost extends Group {
   constructor() {

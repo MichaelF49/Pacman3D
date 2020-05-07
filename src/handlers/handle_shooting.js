@@ -3,7 +3,7 @@ import {Audio} from 'three';
 import consts from "../consts";
 import globals from "../globals";
 
-import POP_mp3 from '../music/pop.mp3';
+import POP_mp3 from '../audio/pop.mp3';
 
 let deleteProjectile = (projectile) => {
   let sound = new Audio(globals.listener);

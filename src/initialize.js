@@ -10,7 +10,7 @@ import {Doorwall, Hallway, Pacman, Room} from './objects';
 import consts from './consts';
 import globals from './globals';
 
-import GLOBAL_MUSIC_mp3 from './music/global_music.mp3';
+import GLOBAL_MUSIC_mp3 from './audio/global_music.mp3';
 import SKY1_jpg from './images/skybox/sky1.jpg';
 import SKY2_jpg from './images/skybox/sky2.jpg';
 import SKY_TOP_jpg from './images/skybox/sky_top.jpg';

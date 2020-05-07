@@ -2,7 +2,7 @@ import {Audio, Vector3} from 'three';
 
 import globals from '../globals';
 
-import DEFEAT_mp3 from '../music/defeat.mp3';
+import DEFEAT_mp3 from '../audio/defeat.mp3';
 
 let handleAI = () => {
   for (let enemy of globals.enemies) {

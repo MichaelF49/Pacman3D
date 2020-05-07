@@ -5,9 +5,9 @@ import {Projectile} from '../Projectile';
 import consts from '../../consts';
 import globals from '../../globals';
 
-import NO_AMMO_mp3 from '../../music/no_ammo.mp3';
+import NO_AMMO_mp3 from '../../audio/no_ammo.mp3';
 import PACMAN_glb from '../../models/pacman.glb';
-import PROJECTILE_FIRED_mp3 from '../../music/projectile_fired.mp3';
+import PROJECTILE_FIRED_mp3 from '../../audio/projectile_fired.mp3';
 
 class Pacman extends Group {
   constructor() {
