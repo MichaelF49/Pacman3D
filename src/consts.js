@@ -3,7 +3,7 @@ export default {
    * PACMAN
    **********************************************************/
   PACMAN_SPEED: 200, // 200 pixels per s
-  PACMAN_TURN_SPEED: -Math.PI*3.0/5, // pi radians per s
+  PACMAN_TURN_SPEED: -Math.PI*3.0/5, // 3/5*pi radians per s
   PACMAN_HEALTH: 3,
   
   /**********************************************************
@@ -12,7 +12,7 @@ export default {
   FRUIT: ['cherry', 'orange', 'melon'],
   FRUIT_SCALE: {'cherry': 0.5, 'orange': 111, 'melon': 0.06},
   FRUIT_DAMAGE: {'cherry': 1, 'orange': 2.5, 'melon': 5},
-  FRUIT_SPEED: {'cherry': 0.4, 'orange': 0.3, 'melon': 0.2},
+  FRUIT_SPEED: {'cherry': 0.4, 'orange': 0.3, 'melon': 0.2}, // projectile speed
   DEFAULT_FRUIT: 'cherry',
   AMMO_INC: {'orange': 10, 'melon': 5}, // get 5 ammo per pickup
   MAX_AMMO_CAPACITY: 10, // max ammo per category
@@ -22,8 +22,8 @@ export default {
    **********************************************************/
   POWERUP: ['freeze', 'star'],
   POWERUP_SCALE: {'freeze': 2, 'star': 0.125},
-  FREEZE_TIME: 4, // 4 s freeze
-  STAR_TIME: 6, // 6 s invincibility
+  FREEZE_TIME: 5, // 4 s freeze
+  STAR_TIME: 8, // 6 s invincibility
   FRUIT_SPAWN_TIME: 10, // time bewteen fruit spawns
   POWERUP_SPAWN_TIME: 20, // time between powerup spawns
 
