@@ -82,6 +82,6 @@ let handleKeys = () => {
   // add key handlers
   window.addEventListener('keydown', onKeyDown, false);
   window.addEventListener('keyup', onKeyUp, false);
-}
+};
 
 export default handleKeys;

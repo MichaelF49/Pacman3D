@@ -162,6 +162,6 @@ let handleShooting = () => {
       }
     }
   }
-}
+};
 
 export default handleShooting;

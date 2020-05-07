@@ -230,6 +230,6 @@ let handleAI = () => {
       }
     }
   }
-}
+};
 
 export default handleAI;

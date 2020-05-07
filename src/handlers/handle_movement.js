@@ -123,6 +123,6 @@ let updatePacPosition = () => {
       )
     );
   }
-}
+};
 
 export default handleMovement;

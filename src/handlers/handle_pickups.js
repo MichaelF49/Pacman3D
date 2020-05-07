@@ -104,6 +104,6 @@ let handlePickups = () => {
       }
     }
   }
-}
+};
 
 export default handlePickups;
