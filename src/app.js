@@ -3,11 +3,6 @@ import {handleAI, handleKeys, handleMovement, handlePickups,
         handleShooting, handleWave} from './handlers';
 import initialize from './initialize';
 
-// initialize scene
-initialize();
-// create and add key handlers
-handleKeys();
-
 /**********************************************************
  * RENDER HANDLER
  **********************************************************/
@@ -23,7 +18,6 @@ let onAnimationFrameHandler = (timeStamp) => {
     globals.composer.render();
   }
 };
-window.requestAnimationFrame(onAnimationFrameHandler);
 
 /**********************************************************
  * RESIZE HANDLER
@@ -34,5 +28,16 @@ let windowResizeHandler = () => {
   globals.camera.updateProjectionMatrix();
   globals.renderer.setSize(innerWidth, innerHeight);
 };
+
+/**********************************************************
+ * START APPLICATION
+ **********************************************************/
+// initialize scene
+initialize();
+// create and add key handlers
+handleKeys();
+// start scene
+window.requestAnimationFrame(onAnimationFrameHandler);
+// start and add resize handler
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
