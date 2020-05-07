@@ -10,10 +10,7 @@
     "three.js",
     "COS 426",
     "ivy league",
-    "keyword1",
-    "keyword2",
-    "...",
-    "this last entry CANNOT have a comma after it ->"
+    "quant boyz"
   ],
   "scripts": {
     "start": "webpack-dev-server --mode development --output-public-path \"\"",
