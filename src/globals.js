@@ -7,6 +7,7 @@ export default {
   renderer: null,
   composer: null,
   pacman: null,
+  loader: null,
 
   /**********************************************************
    * AUDIO
@@ -46,4 +47,4 @@ export default {
   freezeStart: 0,
   star: false,
   starStart: 0
-}
+};

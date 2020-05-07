@@ -2,6 +2,8 @@ import {Audio, Vector3} from 'three';
 
 import globals from '../globals';
 
+import DEFEAT_mp3 from '../music/defeat.mp3';
+
 let handleAI = () => {
   for (let enemy of globals.enemies) {
     // increasing the opacity of the ghosts
@@ -217,7 +219,7 @@ let handleAI = () => {
         // pacman dies
         globals.globalMusic.stop();
         let sound = new Audio(globals.listener);
-        globals.audioLoader.load('./src/music/defeat.mp3', (buffer) => {
+        globals.audioLoader.load(DEFEAT_mp3, (buffer) => {
           sound.setBuffer(buffer);
           sound.setVolume(0.25);
           sound.play();

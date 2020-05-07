@@ -1,7 +1,7 @@
-import globals from './globals'
+import globals from './globals';
 import {handleAI, handleKeys, handleMovement, handlePickups,
         handleShooting, handleWave} from './handlers';
-import initialize from './initialize'
+import initialize from './initialize';
 
 // initialize scene
 initialize();

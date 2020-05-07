@@ -1,5 +1,12 @@
 import {Group} from 'three';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
+
+import globals from '../../globals';
+
+import CHERRY_glb from '../../models/cherry.glb';
+import FREEZE_glb from '../../models/freeze.glb';
+import MELON_glb from '../../models/melon.glb';
+import ORAGNGE_glb from '../../models/orange.glb';
+import STAR_glb from '../../models/star.glb';
 
 class Pickup extends Group {
   constructor(name, type) {
@@ -9,8 +16,41 @@ class Pickup extends Group {
     this.name = name;
     this.type = type;
 
-    const loader = new GLTFLoader();
-    loader.load(`./src/models/${this.name}.glb`, (gltf) => {
+    let model = null;
+    switch (type) {
+      case 'ammo': {
+        switch (name) {
+          case 'cherry': {
+            model = CHERRY_glb;
+            break;
+          }
+          case 'orange': {
+            model = ORAGNGE_glb;
+            break;
+          }
+          case 'melon': {
+            model = MELON_glb;
+            break;
+          }
+        }
+        break;
+      }
+      case 'powerup': {
+        switch (name) {
+          case 'freeze': {
+            model = FREEZE_glb;
+            break;
+          }
+          case 'star': {
+            model = STAR_glb;
+            break;
+          }
+        }
+        break;
+      }
+    }
+
+    globals.loader.load(model, (gltf) => {
       this.add(gltf.scene);
     });
   }

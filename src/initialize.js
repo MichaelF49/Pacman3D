@@ -1,17 +1,26 @@
 import {AmbientLight, Audio, AudioListener, AudioLoader, BackSide,
         BoxGeometry, Clock, Mesh, MeshBasicMaterial, PerspectiveCamera,
         PointLight, Scene, TextureLoader, WebGLRenderer} from 'three';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
 import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass';
 
 import {Doorwall, Hallway, Pacman, Room} from './objects';
 
-import consts from './consts'
-import globals from './globals'
+import consts from './consts';
+import globals from './globals';
+
+import GLOBAL_MUSIC_mp3 from './music/global_music.mp3';
+import SKY1_jpg from './images/skybox/sky1.jpg';
+import SKY2_jpg from './images/skybox/sky2.jpg';
+import SKY_TOP_jpg from './images/skybox/sky_top.jpg';
+import SKY_BOT_jpg from './images/skybox/sky_bot.jpg';
 
 let initialize = () => {
   // start game clock
   globals.clock = new Clock();
+  // intialize model loader
+  globals.loader = new GLTFLoader();
 
   /**********************************************************
    * SCENE + CAMERA
@@ -37,20 +46,20 @@ let initialize = () => {
    * GLOBAL MUSIC
    **********************************************************/
   globals.globalMusic = new Audio(globals.listener);
-  globals.audioLoader.load('./src/music/global_music.mp3', (buffer) => {
+  globals.audioLoader.load(GLOBAL_MUSIC_mp3, (buffer) => {
     globals.globalMusic.setBuffer(buffer);
     globals.globalMusic.setLoop(true);
-    globals.globalMusic.setVolume(0); // was 0.15
+    globals.globalMusic.setVolume(0.05); // was 0.15
     globals.globalMusic.play();
   });
 
   /**********************************************************
    * SKYBOX
    **********************************************************/
-  let sky1 = new TextureLoader().load('./src/images/skybox/sky1.jpg');
-  let sky2 = new TextureLoader().load('./src/images/skybox/sky2.jpg');
-  let skyTop = new TextureLoader().load('./src/images/skybox/sky_top.jpg');
-  let skyBot = new TextureLoader().load('./src/images/skybox/sky_bot.jpg');
+  let sky1 = new TextureLoader().load(SKY1_jpg);
+  let sky2 = new TextureLoader().load(SKY2_jpg);
+  let skyTop = new TextureLoader().load(SKY_TOP_jpg);
+  let skyBot = new TextureLoader().load(SKY_BOT_jpg);
   let skyMaterial = [
     new MeshBasicMaterial({map: sky1, side: BackSide}),
     new MeshBasicMaterial({map: sky1, side: BackSide}),
@@ -93,10 +102,10 @@ let initialize = () => {
   sides.up = true;
   globals.rooms.push(
     new Room('room1',
-            consts.BRANCH_SIZE,
-            consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH,
-            0,
-            sides)
+             consts.BRANCH_SIZE,
+             consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH,
+             0,
+             sides)
   );
   globals.hallways.push(
     new Hallway('hallway1',
@@ -110,10 +119,10 @@ let initialize = () => {
   sides.down = true;
   globals.rooms.push(
     new Room('room2',
-            consts.BRANCH_SIZE,
-            0,
-            consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH,
-            sides)
+             consts.BRANCH_SIZE,
+             0,
+             consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH,
+             sides)
   );
   globals.hallways.push(
     new Hallway('hallway2',
@@ -127,10 +136,10 @@ let initialize = () => {
   sides.left = true;
   globals.rooms.push(
     new Room('room3',
-            consts.BRANCH_SIZE,
-            -(consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH),
-            0,
-            sides)
+             consts.BRANCH_SIZE,
+             -(consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH),
+             0,
+             sides)
   );
   globals.hallways.push(
     new Hallway('hallway3',
@@ -145,11 +154,10 @@ let initialize = () => {
   sides.up = true;
   globals.rooms.push(
     new Room('room4',
-            consts.BRANCH_SIZE,
-            0,
-            -(consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH),
-            sides
-            )
+             consts.BRANCH_SIZE,
+             0,
+             -(consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH),
+             sides)
   );
   globals.hallways.push(
     new Hallway('hallway4',
@@ -213,6 +221,6 @@ let initialize = () => {
   document.body.style.margin = 0; // Removes margin around page
   document.body.style.overflow = 'hidden'; // Fix scrolling
   document.body.appendChild(canvas);
-}
+};
 
 export default initialize;

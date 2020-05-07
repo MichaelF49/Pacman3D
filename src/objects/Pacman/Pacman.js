@@ -1,10 +1,13 @@
 import {Audio, Group} from 'three';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 
 import {Projectile} from '../Projectile';
 
 import consts from '../../consts';
 import globals from '../../globals';
+
+import NO_AMMO_mp3 from '../../music/no_ammo.mp3';
+import PACMAN_glb from '../../models/pacman.glb';
+import PROJECTILE_FIRED_mp3 from '../../music/projectile_fired.mp3';
 
 class Pacman extends Group {
   constructor() {
@@ -22,8 +25,7 @@ class Pacman extends Group {
     this.projectiles = new Set();
     this.currentFruit = consts.DEFAULT_FRUIT;
 
-    const loader = new GLTFLoader();
-    loader.load('./src/models/pacman.glb', (gltf) => {
+    globals.loader.load(PACMAN_glb, (gltf) => {
       this.add(gltf.scene);
     });
   }
@@ -48,7 +50,7 @@ class Pacman extends Group {
 
       // play proj sound
       let sound = new Audio(globals.listener);
-      globals.audioLoader.load('./src/music/cherry_blast.mp3', (buffer) => {
+      globals.audioLoader.load(PROJECTILE_FIRED_mp3, (buffer) => {
         sound.setBuffer(buffer);
         sound.setVolume(0.3);
         sound.play();
@@ -57,7 +59,7 @@ class Pacman extends Group {
     // no ammo, play empty ammo sound
     else {
       let sound = new Audio(globals.listener);
-      globals.audioLoader.load('./src/music/no_ammo.mp3', (buffer) => {
+      globals.audioLoader.load(NO_AMMO_mp3, (buffer) => {
         sound.setBuffer(buffer);
         sound.setVolume(0.2);
         sound.play();

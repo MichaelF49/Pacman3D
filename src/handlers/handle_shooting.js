@@ -3,9 +3,11 @@ import {Audio} from 'three';
 import consts from "../consts";
 import globals from "../globals";
 
+import POP_mp3 from '../music/pop.mp3';
+
 let deleteProjectile = (projectile) => {
   let sound = new Audio(globals.listener);
-  globals.audioLoader.load('./src/music/pop.mp3', (buffer) => {
+  globals.audioLoader.load(POP_mp3, (buffer) => {
     sound.setBuffer(buffer);
     sound.setVolume(0.05);
     sound.play();

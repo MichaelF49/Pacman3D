@@ -113,8 +113,8 @@ class Room {
   }
 
   isInside(position) {
-    if (position.x >= this.minX && position.x <= this.maxX
-        && position.z <= this.maxZ && position.z >= this.minZ) {
+    if (position.x >= this.minX && position.x <= this.maxX &&
+        position.z <= this.maxZ && position.z >= this.minZ) {
       return true;
     }
     return false;

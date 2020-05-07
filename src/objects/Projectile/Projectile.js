@@ -1,7 +1,11 @@
 import {Group} from 'three';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 
 import consts from '../../consts';
+import globals from '../../globals';
+
+import CHERRY_glb from '../../models/cherry.glb';
+import MELON_glb from '../../models/melon.glb';
+import ORAGNGE_glb from '../../models/orange.glb';
 
 class Projectile extends Group {
   constructor(direction, name) {
@@ -13,8 +17,23 @@ class Projectile extends Group {
     this.direction = direction;
     this.damage = consts.FRUIT_DAMAGE[name];
 
-    const loader = new GLTFLoader();
-    loader.load(`./src/models/${this.name}.glb`, (gltf) => {
+    let model = null;
+    switch (name) {
+      case 'cherry': {
+        model = CHERRY_glb;
+        break;
+      }
+      case 'orange': {
+        model = ORAGNGE_glb;
+        break;
+      }
+      case 'melon': {
+        model = MELON_glb;
+        break;
+      }
+    }
+
+    globals.loader.load(model, (gltf) => {
       this.add(gltf.scene);
     });
   }
