@@ -8,17 +8,31 @@ import globals from '../globals';
 import POP_mp3 from '../audio/pop.mp3';
 
 let handlePickups = () => {
-   // Check timers
+  checkTimers()
+  spawnFruit()
+  spawnPowerup()
+
+  for (let pickup of globals.pickups) {
+    let hitDist = pickup.position.clone().setY(0).
+      distanceTo(globals.pacman.position.clone().setY(0));
+    if (hitDist < 25) {
+      handleCollision(pickup)
+    }
+  }
+};
+
+let checkTimers = () => {
   if (globals.freeze &&
-      globals.clock.getElapsedTime() - globals.freezeStart > consts.FREEZE_TIME) {
+    globals.clock.getElapsedTime() - globals.freezeStart > consts.FREEZE_TIME) {
     globals.freeze = false;
   }
   if (globals.star &&
       globals.clock.getElapsedTime() - globals.starStart > consts.STAR_TIME) {
     globals.star = false;
   }
+}
 
-  // Spawn fruit
+let spawnFruit = () => {
   if (globals.clock.getElapsedTime() - globals.lastFruitSpawnTime > consts.FRUIT_SPAWN_TIME) {
     globals.lastFruitSpawnTime = globals.clock.getElapsedTime();
 
@@ -40,8 +54,9 @@ let handlePickups = () => {
     globals.scene.add(pickup)
     globals.pickups.add(pickup)
   }
+}
 
-  // Spawn powerup
+let spawnPowerup = () => {
   if (globals.clock.getElapsedTime() - globals.lastPowerupSpawnTime > consts.POWERUP_SPAWN_TIME) {
     globals.lastPowerupSpawnTime = globals.clock.getElapsedTime();
 
@@ -63,12 +78,10 @@ let handlePickups = () => {
     globals.scene.add(pickup);
     globals.pickups.add(pickup);
   }
+}
 
-  for (let pickup of globals.pickups) {
-    let hitDist = pickup.position.clone().setY(0).
-      distanceTo(globals.pacman.position.clone().setY(0));
-    if (hitDist < 25) {
-      globals.scene.remove(pickup);
+let handleCollision = pickup => {
+  globals.scene.remove(pickup);
       globals.pickups.delete(pickup);
 
       let sound = new Audio(globals.listener);
@@ -106,8 +119,6 @@ let handlePickups = () => {
           }
         }
       }
-    }
-  }
-};
+}
 
 export default handlePickups;
