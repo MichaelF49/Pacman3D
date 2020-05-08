@@ -140,6 +140,10 @@ let handleShooting = () => {
           break;
         }
       }
+      if (curRoom === undefined) {
+        deleteProjectile(projectile)
+        return
+      }
 
       projectile.position.setX(
         Math.max(
