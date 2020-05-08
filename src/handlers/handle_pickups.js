@@ -19,7 +19,8 @@ let handlePickups = () => {
   }
 
   // Spawn fruit
-  if (globals.clock.getElapsedTime() - globals.lastFruitSpawnTime > consts.FRUIT_SPAWN_TIME) {
+  if (globals.clock.getElapsedTime() - globals.lastFruitSpawnTime >
+      consts.FRUIT_SPAWN_TIME) {
     globals.lastFruitSpawnTime = globals.clock.getElapsedTime();
 
     // Choose random non-cherry fruit to spawn
@@ -42,7 +43,8 @@ let handlePickups = () => {
   }
 
   // Spawn powerup
-  if (globals.clock.getElapsedTime() - globals.lastPowerupSpawnTime > consts.POWERUP_SPAWN_TIME) {
+  if (globals.clock.getElapsedTime() - globals.lastPowerupSpawnTime >
+      consts.POWERUP_SPAWN_TIME) {
     globals.lastPowerupSpawnTime = globals.clock.getElapsedTime();
 
     // Choose random powerup to spawn

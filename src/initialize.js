@@ -203,8 +203,8 @@ let initialize = () => {
 
   // if we wanted to implement another sort of thing like bloom
 
-  // var bloomPass =
-  //   new UnrealBloomPass(new Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+  // var bloomPass = new UnrealBloomPass(
+  //   new Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
   // bloomPass.threshold = 0.5;
   // bloomPass.strength = 0.6;
   // bloomPass.radius = 0;
