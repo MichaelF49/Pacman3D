@@ -100,6 +100,10 @@ let handlePickups = () => {
             globals.starStart = globals.clock.getElapsedTime();
             break;
           }
+          case 'heart': {
+            globals.pacman.health += 1
+            break;
+          }
         }
       }
     }

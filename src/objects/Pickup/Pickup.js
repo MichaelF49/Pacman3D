@@ -7,6 +7,7 @@ import FREEZE_glb from '../../models/freeze.glb';
 import MELON_glb from '../../models/melon.glb';
 import ORAGNGE_glb from '../../models/orange.glb';
 import STAR_glb from '../../models/star.glb';
+import HEART_glb from '../../models/heart.glb';
 
 class Pickup extends Group {
   constructor(name, type) {
@@ -43,6 +44,10 @@ class Pickup extends Group {
           }
           case 'star': {
             model = STAR_glb;
+            break;
+          }
+          case 'heart': {
+            model = HEART_glb;
             break;
           }
         }

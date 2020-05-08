@@ -20,10 +20,10 @@ export default {
   /**********************************************************
    * POWERUPS
    **********************************************************/
-  POWERUP: ['freeze', 'star'],
-  POWERUP_SCALE: {'freeze': 2, 'star': 0.125},
-  FREEZE_TIME: 5, // 4 s freeze
-  STAR_TIME: 8, // 6 s invincibility
+  POWERUP: ['freeze', 'star', 'heart'],
+  POWERUP_SCALE: {'freeze': 2, 'star': 0.125, 'heart': 0.175},
+  FREEZE_TIME: 5, // 5 s freeze
+  STAR_TIME: 8, // 8 s invincibility
   FRUIT_SPAWN_TIME: 10, // time bewteen fruit spawns
   POWERUP_SPAWN_TIME: 20, // time between powerup spawns
 
