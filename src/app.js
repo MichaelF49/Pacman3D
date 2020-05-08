@@ -1,12 +1,18 @@
 import globals from './globals';
-import {handleAI, handleKeys, handleMovement, handlePickups,
-        handleShooting, handleWave} from './handlers';
+import {
+  handleAI,
+  handleKeys,
+  handleMovement,
+  handlePickups,
+  handleShooting,
+  handleWave,
+} from './handlers';
 import initialize from './initialize';
 
-/**********************************************************
+/** ********************************************************
  * RENDER HANDLER
- **********************************************************/
-let onAnimationFrameHandler = (timeStamp) => {
+ ******************************************************** */
+const onAnimationFrameHandler = (timeStamp) => {
   if (!globals.gameOver) {
     window.requestAnimationFrame(onAnimationFrameHandler);
     handleMovement();
@@ -19,19 +25,19 @@ let onAnimationFrameHandler = (timeStamp) => {
   }
 };
 
-/**********************************************************
+/** ********************************************************
  * RESIZE HANDLER
- **********************************************************/
-let windowResizeHandler = () => {
-  let {innerHeight, innerWidth} = window;
-  globals.camera.aspect = innerWidth/innerHeight;
+ ******************************************************** */
+const windowResizeHandler = () => {
+  const { innerHeight, innerWidth } = window;
+  globals.camera.aspect = innerWidth / innerHeight;
   globals.camera.updateProjectionMatrix();
   globals.renderer.setSize(innerWidth, innerHeight);
 };
 
-/**********************************************************
+/** ********************************************************
  * START APPLICATION
- **********************************************************/
+ ******************************************************** */
 // initialize scene
 initialize();
 // create and add key handlers

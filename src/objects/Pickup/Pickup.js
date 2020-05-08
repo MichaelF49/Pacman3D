@@ -1,4 +1,4 @@
-import {Group} from 'three';
+import { Group } from 'three';
 
 import globals from '../../globals';
 
@@ -32,6 +32,9 @@ class Pickup extends Group {
             model = MELON_glb;
             break;
           }
+          default: {
+            // error
+          }
         }
         break;
       }
@@ -45,8 +48,14 @@ class Pickup extends Group {
             model = STAR_glb;
             break;
           }
+          default: {
+            // error
+          }
         }
         break;
+      }
+      default: {
+        // error
       }
     }
 

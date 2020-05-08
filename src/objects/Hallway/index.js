@@ -1,1 +1,1 @@
-export {default as Hallway} from './Hallway';
+export { default as Hallway } from './Hallway';

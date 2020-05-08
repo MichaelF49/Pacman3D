@@ -1,4 +1,4 @@
-import {Group} from 'three';
+import { Group } from 'three';
 
 import consts from '../../consts';
 import globals from '../../globals';
@@ -30,6 +30,9 @@ class Projectile extends Group {
       case 'melon': {
         model = MELON_glb;
         break;
+      }
+      default: {
+        // error
       }
     }
 

@@ -1,1 +1,1 @@
-export {default as Doorwall} from './Doorwall';
+export { default as Doorwall } from './Doorwall';

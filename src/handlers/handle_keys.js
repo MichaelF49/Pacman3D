@@ -1,7 +1,7 @@
 import globals from '../globals';
 
-let handleKeys = () => {
-  let onKeyDown = (event) => {
+const handleKeys = () => {
+  const onKeyDown = (event) => {
     switch (event.keyCode) {
       case 87: {
         // w
@@ -33,23 +33,26 @@ let handleKeys = () => {
       }
       case 49: {
         // 1
-        globals.pacman.switchFruit(1)
+        globals.pacman.switchFruit(1);
         break;
       }
       case 50: {
         // 2
-        globals.pacman.switchFruit(2)
+        globals.pacman.switchFruit(2);
         break;
       }
       case 51: {
         // 2
-        globals.pacman.switchFruit(3)
+        globals.pacman.switchFruit(3);
         break;
+      }
+      default: {
+        // error
       }
     }
   };
-  
-  let onKeyUp = (event) => {
+
+  const onKeyUp = (event) => {
     switch (event.keyCode) {
       case 87: {
         // w
@@ -76,9 +79,12 @@ let handleKeys = () => {
         globals.spaceDown = false;
         break;
       }
+      default: {
+        // error
+      }
     }
   };
-  
+
   // add key handlers
   window.addEventListener('keydown', onKeyDown, false);
   window.addEventListener('keyup', onKeyUp, false);

@@ -1,6 +1,6 @@
-import {Audio, Group} from 'three';
+import { Audio, Group } from 'three';
 
-import {Projectile} from '../Projectile';
+import { Projectile } from '../Projectile';
 
 import consts from '../../consts';
 import globals from '../../globals';
@@ -17,7 +17,7 @@ class Pacman extends Group {
     this.health = consts.PACMAN_HEALTH;
     this.name = 'pacman';
     this.ammo = {};
-    for (let i = 0; i < consts.FRUIT.length; i++) {
+    for (let i = 0; i < consts.FRUIT.length; i += 1) {
       this.ammo[consts.FRUIT[i]] = 0;
     }
     this.ammo[consts.DEFAULT_FRUIT] = 1;
@@ -31,17 +31,17 @@ class Pacman extends Group {
   }
 
   shoot() {
-    // there is ammo, fire a projectile
     if (this.ammo[this.currentFruit] > 0) {
+      // there is ammo, fire a projectile
       if (this.currentFruit !== consts.DEFAULT_FRUIT) {
         // only subtract if special ammo
-        this.ammo[this.currentFruit]--;
+        this.ammo[this.currentFruit] -= 1;
       }
 
-      let vec = this.position.clone().sub(globals.camera.position);
+      const vec = this.position.clone().sub(globals.camera.position);
       vec.setY(this.position.Y - 5).normalize();
 
-      let proj = new Projectile(vec, this.currentFruit);
+      const proj = new Projectile(vec, this.currentFruit);
       proj.scale.multiplyScalar(consts.FRUIT_SCALE[this.currentFruit]);
       proj.position.add(this.position);
 
@@ -49,16 +49,15 @@ class Pacman extends Group {
       this.projectiles.add(proj);
 
       // play proj sound
-      let sound = new Audio(globals.listener);
+      const sound = new Audio(globals.listener);
       globals.audioLoader.load(PROJECTILE_FIRED_mp3, (buffer) => {
         sound.setBuffer(buffer);
         sound.setVolume(0.3);
         sound.play();
       });
-    }
-    // no ammo, play empty ammo sound
-    else {
-      let sound = new Audio(globals.listener);
+    } else {
+      // no ammo, play empty ammo sound
+      const sound = new Audio(globals.listener);
       globals.audioLoader.load(NO_AMMO_mp3, (buffer) => {
         sound.setBuffer(buffer);
         sound.setVolume(0.2);

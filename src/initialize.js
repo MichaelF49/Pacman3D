@@ -1,11 +1,24 @@
-import {AmbientLight, Audio, AudioListener, AudioLoader, BackSide,
-        BoxGeometry, Clock, Mesh, MeshBasicMaterial, PerspectiveCamera,
-        PointLight, Scene, TextureLoader, WebGLRenderer} from 'three';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
-import {EffectComposer} from 'three/examples/jsm/postprocessing/EffectComposer';
-import {RenderPass} from 'three/examples/jsm/postprocessing/RenderPass';
+import {
+  AmbientLight,
+  Audio,
+  AudioListener,
+  AudioLoader,
+  BackSide,
+  BoxGeometry,
+  Clock,
+  Mesh,
+  MeshBasicMaterial,
+  PerspectiveCamera,
+  PointLight,
+  Scene,
+  TextureLoader,
+  WebGLRenderer,
+} from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
-import {Doorwall, Hallway, Pacman, Room} from './objects';
+import { Doorwall, Hallway, Pacman, Room } from './objects';
 
 import consts from './consts';
 import globals from './globals';
@@ -16,18 +29,18 @@ import SKY2_jpg from './images/skybox/sky2.jpg';
 import SKY_TOP_jpg from './images/skybox/sky_top.jpg';
 import SKY_BOT_jpg from './images/skybox/sky_bot.jpg';
 
-let initialize = () => {
+const initialize = () => {
   // start game clock
   globals.clock = new Clock();
   // intialize model loader
   globals.loader = new GLTFLoader();
 
-  /**********************************************************
+  /** ********************************************************
    * SCENE + CAMERA
-   **********************************************************/
+   ********************************************************* */
   globals.camera = new PerspectiveCamera(
     75,
-    window.innerWidth/window.innerHeight,
+    window.innerWidth / window.innerHeight,
     1,
     50000
   );
@@ -35,16 +48,16 @@ let initialize = () => {
   globals.camera.lookAt(0, 0, 0);
   globals.scene = new Scene();
 
-  /**********************************************************
+  /** ********************************************************
    * AUDIO
-   **********************************************************/
+   ********************************************************* */
   globals.listener = new AudioListener();
   globals.camera.add(globals.listener);
   globals.audioLoader = new AudioLoader();
 
-  /**********************************************************
+  /** ********************************************************
    * GLOBAL MUSIC
-   **********************************************************/
+   ********************************************************* */
   globals.globalMusic = new Audio(globals.listener);
   globals.audioLoader.load(GLOBAL_MUSIC_mp3, (buffer) => {
     globals.globalMusic.setBuffer(buffer);
@@ -53,44 +66,44 @@ let initialize = () => {
     globals.globalMusic.play();
   });
 
-  /**********************************************************
+  /** ********************************************************
    * SKYBOX
-   **********************************************************/
-  let sky1 = new TextureLoader().load(SKY1_jpg);
-  let sky2 = new TextureLoader().load(SKY2_jpg);
-  let skyTop = new TextureLoader().load(SKY_TOP_jpg);
-  let skyBot = new TextureLoader().load(SKY_BOT_jpg);
-  let skyMaterial = [
-    new MeshBasicMaterial({map: sky1, side: BackSide}),
-    new MeshBasicMaterial({map: sky1, side: BackSide}),
-    new MeshBasicMaterial({map: skyTop, side: BackSide}),
-    new MeshBasicMaterial({map: skyBot, side: BackSide}),
-    new MeshBasicMaterial({map: sky2, side: BackSide}),
-    new MeshBasicMaterial({map: sky2, side: BackSide})
+   ********************************************************* */
+  const sky1 = new TextureLoader().load(SKY1_jpg);
+  const sky2 = new TextureLoader().load(SKY2_jpg);
+  const skyTop = new TextureLoader().load(SKY_TOP_jpg);
+  const skyBot = new TextureLoader().load(SKY_BOT_jpg);
+  const skyMaterial = [
+    new MeshBasicMaterial({ map: sky1, side: BackSide }),
+    new MeshBasicMaterial({ map: sky1, side: BackSide }),
+    new MeshBasicMaterial({ map: skyTop, side: BackSide }),
+    new MeshBasicMaterial({ map: skyBot, side: BackSide }),
+    new MeshBasicMaterial({ map: sky2, side: BackSide }),
+    new MeshBasicMaterial({ map: sky2, side: BackSide }),
   ];
-  let skyboxGeo = new BoxGeometry(15000, 20000, 15000);
-  let skybox = new Mesh(skyboxGeo, skyMaterial);
+  const skyboxGeo = new BoxGeometry(15000, 20000, 15000);
+  const skybox = new Mesh(skyboxGeo, skyMaterial);
   skybox.position.set(0, -2000, 0);
   globals.scene.add(skybox);
 
-  /**********************************************************
+  /** ********************************************************
    * PACMAN
-   **********************************************************/
+   ********************************************************* */
   globals.pacman = new Pacman();
   globals.pacman.position.y = -18;
-  globals.pacman.rotation.y = Math.PI*1.5;
+  globals.pacman.rotation.y = Math.PI * 1.5;
   globals.pacman.scale.multiplyScalar(10);
   globals.scene.add(globals.pacman);
 
-  /**********************************************************
+  /** ********************************************************
    *  ROOMS (FLOORS & WALLS)
-   ************************************************************/
+   *********************************************************** */
   // parameters for which walls a room has
-  let sides = {
+  const sides = {
     right: false,
     left: false,
     up: false,
-    down: false
+    down: false,
   };
 
   // the main room
@@ -101,99 +114,118 @@ let initialize = () => {
   sides.left = true;
   sides.up = true;
   globals.rooms.push(
-    new Room('room1',
-             consts.BRANCH_SIZE,
-             consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH,
-             0,
-             sides)
+    new Room(
+      'room1',
+      consts.BRANCH_SIZE,
+      consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH,
+      0,
+      sides
+    )
   );
   globals.hallways.push(
-    new Hallway('hallway1',
-                consts.HALLWAY_LENGTH,
-                consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2,
-                0,
-                sides)
+    new Hallway(
+      'hallway1',
+      consts.HALLWAY_LENGTH,
+      consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2,
+      0,
+      sides
+    )
   );
 
   sides.left = false;
   sides.down = true;
   globals.rooms.push(
-    new Room('room2',
-             consts.BRANCH_SIZE,
-             0,
-             consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH,
-             sides)
+    new Room(
+      'room2',
+      consts.BRANCH_SIZE,
+      0,
+      consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH,
+      sides
+    )
   );
   globals.hallways.push(
-    new Hallway('hallway2',
-                consts.HALLWAY_LENGTH,
-                0,
-                consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2,
-                sides)
+    new Hallway(
+      'hallway2',
+      consts.HALLWAY_LENGTH,
+      0,
+      consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2,
+      sides
+    )
   );
 
   sides.up = false;
   sides.left = true;
   globals.rooms.push(
-    new Room('room3',
-             consts.BRANCH_SIZE,
-             -(consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH),
-             0,
-             sides)
+    new Room(
+      'room3',
+      consts.BRANCH_SIZE,
+      -(consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH),
+      0,
+      sides
+    )
   );
   globals.hallways.push(
-    new Hallway('hallway3',
-                consts.HALLWAY_LENGTH,
-                -(consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2),
-                0,
-                sides)
+    new Hallway(
+      'hallway3',
+      consts.HALLWAY_LENGTH,
+      -(consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2),
+      0,
+      sides
+    )
   );
-
 
   sides.right = false;
   sides.up = true;
   globals.rooms.push(
-    new Room('room4',
-             consts.BRANCH_SIZE,
-             0,
-             -(consts.ARENA_SIZE/2 + consts.BRANCH_SIZE/2 + consts.HALLWAY_LENGTH),
-             sides)
+    new Room(
+      'room4',
+      consts.BRANCH_SIZE,
+      0,
+      -(consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH),
+      sides
+    )
   );
   globals.hallways.push(
-    new Hallway('hallway4',
-                consts.HALLWAY_LENGTH,
-                0,
-                -(consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH/2),
-                sides)
+    new Hallway(
+      'hallway4',
+      consts.HALLWAY_LENGTH,
+      0,
+      -(consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2),
+      sides
+    )
   );
 
-  /**********************************************************
+  /** ********************************************************
    * DOORWAY WALLS
-   **********************************************************/
-  let doorWalls = new Doorwall('doors', consts.ARENA_SIZE, consts.BRANCH_SIZE, 0, 0);
+   ********************************************************* */
+  new Doorwall('doors', consts.ARENA_SIZE, consts.BRANCH_SIZE, 0, 0);
 
-  /**********************************************************
+  /** ********************************************************
    * LIGHTS
-   **********************************************************/
+   ********************************************************* */
   let light = new PointLight(0xffffff, 0.2, 10000);
-  light.position.set(-consts.ARENA_SIZE/2, 1000, consts.ARENA_SIZE/2);
+  light.position.set(-consts.ARENA_SIZE / 2, 1000, consts.ARENA_SIZE / 2);
   globals.scene.add(light);
+
   light = new PointLight(0xffffff, 0.2, 10000);
-  light.position.set(consts.ARENA_SIZE/2, 1000, consts.ARENA_SIZE/2);
+  light.position.set(consts.ARENA_SIZE / 2, 1000, consts.ARENA_SIZE / 2);
   globals.scene.add(light);
+
   light = new PointLight(0xffffff, 0.2, 10000);
-  light.position.set(consts.ARENA_SIZE, 1000, -consts.ARENA_SIZE/2);
+  light.position.set(consts.ARENA_SIZE, 1000, -consts.ARENA_SIZE / 2);
   globals.scene.add(light);
+
   light = new PointLight(0xffffff, 0.2, 10000);
-  light.position.set(-consts.ARENA_SIZE/2, 1000, -consts.ARENA_SIZE/2);
+  light.position.set(-consts.ARENA_SIZE / 2, 1000, -consts.ARENA_SIZE / 2);
   globals.scene.add(light);
+
   light = new AmbientLight(0xffffff); // soft white light
   globals.scene.add(light);
 
-  /**********************************************************
+  /** ********************************************************
    * RENDERER
-   **********************************************************/
-  globals.renderer = new WebGLRenderer({antialias:true});
+   ********************************************************* */
+  globals.renderer = new WebGLRenderer({ antialias: true });
   globals.renderer.setPixelRatio(window.devicePixelRatio);
   globals.renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -209,15 +241,15 @@ let initialize = () => {
   // bloomPass.strength = 0.6;
   // bloomPass.radius = 0;
   // composer.addPass( bloomPass );
-  /**********************************************************
+  /** ********************************************************
    * CANVAS
-   **********************************************************/
-  let canvas = globals.renderer.domElement;
+   ********************************************************* */
+  const canvas = globals.renderer.domElement;
   canvas.style.display = 'block'; // Removes padding below canvas
 
-  /**********************************************************
+  /** ********************************************************
    * CSS adjustments
-   **********************************************************/
+   ********************************************************* */
   document.body.style.margin = 0; // Removes margin around page
   document.body.style.overflow = 'hidden'; // Fix scrolling
   document.body.appendChild(canvas);

@@ -1,1 +1,1 @@
-export {default as Ghost} from './Ghost';
+export { default as Ghost } from './Ghost';

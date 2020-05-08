@@ -1,1 +1,1 @@
-export {default as Pacman} from './Pacman';
+export { default as Pacman } from './Pacman';
