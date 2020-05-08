@@ -30,8 +30,8 @@ export default {
   POWERUP_SCALE: {'freeze': 2, 'star': 0.125, 'heart': 0.175},
   FREEZE_TIME: 5, // 5 s freeze
   STAR_TIME: 8, // 8 s invincibility
-  FRUIT_SPAWN_TIME: 10, // time bewteen fruit spawns
-  POWERUP_SPAWN_TIME: 20, // time between powerup spawns
+  FRUIT_SPAWN_TIME: 1, // time bewteen fruit spawns
+  POWERUP_SPAWN_TIME: 2, // time between powerup spawns
   BOB_SPEED: 3,
   ROTATION_SPEED: 250, // higher is slower 
 

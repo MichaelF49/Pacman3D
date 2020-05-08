@@ -43,17 +43,18 @@ let spawnFruit = () => {
     let fruitIndex = Number.parseInt(Math.random()*(consts.FRUIT.length - 1)) + 1;
     let fruit = consts.FRUIT[fruitIndex],
         scale = consts.FRUIT_SCALE[fruit];
-
+        
     // Create ammo Pickup object
     let pickup = new Pickup(fruit, 'ammo')
     pickup.scale.multiplyScalar(scale);
-    let spawnPos = new Vector3(
-      Math.random()*consts.ARENA_SIZE - consts.ARENA_SIZE/2,
-      -17,
-      Math.random()*consts.ARENA_SIZE - consts.ARENA_SIZE/2
-    );
-    pickup.position.add(spawnPos);
+    
+    // Get spawn position
+    let room = globals.rooms[parseInt(Math.random() * globals.rooms.length)]
+    let x = Math.random() * (room.maxX - room.minX) + room.minX
+    let z = Math.random() * (room.maxZ - room.minZ) + room.minZ
+    let spawnPos = new Vector3(x, -17, z);
 
+    pickup.position.add(spawnPos);
     globals.scene.add(pickup)
     globals.pickups.add(pickup)
   }
@@ -71,13 +72,14 @@ let spawnPowerup = () => {
     // Create powerup Pickup object
     let pickup = new Pickup(powerup, 'powerup')
     pickup.scale.multiplyScalar(scale);
-    let spawnPos = new Vector3(
-      Math.random() * consts.ARENA_SIZE - consts.ARENA_SIZE/2,
-      -17,
-      Math.random() * consts.ARENA_SIZE - consts.ARENA_SIZE/2
-    );
-    pickup.position.add(spawnPos);
+    
+    // Get spawn position
+    let room = globals.rooms[parseInt(Math.random() * globals.rooms.length)]
+    let x = Math.random() * (room.maxX - room.minX) + room.minX
+    let z = Math.random() * (room.maxZ - room.minZ) + room.minZ
+    let spawnPos = new Vector3(x, -17, z);
 
+    pickup.position.add(spawnPos);
     globals.scene.add(pickup);
     globals.pickups.add(pickup);
   }
