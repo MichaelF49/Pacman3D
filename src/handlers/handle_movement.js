@@ -104,7 +104,7 @@ let updatePacPosition = () => {
   else {
     let curRoom;
     for (let room of globals.rooms) {
-      if (room.isInside(globals.pacman.position))  {
+      if (room.isInside(globals.pacman.position)) {
         curRoom = room;
         break;
       }
