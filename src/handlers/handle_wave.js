@@ -45,12 +45,15 @@ let handleWave = () => {
         // picking a room
         let room = globals.rooms[Math.floor(Math.random()*globals.rooms.length)];
         randVec = new Vector3(
-          Math.random()*(room.maxX - room.minX - 2*consts.GHOST_RADIUS) + room.minX + consts.GHOST_RADIUS,
+          Math.random()*(room.maxX - room.minX - 2*consts.GHOST_RADIUS) +
+            room.minX + consts.GHOST_RADIUS,
           0,
-          Math.random()*(room.maxZ - room.minZ - 2*consts.GHOST_RADIUS) + room.minZ + consts.GHOST_RADIUS
+          Math.random()*(room.maxZ - room.minZ - 2*consts.GHOST_RADIUS) +
+            room.minZ + consts.GHOST_RADIUS
         );
       } while (
-        randVec.clone().add(ghost.position).sub(globals.pacman.position).length() < consts.SAFE_RADIUS
+        randVec.clone().add(ghost.position).sub(globals.pacman.position).length() <
+          consts.SAFE_RADIUS
       );
       ghost.position.add(randVec);
 
