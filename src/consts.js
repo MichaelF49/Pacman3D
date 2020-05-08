@@ -5,6 +5,12 @@ export default {
   PACMAN_SPEED: 200, // 200 pixels per s
   PACMAN_TURN_SPEED: -Math.PI*3.0/5, // 3/5*pi radians per s
   PACMAN_HEALTH: 3,
+
+  /**********************************************************
+   * GHOST
+   **********************************************************/
+  KILL_DIST_PACMAN: 25, 
+  KILL_DIST_MARIO: 35,
   
   /**********************************************************
    * PROJECTILES

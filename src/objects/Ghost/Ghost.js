@@ -18,10 +18,7 @@ class Ghost extends Group {
     this.speed = 1.2 + 1.0*globals.currentWave/(consts.WAVES.length - 1)*
       (consts.DIFFICULTY_SCALE.MAX_SPEED - 1.2);
     this.hoverHeight = Math.random()*1.5 + 1.5;
-    // KILL DIST PARAMETERS:
-    // 35 for mario ghosts
-    // 25 for pac-man ghosts
-    this.killDist = 25;
+    this.killDist = consts.KILL_DIST_PACMAN;
     this.noiseTimeDiff = 12 - 8 * Math.random();
     this.oldTime = globals.clock.getElapsedTime();
     this.name = 'ghost';
