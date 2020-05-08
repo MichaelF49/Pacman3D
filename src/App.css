@@ -1,0 +1,14 @@
+.top-hud {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  color: white;
+  font-size: 36px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 30px;
+}
+
+.top-hud * {
+  padding: 0px;
+  margin: 0px;
+}
