@@ -18,6 +18,9 @@ let handlePickups = () => {
     if (hitDist < 25) {
       handleCollision(pickup)
     }
+
+    pickup.position.y += Math.sin((globals.clock.getElapsedTime() + pickup.seed) * consts.BOB_SPEED) * pickup.hoverHeight
+    pickup.rotation.y += globals.clock.getElapsedTime() / consts.ROTATION_SPEED
   }
 };
 
@@ -46,7 +49,7 @@ let spawnFruit = () => {
     pickup.scale.multiplyScalar(scale);
     let spawnPos = new Vector3(
       Math.random()*consts.ARENA_SIZE - consts.ARENA_SIZE/2,
-      -20,
+      -17,
       Math.random()*consts.ARENA_SIZE - consts.ARENA_SIZE/2
     );
     pickup.position.add(spawnPos);
@@ -70,7 +73,7 @@ let spawnPowerup = () => {
     pickup.scale.multiplyScalar(scale);
     let spawnPos = new Vector3(
       Math.random() * consts.ARENA_SIZE - consts.ARENA_SIZE/2,
-      -20,
+      -17,
       Math.random() * consts.ARENA_SIZE - consts.ARENA_SIZE/2
     );
     pickup.position.add(spawnPos);

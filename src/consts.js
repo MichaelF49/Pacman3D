@@ -32,6 +32,8 @@ export default {
   STAR_TIME: 8, // 8 s invincibility
   FRUIT_SPAWN_TIME: 10, // time bewteen fruit spawns
   POWERUP_SPAWN_TIME: 20, // time between powerup spawns
+  BOB_SPEED: 3,
+  ROTATION_SPEED: 250, // higher is slower 
 
   /**********************************************************
    * WAVES

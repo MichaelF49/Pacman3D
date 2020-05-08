@@ -16,6 +16,8 @@ class Pickup extends Group {
 
     this.name = name;
     this.type = type;
+    this.hoverHeight = Math.random() * 0.05 + 0.1;
+    this.seed = Math.random()
 
     let model = null;
     switch (type) {
