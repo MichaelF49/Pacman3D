@@ -1,7 +1,6 @@
 # 3D Pacman Shooter
 
-Our Pacman-insipred 3D shooter. Kill the ghosts in action-packed rounds before
-they kill you!
+Pacman-insipred 3D shooter. Immerse youself in action-packed rounds!
 
 Final project for COS 426 (Spring 2020).
 
@@ -10,6 +9,13 @@ Final project for COS 426 (Spring 2020).
 * **A** and **D** to rotate
 * **SPACE** to shoot
 * **1**, **2**, and **3** to switch weapons
+
+## Gameplay
+Fight waves of increasingly difficult ghosts. Pickup different types of ammunition
+and powerups to gain an upper edge.
+
+* Snowflake: Temporarily freeze ghosts.
+* Star: Become temporarily invincible.
 
 ## Installation
 Download the repository, run `npm install` in the project directory and then `npm start`.
