@@ -23,11 +23,11 @@ import { Doorwall, Hallway, Pacman, Room } from './objects';
 import consts from './consts';
 import globals from './globals';
 
-import GLOBAL_MUSIC_mp3 from './audio/global_music.mp3';
-import SKY1_jpg from './images/skybox/sky1.jpg';
-import SKY2_jpg from './images/skybox/sky2.jpg';
-import SKY_TOP_jpg from './images/skybox/sky_top.jpg';
-import SKY_BOT_jpg from './images/skybox/sky_bot.jpg';
+import GlobalMusicMP3 from './audio/global_music.mp3';
+import Sky1JPG from './images/skybox/sky1.jpg';
+import Sky2JPG from './images/skybox/sky2.jpg';
+import SkyTopJPG from './images/skybox/sky_top.jpg';
+import SkyBotJPG from './images/skybox/sky_bot.jpg';
 
 const initialize = () => {
   // start game clock
@@ -59,7 +59,7 @@ const initialize = () => {
    * GLOBAL MUSIC
    ********************************************************* */
   globals.globalMusic = new Audio(globals.listener);
-  globals.audioLoader.load(GLOBAL_MUSIC_mp3, (buffer) => {
+  globals.audioLoader.load(GlobalMusicMP3, (buffer) => {
     globals.globalMusic.setBuffer(buffer);
     globals.globalMusic.setLoop(true);
     globals.globalMusic.setVolume(0.05); // was 0.15
@@ -69,10 +69,10 @@ const initialize = () => {
   /** ********************************************************
    * SKYBOX
    ********************************************************* */
-  const sky1 = new TextureLoader().load(SKY1_jpg);
-  const sky2 = new TextureLoader().load(SKY2_jpg);
-  const skyTop = new TextureLoader().load(SKY_TOP_jpg);
-  const skyBot = new TextureLoader().load(SKY_BOT_jpg);
+  const sky1 = new TextureLoader().load(Sky1JPG);
+  const sky2 = new TextureLoader().load(Sky2JPG);
+  const skyTop = new TextureLoader().load(SkyTopJPG);
+  const skyBot = new TextureLoader().load(SkyBotJPG);
   const skyMaterial = [
     new MeshBasicMaterial({ map: sky1, side: BackSide }),
     new MeshBasicMaterial({ map: sky1, side: BackSide }),

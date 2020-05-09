@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-restricted-syntax */
 import { Audio, Vector3 } from 'three';
 
@@ -106,8 +107,8 @@ let handleCollision = (pickup) => {
   globals.scene.remove(pickup);
   globals.pickups.delete(pickup);
 
-  let sound = new Audio(globals.listener);
-  globals.audioLoader.load(POP_mp3, (buffer) => {
+  const sound = new Audio(globals.listener);
+  globals.audioLoader.load(PopMP3, (buffer) => {
     sound.setBuffer(buffer);
     sound.setVolume(0.2);
     sound.play();
