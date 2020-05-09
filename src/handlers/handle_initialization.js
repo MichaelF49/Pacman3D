@@ -20,8 +20,8 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 import { Doorwall, Hallway, Pacman, Room } from '../objects';
 
-import consts from '../consts';
-import globals from '../globals';
+import consts from '../global/consts';
+import globals from '../global/globals';
 
 import GlobalMusicMP3 from '../audio/global_music.mp3';
 import Sky1JPG from '../images/skybox/sky1.jpg';

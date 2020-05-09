@@ -2,8 +2,8 @@ import { Audio, Vector3 } from 'three';
 
 import { Ghost } from '../objects';
 
-import consts from '../consts';
-import globals from '../globals';
+import consts from '../global/consts';
+import globals from '../global/globals';
 
 import VictoryMP3 from '../audio/victory.mp3';
 import WaveStartMP3 from '../audio/wave_start.mp3';

@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio, Vector3 } from 'three';
 
-import globals from '../globals';
+import globals from '../global/globals';
 
 import DefeatMP3 from '../audio/defeat.mp3';
 

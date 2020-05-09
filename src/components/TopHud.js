@@ -1,18 +1,21 @@
-import React, { useState } from 'react'
-import globals from '../globals';
+import React, { useState } from 'react';
+
+import globals from '../global/globals';
 
 const TopHud = ({ orange, melon }) => {
-  let [numOrange, setNumOrange] = useState(orange)
-  let [numMelon, setNumMelon] = useState(melon)
+  const [numOrange, setNumOrange] = useState(orange);
+  const [numMelon, setNumMelon] = useState(melon);
 
-  globals.updateAmmo = (orangeCount, melonCount) => {
-    setNumOrange(orangeCount)
-    setNumMelon(melonCount)
-  }
+  globals.updateAmmo = (orange_, melon_) => {
+    setNumOrange(orange_);
+    setNumMelon(melon_);
+  };
 
   return (
-    <p className='top-hud'>Cherries: inf, Oranges: {numOrange}, Melons: {numMelon}</p>
-  ) 
-}
+    <p className='top-hud'>
+      Cherries: inf, Oranges: {numOrange}, Melons: {numMelon}
+    </p>
+  );
+};
 
-export default TopHud
+export default TopHud;

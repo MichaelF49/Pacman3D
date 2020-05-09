@@ -4,8 +4,8 @@ import { Audio, Vector3 } from 'three';
 
 import { Pickup } from '../objects';
 
-import consts from '../consts';
-import globals from '../globals';
+import consts from '../global/consts';
+import globals from '../global/globals';
 
 import PopMP3 from '../audio/pop.mp3';
 

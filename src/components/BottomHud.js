@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
-import globals from '../globals'
-import image from '../images/heart.png'
+import React, { useState } from 'react';
+
+import globals from '../global/globals';
+
+import image from '../images/heart.png';
 
 const BottomHud = ({ hearts }) => {
-  let [numHearts, setNumHearts] = useState(hearts)
+  const [numHearts, setNumHearts] = useState(hearts);
 
-  globals.updateHearts = (hearts) => {
-    setNumHearts(hearts)
+  globals.updateHearts = (hearts_) => {
+    setNumHearts(hearts_);
+  };
+
+  const heartElem = [];
+  for (let i = 0; i < numHearts; i += 1) {
+    heartElem.push(<img key={i} className='heart-img' src={image} alt='HP' />);
   }
 
-  let heartElem = [];
-  for (let i = 0; i < numHearts; i++) {
-    heartElem.push(<img key={i} className='heart-img' src={image} />)
-  }
+  return <p className='bottom-hud'>{heartElem}</p>;
+};
 
-  return (
-    <p className='bottom-hud'>{heartElem}</p>
-  ) 
-}
-
-export default BottomHud
+export default BottomHud;

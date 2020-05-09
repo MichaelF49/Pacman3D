@@ -1,4 +1,4 @@
-import globals from '../globals';
+import globals from '../global/globals';
 
 const handleKeys = () => {
   const onKeyDown = (event) => {

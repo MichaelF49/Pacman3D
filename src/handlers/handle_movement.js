@@ -2,8 +2,8 @@
 /* eslint-disable no-restricted-syntax */
 import { Quaternion, Vector3 } from 'three';
 
-import consts from '../consts';
-import globals from '../globals';
+import consts from '../global/consts';
+import globals from '../global/globals';
 
 const handleMovement = () => {
   const delta = globals.clock.getDelta(); // seconds

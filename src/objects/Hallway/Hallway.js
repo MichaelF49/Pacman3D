@@ -1,6 +1,6 @@
 import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
-import globals from '../../globals';
+import globals from '../../global/globals';
 
 class Hallway {
   constructor(roomName, hallwayLength, x, z, sides) {

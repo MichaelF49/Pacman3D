@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio, Group } from 'three';
 
-import consts from '../../consts';
-import globals from '../../globals';
+import consts from '../../global/consts';
+import globals from '../../global/globals';
 
 import GhostGLB from '../../models/blue_ghost6.glb';
 import GhostDeathMP3 from '../../audio/ghost_death.mp3';
