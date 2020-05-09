@@ -7,6 +7,7 @@ const Menu = ({ setShowingMenu }) => {
       <h3>W S: move forwards/backwards</h3>
       <h3>A D: rotate</h3>
       <h3>SPACE: fire</h3>
+      <h3>1 2 3: switch weapons</h3>
       <button
         className='button'
         onClick={() => {
