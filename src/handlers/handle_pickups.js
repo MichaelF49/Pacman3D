@@ -87,43 +87,44 @@ let spawnPowerup = () => {
 
 let handleCollision = pickup => {
   globals.scene.remove(pickup);
-      globals.pickups.delete(pickup);
+  globals.pickups.delete(pickup);
 
-      let sound = new Audio(globals.listener);
-      globals.audioLoader.load(POP_mp3, (buffer) => {
-        sound.setBuffer(buffer);
-        sound.setVolume(0.20);
-        sound.play();
-      });
+  let sound = new Audio(globals.listener);
+  globals.audioLoader.load(POP_mp3, (buffer) => {
+    sound.setBuffer(buffer);
+    sound.setVolume(0.20);
+    sound.play();
+  });
 
-      // ammo effect
-      if (pickup.type == 'ammo') {
-        globals.pacman.ammo[pickup.name] =
-          Math.min(
-            consts.MAX_AMMO_CAPACITY,
-            globals.pacman.ammo[pickup.name] + consts.AMMO_INC[pickup.name]
-          );
+  // ammo effect
+  if (pickup.type == 'ammo') {
+    globals.pacman.ammo[pickup.name] =
+      Math.min(
+        consts.MAX_AMMO_CAPACITY,
+        globals.pacman.ammo[pickup.name] + consts.AMMO_INC[pickup.name]
+      );
+    globals.updateAmmo(globals.pacman.ammo['orange'], globals.pacman.ammo['melon'])
+  }
+
+  // powerup effect
+  if (pickup.type == 'powerup') {
+    switch (pickup.name) {
+      case 'freeze': {
+        globals.freeze = true;
+        globals.freezeStart = globals.clock.getElapsedTime();
+        break;
       }
-
-      // powerup effect
-      if (pickup.type == 'powerup') {
-        switch (pickup.name) {
-          case 'freeze': {
-            globals.freeze = true;
-            globals.freezeStart = globals.clock.getElapsedTime();
-            break;
-          }
-          case 'star': {
-            globals.star = true;
-            globals.starStart = globals.clock.getElapsedTime();
-            break;
-          }
-          case 'heart': {
-            globals.pacman.health += 1
-            break;
-          }
-        }
+      case 'star': {
+        globals.star = true;
+        globals.starStart = globals.clock.getElapsedTime();
+        break;
       }
+      case 'heart': {
+        globals.pacman.health += 1
+        break;
+      }
+    }
+  }
 }
 
 export default handlePickups;

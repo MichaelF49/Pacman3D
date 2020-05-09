@@ -20,7 +20,7 @@ export default {
   FRUIT_DAMAGE: {'cherry': 1, 'orange': 2.5, 'melon': 5},
   FRUIT_SPEED: {'cherry': 0.4, 'orange': 0.3, 'melon': 0.2}, // projectile speed
   DEFAULT_FRUIT: 'cherry',
-  AMMO_INC: {'orange': 10, 'melon': 5}, // get 5 ammo per pickup
+  AMMO_INC: {'orange': 5, 'melon': 5}, // get 5 ammo per pickup
   MAX_AMMO_CAPACITY: 10, // max ammo per category
 
   /**********************************************************

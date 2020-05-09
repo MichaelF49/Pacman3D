@@ -3,6 +3,7 @@ import {handleAI, handleKeys, handleMovement, handlePickups,
         handleShooting, handleWave} from './handlers';
 import initialize from './initialize';
 import React from 'react'
+import TopHud from './components/TopHud'
 import './App.css'
 
 const App = () => {
@@ -48,7 +49,10 @@ const App = () => {
 
   return (
     <div className='top-hud'>
-      <p >Cherries: {globals.pacman.ammo['cherry']}, Oranges: {globals.pacman.ammo['orange']}, Melons: {globals.pacman.ammo['melon']}</p>
+      <TopHud 
+        orange={globals.pacman.ammo['orange']}
+        melon={globals.pacman.ammo['melon']}
+      />
     </div>
   )
 };

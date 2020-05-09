@@ -1,4 +1,5 @@
-export default {
+export default { 
+  
   /**********************************************************
    * SCENE OBJECTS
    **********************************************************/
@@ -24,6 +25,11 @@ export default {
   moveLeft: false,
   moveRight: false,
   spaceDown: false, // prevent repetitive fires
+
+  /**********************************************************
+   * HUD UPDATES
+   **********************************************************/
+  updateAmmo: () => null,
 
   /**********************************************************
    * GAME PROPERTIES
