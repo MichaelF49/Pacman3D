@@ -5,7 +5,6 @@ import {
   AudioLoader,
   BackSide,
   BoxGeometry,
-  Clock,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
@@ -30,8 +29,6 @@ import SkyTopJPG from '../images/skybox/sky_top.jpg';
 import SkyBotJPG from '../images/skybox/sky_bot.jpg';
 
 const initialize = () => {
-  // start game clock
-  globals.clock = new Clock();
   // intialize model loader
   globals.loader = new GLTFLoader();
   // initialize enemy and pickup sets

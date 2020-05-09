@@ -38,5 +38,21 @@
 }
 
 .heart-img {
-  width: 30px;
+  width: 8vw;
+}
+
+.menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  height:50vh;
+  width: 33vw;
+  background-color:lightblue;
+}
+
+.menu * {
+  padding: 0px;
+  margin: 0px;
 }

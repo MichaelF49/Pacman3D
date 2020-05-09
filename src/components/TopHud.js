@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import globals from '../global/globals';
 
-const TopHud = ({ orange, melon }) => {
-  const [numOrange, setNumOrange] = useState(orange);
-  const [numMelon, setNumMelon] = useState(melon);
+const TopHud = () => {
+  const [numOrange, setNumOrange] = useState(globals.pacman.ammo.orange);
+  const [numMelon, setNumMelon] = useState(globals.pacman.ammo.melon);
 
   globals.updateAmmo = () => {
     setNumOrange(globals.pacman.ammo.orange);

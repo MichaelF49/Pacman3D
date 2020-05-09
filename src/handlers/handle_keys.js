@@ -27,6 +27,7 @@ const handleKeys = () => {
         // space
         if (!globals.spaceDown && !globals.gameOver) {
           globals.pacman.shoot();
+          globals.updateAmmo();
           globals.spaceDown = true;
         }
         break;

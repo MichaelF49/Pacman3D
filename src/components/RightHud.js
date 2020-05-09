@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 import globals from '../global/globals';
 
-const RightHud = ({ score, wave, enemies }) => {
-  const [scoreState, setScore] = useState(score);
-  const [waveState, setWave] = useState(wave);
-  const [enemiesState, setEnemies] = useState(enemies);
+const RightHud = () => {
+  const [scoreState, setScore] = useState(globals.score);
+  const [waveState, setWave] = useState(globals.wave);
+  const [enemiesState, setEnemies] = useState(globals.enemies.size);
 
   globals.updateGameProps = () => {
     setScore(globals.score);

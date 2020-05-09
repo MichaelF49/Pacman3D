@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Clock } from 'three';
 
-import TopHud from './components/TopHud';
-import RightHud from './components/RightHud';
 import BottomHud from './components/BottomHud';
-import './app.css';
+import Menu from './components/Menu';
+import RightHud from './components/RightHud';
+import TopHud from './components/TopHud';
 
-import consts from './global/consts';
 import globals from './global/globals';
 
 import {
@@ -16,61 +16,54 @@ import {
   handleShooting,
   handleWave,
 } from './handlers';
-import handleInitialization from './handlers/handle_initialization';
+
+import './app.css';
 
 const App = () => {
+  // if title menus is showing
+  const [showingMenu, setShowingMenu] = useState(true);
+
   /** ********************************************************
    * RENDER HANDLER
    ********************************************************* */
   const onAnimationFrameHandler = (timeStamp) => {
     if (!globals.gameOver) {
       window.requestAnimationFrame(onAnimationFrameHandler);
-      handleMovement();
-      handleShooting();
-      handleWave();
-      handleAI();
-      handlePickups();
+
+      // title menu still showing, skip handling the game
+      if (!showingMenu) {
+        handleMovement();
+        handleShooting();
+        handleWave();
+        handleAI();
+        handlePickups();
+      }
+
       // eslint-disable-next-line no-unused-expressions
       globals.scene.update && globals.scene.update(timeStamp);
       globals.composer.render();
     }
   };
 
-  /** ********************************************************
-   * RESIZE HANDLER
-   ********************************************************* */
-  const windowResizeHandler = () => {
-    const { innerHeight, innerWidth } = window;
-    globals.camera.aspect = innerWidth / innerHeight;
-    globals.camera.updateProjectionMatrix();
-    globals.renderer.setSize(innerWidth, innerHeight);
-  };
+  // start rendering
+  window.requestAnimationFrame(onAnimationFrameHandler);
 
-  /** ********************************************************
-   * START APPLICATION
-   ********************************************************* */
-  // initialize scene
-  handleInitialization();
+  // title menu still showing, do not start game yet
+  if (showingMenu) {
+    return <Menu setShowingMenu={setShowingMenu} />;
+  }
+
+  // start game clock
+  globals.clock = new Clock();
   // create and add key handlers
   handleKeys();
-  // start scene
-  window.requestAnimationFrame(onAnimationFrameHandler);
-  // start and add resize handler
-  windowResizeHandler();
-  window.addEventListener('resize', windowResizeHandler, false);
 
+  // initialize game UI
   return (
     <div>
-      <TopHud
-        orange={globals.pacman.ammo.orange}
-        melon={globals.pacman.ammo.melon}
-      />
-      <RightHud
-        score={globals.score}
-        wave={globals.currentWave}
-        enemies={globals.enemies.size}
-      />
-      <BottomHud hearts={consts.PACMAN_HEALTH} />
+      <TopHud />
+      <RightHud />
+      <BottomHud />
     </div>
   );
 };

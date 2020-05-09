@@ -4,8 +4,8 @@ import globals from '../global/globals';
 
 import image from '../images/heart.png';
 
-const BottomHud = ({ hearts }) => {
-  const [numHearts, setNumHearts] = useState(hearts);
+const BottomHud = () => {
+  const [numHearts, setNumHearts] = useState(globals.pacman.health);
 
   globals.updateHearts = () => {
     setNumHearts(globals.pacman.health);

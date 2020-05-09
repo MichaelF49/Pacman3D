@@ -264,6 +264,7 @@ const handleAI = () => {
     } else {
       // damage applied
       enemy.death();
+      globals.updateGameProps();
 
       // invincible
       if (globals.star) {
