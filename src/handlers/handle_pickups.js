@@ -54,20 +54,21 @@ let spawnFruit = () => {
     globals.lastFruitSpawnTime = globals.clock.getElapsedTime();
 
     // Choose random non-cherry fruit to spawn
-    let fruitIndex =
-      Number.parseInt(Math.random() * (consts.FRUIT.length - 1)) + 1;
-    let fruit = consts.FRUIT[fruitIndex],
-      scale = consts.FRUIT_SCALE[fruit];
+    const fruitIndex =
+      Math.floor(Math.random() * (consts.FRUIT.length - 1)) + 1;
+    const fruit = consts.FRUIT[fruitIndex];
+    const scale = consts.FRUIT_SCALE[fruit];
 
     // Create ammo Pickup object
     const pickup = new Pickup(fruit, 'ammo');
     pickup.scale.multiplyScalar(scale);
 
     // Get spawn position
-    let room = globals.rooms[parseInt(Math.random() * globals.rooms.length)];
-    let x = Math.random() * (room.maxX - room.minX) + room.minX;
-    let z = Math.random() * (room.maxZ - room.minZ) + room.minZ;
-    let spawnPos = new Vector3(x, -17, z);
+    const room =
+      globals.rooms[Math.floor(Math.random() * globals.rooms.length)];
+    const x = Math.random() * (room.maxX - room.minX) + room.minX;
+    const z = Math.random() * (room.maxZ - room.minZ) + room.minZ;
+    const spawnPos = new Vector3(x, -17, z);
 
     pickup.position.add(spawnPos);
     globals.scene.add(pickup);
@@ -92,10 +93,11 @@ let spawnPowerup = () => {
     pickup.scale.multiplyScalar(scale);
 
     // Get spawn position
-    let room = globals.rooms[parseInt(Math.random() * globals.rooms.length)];
-    let x = Math.random() * (room.maxX - room.minX) + room.minX;
-    let z = Math.random() * (room.maxZ - room.minZ) + room.minZ;
-    let spawnPos = new Vector3(x, -17, z);
+    const room =
+      globals.rooms[Math.floor(Math.random() * globals.rooms.length)];
+    const x = Math.random() * (room.maxX - room.minX) + room.minX;
+    const z = Math.random() * (room.maxZ - room.minZ) + room.minZ;
+    const spawnPos = new Vector3(x, -17, z);
 
     pickup.position.add(spawnPos);
     globals.scene.add(pickup);
@@ -115,19 +117,16 @@ let handleCollision = (pickup) => {
   });
 
   // ammo effect
-  if (pickup.type == 'ammo') {
+  if (pickup.type === 'ammo') {
     globals.pacman.ammo[pickup.name] = Math.min(
       consts.MAX_AMMO_CAPACITY,
       globals.pacman.ammo[pickup.name] + consts.AMMO_INC[pickup.name]
     );
-    globals.updateAmmo(
-      globals.pacman.ammo['orange'],
-      globals.pacman.ammo['melon']
-    );
+    globals.updateAmmo(globals.pacman.ammo.orange, globals.pacman.ammo.melon);
   }
 
   // powerup effect
-  if (pickup.type == 'powerup') {
+  if (pickup.type === 'powerup') {
     switch (pickup.name) {
       case 'freeze': {
         globals.freeze = true;
@@ -143,6 +142,9 @@ let handleCollision = (pickup) => {
         globals.pacman.health += 1;
         globals.updateHearts(globals.pacman.health);
         break;
+      }
+      default: {
+        // error
       }
     }
   }

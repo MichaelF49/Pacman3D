@@ -40,6 +40,7 @@ const initialize = () => {
    ********************************************************* */
   globals.camera = new PerspectiveCamera(
     75,
+    // eslint-disable-next-line no-undef
     window.innerWidth / window.innerHeight,
     1,
     50000
@@ -226,7 +227,9 @@ const initialize = () => {
    * RENDERER
    ********************************************************* */
   globals.renderer = new WebGLRenderer({ antialias: true });
+  // eslint-disable-next-line no-undef
   globals.renderer.setPixelRatio(window.devicePixelRatio);
+  // eslint-disable-next-line no-undef
   globals.renderer.setSize(window.innerWidth, window.innerHeight);
 
   // composer
@@ -250,8 +253,11 @@ const initialize = () => {
   /** ********************************************************
    * CSS adjustments
    ********************************************************* */
+  // eslint-disable-next-line no-undef
   document.body.style.margin = 0; // Removes margin around page
+  // eslint-disable-next-line no-undef
   document.body.style.overflow = 'hidden'; // Fix scrolling
+  // eslint-disable-next-line no-undef
   document.body.appendChild(canvas);
 };
 
