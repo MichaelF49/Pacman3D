@@ -9,13 +9,13 @@ const handleAI = () => {
   for (const enemy of globals.enemies) {
     // increasing the opacity of the ghosts
     if (enemy.meshes !== undefined) {
-      for (const msh of enemy.meshes) {
-        if (msh.material !== undefined && msh.material.opacity === 1) {
+      for (const mesh of enemy.meshes) {
+        if (mesh.material !== undefined && mesh.material.opacity === 1) {
           break;
         }
-        if (msh.material !== undefined) {
-          msh.material.opacity += 0.0008;
-          msh.material.transparent = true;
+        if (mesh.material !== undefined) {
+          mesh.material.opacity += 0.0008;
+          mesh.material.transparent = true;
         }
       }
     }
@@ -263,9 +263,6 @@ const handleAI = () => {
       enemy.rotation.y = angle;
     } else {
       // damage applied
-
-      globals.scene.remove(enemy);
-      globals.enemies.delete(enemy);
       enemy.death();
 
       // invincible
