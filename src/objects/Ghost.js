@@ -1,9 +1,9 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio, Group } from 'three';
 
-import { GhostDeathMP3, GhostNoise1MP3, GhostNoise2MP3 } from '../../audio';
-import { consts, globals } from '../../global';
-import { GhostGLB } from '../../models';
+import { GhostDeathMP3, GhostNoise1MP3, GhostNoise2MP3 } from '../audio';
+import { consts, globals } from '../global';
+import { GhostGLB } from '../models';
 
 class Ghost extends Group {
   constructor() {

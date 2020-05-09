@@ -1,6 +1,6 @@
 import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
-import { globals } from '../../global';
+import { globals } from '../global';
 
 class Doorwall {
   constructor(roomName, arenaSize, branchSize, x, z) {

@@ -1,10 +1,9 @@
 import { Audio, Group } from 'three';
 
-import { Projectile } from '../Projectile';
-
-import { NoAmmoMP3, ProjectileFiredMP3 } from '../../audio';
-import { consts, globals } from '../../global';
-import { PacmanGLB } from '../../models';
+import { Projectile } from '.';
+import { NoAmmoMP3, ProjectileFiredMP3 } from '../audio';
+import { consts, globals } from '../global';
+import { PacmanGLB } from '../models';
 
 class Pacman extends Group {
   constructor() {

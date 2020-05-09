@@ -1,8 +1,8 @@
 import { Audio, Vector3 } from 'three';
 
+import { handleKeys } from '.';
 import { VictoryMP3, WaveStartMP3 } from '../audio';
 import { consts, globals } from '../global';
-import handleKeys from './handleKeys';
 import { Ghost } from '../objects';
 
 const handleWave = () => {
