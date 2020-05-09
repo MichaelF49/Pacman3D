@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import BottomHud from './components/BottomHud';
-import Defeat from './components/Defeat';
-import Menu from './components/Menu';
-import RightHud from './components/RightHud';
-import TopHud from './components/TopHud';
-import Victory from './components/Victory';
-
+import {
+  BottomHud,
+  Defeat,
+  Menu,
+  RightHud,
+  TopHud,
+  Victory,
+} from './components';
 import { globals } from './global';
-
 import {
   handleAI,
   handleKeys,

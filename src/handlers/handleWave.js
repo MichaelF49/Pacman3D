@@ -1,7 +1,7 @@
 import { Audio, Vector3 } from 'three';
 
 import { consts, globals } from '../global';
-import handleKeys from './handle_keys';
+import handleKeys from './handleKeys';
 import { Ghost } from '../objects';
 
 import VictoryMP3 from '../audio/victory.mp3';

@@ -2,7 +2,7 @@
 import { Audio, Vector3 } from 'three';
 
 import { globals } from '../global';
-import handleKeys from './handle_keys';
+import handleKeys from './handleKeys';
 
 import DefeatMP3 from '../audio/defeat.mp3';
 
