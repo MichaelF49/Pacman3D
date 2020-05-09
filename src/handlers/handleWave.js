@@ -79,6 +79,12 @@ const handleWave = () => {
       globals.scene.add(ghost);
     }
 
+    // remove hallway entrances as rounds continue
+    if (globals.currentWave >= 1 && globals.currentWave <= 4) {
+      globals.scene.remove(globals.hallways[globals.currentWave - 1].entrances[0]);
+      globals.scene.remove(globals.hallways[globals.currentWave - 1].entrances[1]);
+    }
+
     globals.currentWave += 1;
     globals.updateGameProps();
   } else if (

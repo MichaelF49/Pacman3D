@@ -3,12 +3,14 @@ import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 import { globals } from '../global';
 
 class Hallway {
-  constructor(roomName, hallwayLength, x, z, sides) {
+  constructor(roomName, hallwayLength, x, z, sides, hexColor) {
     const doorWidth = 70;
     this.zAxis = false;
     // setting id of hallway, to be used for pathing algorithm
     this.id = roomName;
-    // possibly also used for defining the characteristics of the hallway
+    
+    // stores walls facing the center and outside rooms
+    this.entrances = [];
 
     this.unlocked = false;
 
@@ -39,9 +41,10 @@ class Hallway {
     }
 
     const floorMaterial = new MeshBasicMaterial({
-      color: 0x1974d2,
+      color: 0xfdf0c4,
       side: DoubleSide,
-      transparent: true,
+      transparent: false,
+      wireframe: true,
       opacity: 0.6,
     });
     const floor = new Mesh(floorGeo, floorMaterial);
@@ -55,14 +58,18 @@ class Hallway {
      * WALLS
      */
     const wallMaterial1 = new MeshBasicMaterial({
-      color: 0xf4c0dc, // PINK 244, 192, 220
-      side: DoubleSide,
-      wireframe: false,
-    });
-    const wallMaterial2 = new MeshBasicMaterial({
-      color: 0xdc362f, // RED 220, 54, 47
+      color: hexColor, // PINK 244, 192, 220
       side: DoubleSide,
       wireframe: true,
+      transparent: true,
+      opacity: 0.6
+    });
+    const wallMaterial2 = new MeshBasicMaterial({
+      color: 0xffffff, 
+      side: DoubleSide,
+      wireframe: false,
+      transparent: true,
+      opacity: 0.6
     });
 
     let wall;
@@ -90,12 +97,15 @@ class Hallway {
       wall.position.x = x;
       wall.position.z = z - hallwayLength / 2;
       globals.scene.add(wall);
+      this.entrances.push(wall);
 
       wall = new Mesh(doorWallGeo, wallMaterial2);
       wall.position.y = 7.5;
       wall.position.x = x;
       wall.position.z = z + hallwayLength / 2;
       globals.scene.add(wall);
+      this.entrances.push(wall);
+
     } else {
       wall = new Mesh(doorWallGeo, wallMaterial2);
       wall.rotation.y = Math.PI / 2;
@@ -103,6 +113,7 @@ class Hallway {
       wall.position.x = x + hallwayLength / 2;
       wall.position.z = z;
       globals.scene.add(wall);
+      this.entrances.push(wall);
 
       wall = new Mesh(doorWallGeo, wallMaterial2);
       wall.rotation.y = Math.PI / 2;
@@ -110,6 +121,7 @@ class Hallway {
       wall.position.x = x - hallwayLength / 2;
       wall.position.z = z;
       globals.scene.add(wall);
+      this.entrances.push(wall);
 
       wall = new Mesh(longWallGeo, wallMaterial1);
       wall.position.y = 7.5;
@@ -136,6 +148,14 @@ class Hallway {
     }
 
     return false;
+  }
+
+  // helper function for reducing the opacity of entrances
+  // results in a visual artifact where at times you cannot see behind the rendered wall even though it has opacity of 0
+  openEntrance() {
+    for (let door of this.entrances) {
+      door.material.opacity = 0;
+    }
   }
 }
 
