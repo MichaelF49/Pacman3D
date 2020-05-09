@@ -3,13 +3,16 @@
   top: 0%;
   left: 0%;
   color: white;
-  font-size: 4.3vh;
+  font-size: 7vh;
   font-family: Arial, Helvetica, sans-serif;
   margin: 5vh;
 }
 .top-hud * {
   padding: 0px;
   margin: 0px;
+  color: rgb(255, 251, 0);
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  font-weight: bold;
 }
 
 .right-hud {

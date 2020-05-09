@@ -1,4 +1,7 @@
+export { default as CherryJPG } from './fruit/cherry.jpg';
 export { default as HeartPNG } from './heart.png';
+export { default as MelonJPG } from './fruit/melon.jpg';
+export { default as OrangeJPG } from './fruit/orange.jpg';
 export { default as SkyBotJPG } from './skybox/sky_bot.jpg';
 export { default as SkyTopJPG } from './skybox/sky_top.jpg';
 export { default as Sky1JPG } from './skybox/sky1.jpg';

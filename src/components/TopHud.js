@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { CherryJPG, MelonJPG, OrangeJPG } from '../images';
 import { globals } from '../global';
 
 const TopHud = () => {
@@ -12,9 +13,19 @@ const TopHud = () => {
   };
 
   return (
-    <p className='top-hud'>
-      Cherries: ∞, Oranges: {numOrange}, Melons: {numMelon}
-    </p>
+    <div className='top-hud'>
+      <div>
+        <img src={CherryJPG} alt='cherry' style={{ width: 60, height: 60 }} /> ∞
+      </div>
+      <div>
+        <img src={OrangeJPG} alt='cherry' style={{ width: 60, height: 60 }} />{' '}
+        {numOrange}
+      </div>
+      <div>
+        <img src={MelonJPG} alt='cherry' style={{ width: 60, height: 60 }} />{' '}
+        {numMelon}
+      </div>
+    </div>
   );
 };
 
