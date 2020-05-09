@@ -1,5 +1,4 @@
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable default-case */
 import { Audio, Vector3 } from 'three';
 
 import { Pickup } from '../objects';
@@ -113,6 +112,9 @@ const handlePickups = () => {
             globals.star = true;
             globals.starStart = globals.clock.getElapsedTime();
             break;
+          }
+          default: {
+            // error
           }
         }
       }
