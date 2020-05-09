@@ -83,11 +83,7 @@ const handleWave = () => {
     }
 
     globals.currentWave += 1;
-    globals.updateGameProps(
-      globals.score,
-      globals.currentWave,
-      globals.enemies.size
-    );
+    globals.updateGameProps();
   } else if (
     globals.enemies.size === 0 &&
     globals.currentWave === consts.WAVES.length

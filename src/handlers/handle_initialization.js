@@ -34,6 +34,9 @@ const initialize = () => {
   globals.clock = new Clock();
   // intialize model loader
   globals.loader = new GLTFLoader();
+  // initialize enemy and pickup sets
+  globals.enemies = new Set();
+  globals.pickups = new Set();
 
   /** ********************************************************
    * SCENE + CAMERA
@@ -99,6 +102,9 @@ const initialize = () => {
   /** ********************************************************
    *  ROOMS (FLOORS & WALLS)
    *********************************************************** */
+  globals.rooms = [];
+  globals.hallways = [];
+
   // parameters for which walls a room has
   const sides = {
     right: false,

@@ -122,7 +122,7 @@ let handleCollision = (pickup) => {
       consts.MAX_AMMO_CAPACITY,
       globals.pacman.ammo[pickup.name] + consts.AMMO_INC[pickup.name]
     );
-    globals.updateAmmo(globals.pacman.ammo.orange, globals.pacman.ammo.melon);
+    globals.updateAmmo();
   }
 
   // powerup effect
@@ -143,7 +143,7 @@ let handleCollision = (pickup) => {
           consts.PACMAN_MAX_HEALTH,
           globals.pacman.health + 1
         );
-        globals.updateHearts(globals.pacman.health);
+        globals.updateHearts();
         break;
       }
       default: {

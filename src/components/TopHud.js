@@ -6,9 +6,9 @@ const TopHud = ({ orange, melon }) => {
   const [numOrange, setNumOrange] = useState(orange);
   const [numMelon, setNumMelon] = useState(melon);
 
-  globals.updateAmmo = (orange_, melon_) => {
-    setNumOrange(orange_);
-    setNumMelon(melon_);
+  globals.updateAmmo = () => {
+    setNumOrange(globals.pacman.ammo.orange);
+    setNumMelon(globals.pacman.ammo.melon);
   };
 
   return (

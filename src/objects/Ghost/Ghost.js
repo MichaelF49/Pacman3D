@@ -97,6 +97,9 @@ class Ghost extends Group {
     globals.scene.remove(this);
     globals.enemies.delete(this);
 
+    globals.score += 100;
+    globals.updateGameProps();
+
     const sound = new Audio(globals.listener);
     globals.audioLoader.load(GhostDeathMP3, (buffer) => {
       sound.setBuffer(buffer);

@@ -7,10 +7,10 @@ const RightHud = ({ score, wave, enemies }) => {
   const [waveState, setWave] = useState(wave);
   const [enemiesState, setEnemies] = useState(enemies);
 
-  globals.updateGameProps = (score_, wave_, enemies_) => {
-    setScore(score_);
-    setWave(wave_);
-    setEnemies(enemies_);
+  globals.updateGameProps = () => {
+    setScore(globals.score);
+    setWave(globals.currentWave);
+    setEnemies(globals.enemies.size);
   };
 
   return (

@@ -7,8 +7,8 @@ import image from '../images/heart.png';
 const BottomHud = ({ hearts }) => {
   const [numHearts, setNumHearts] = useState(hearts);
 
-  globals.updateHearts = (hearts_) => {
-    setNumHearts(hearts_);
+  globals.updateHearts = () => {
+    setNumHearts(globals.pacman.health);
   };
 
   const heartElem = [];

@@ -28,9 +28,15 @@ export default {
   /** ********************************************************
    * HUD UPDATES
    ********************************************************* */
-  updateAmmo: () => null,
-  updateGameProps: () => null,
-  updateHearts: () => null,
+  updateAmmo: () => {
+    return null;
+  },
+  updateGameProps: () => {
+    return null;
+  },
+  updateHearts: () => {
+    return null;
+  },
 
   /** ********************************************************
    * GAME PROPERTIES
@@ -39,15 +45,15 @@ export default {
   clock: null,
   score: 0,
 
-  enemies: new Set(),
+  enemies: null,
   currentWave: 0,
   startedWave: false,
   startTime: 0,
 
-  rooms: [], // list of rooms
-  hallways: [],
+  rooms: null,
+  hallways: null,
 
-  pickups: new Set(),
+  pickups: null,
   lastFruitSpawnTime: 0,
   lastPowerupSpawnTime: 0,
   freeze: false,

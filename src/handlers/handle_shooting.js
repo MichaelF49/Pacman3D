@@ -29,15 +29,7 @@ const handleShooting = () => {
 
         // enemy has no health, kill and delete from scene
         if (enemy.health <= 0) {
-          globals.scene.remove(enemy);
-          globals.enemies.delete(enemy);
           enemy.death();
-          globals.score += 100;
-          globals.updateGameProps(
-            globals.score,
-            globals.currentWave,
-            globals.enemies.size
-          );
         }
       }
     }
