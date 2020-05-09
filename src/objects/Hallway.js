@@ -8,7 +8,9 @@ class Hallway {
     this.zAxis = false;
     // setting id of hallway, to be used for pathing algorithm
     this.id = roomName;
-    // possibly also used for defining the characteristics of the hallway
+    
+    // stores walls facing the center and outside rooms
+    this.entrances = [];
 
     this.unlocked = false;
 
@@ -95,12 +97,15 @@ class Hallway {
       wall.position.x = x;
       wall.position.z = z - hallwayLength / 2;
       globals.scene.add(wall);
+      this.entrances.push(wall);
 
       wall = new Mesh(doorWallGeo, wallMaterial2);
       wall.position.y = 7.5;
       wall.position.x = x;
       wall.position.z = z + hallwayLength / 2;
       globals.scene.add(wall);
+      this.entrances.push(wall);
+
     } else {
       wall = new Mesh(doorWallGeo, wallMaterial2);
       wall.rotation.y = Math.PI / 2;
@@ -108,6 +113,7 @@ class Hallway {
       wall.position.x = x + hallwayLength / 2;
       wall.position.z = z;
       globals.scene.add(wall);
+      this.entrances.push(wall);
 
       wall = new Mesh(doorWallGeo, wallMaterial2);
       wall.rotation.y = Math.PI / 2;
@@ -115,6 +121,7 @@ class Hallway {
       wall.position.x = x - hallwayLength / 2;
       wall.position.z = z;
       globals.scene.add(wall);
+      this.entrances.push(wall);
 
       wall = new Mesh(longWallGeo, wallMaterial1);
       wall.position.y = 7.5;
@@ -141,6 +148,14 @@ class Hallway {
     }
 
     return false;
+  }
+
+  // helper function for reducing the opacity of entrances
+  // results in a visual artifact where at times you cannot see behind the rendered wall even though it has opacity of 0
+  openEntrance() {
+    for (let door of this.entrances) {
+      door.material.opacity = 0;
+    }
   }
 }
 
