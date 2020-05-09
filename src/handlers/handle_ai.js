@@ -3,7 +3,7 @@ import { Audio, Vector3 } from 'three';
 
 import globals from '../globals';
 
-import DEFEAT_mp3 from '../audio/defeat.mp3';
+import DefeatMP3 from '../audio/defeat.mp3';
 
 const handleAI = () => {
   for (const enemy of globals.enemies) {
@@ -276,7 +276,7 @@ const handleAI = () => {
         // pacman dies
         globals.globalMusic.stop();
         const sound = new Audio(globals.listener);
-        globals.audioLoader.load(DEFEAT_mp3, (buffer) => {
+        globals.audioLoader.load(DefeatMP3, (buffer) => {
           sound.setBuffer(buffer);
           sound.setVolume(0.25);
           sound.play();

@@ -1,21 +1,11 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-restricted-syntax */
 import { Audio } from 'three';
 
 import consts from '../consts';
 import globals from '../globals';
 
-import POP_mp3 from '../audio/pop.mp3';
-
-const deleteProjectile = (projectile) => {
-  const sound = new Audio(globals.listener);
-  globals.audioLoader.load(POP_mp3, (buffer) => {
-    sound.setBuffer(buffer);
-    sound.setVolume(0.05);
-    sound.play();
-  });
-  globals.scene.remove(projectile);
-  globals.pacman.projectiles.delete(projectile);
-};
+import PopMP3 from '../audio/pop.mp3';
 
 const handleShooting = () => {
   for (const projectile of globals.pacman.projectiles) {
@@ -216,6 +206,17 @@ const handleShooting = () => {
       }
     }
   }
+};
+
+const deleteProjectile = (projectile) => {
+  const sound = new Audio(globals.listener);
+  globals.audioLoader.load(PopMP3, (buffer) => {
+    sound.setBuffer(buffer);
+    sound.setVolume(0.05);
+    sound.play();
+  });
+  globals.scene.remove(projectile);
+  globals.pacman.projectiles.delete(projectile);
 };
 
 export default handleShooting;

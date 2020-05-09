@@ -2,11 +2,11 @@ import { Group } from 'three';
 
 import globals from '../../globals';
 
-import CHERRY_glb from '../../models/cherry.glb';
-import FREEZE_glb from '../../models/freeze.glb';
-import MELON_glb from '../../models/melon.glb';
-import ORAGNGE_glb from '../../models/orange.glb';
-import STAR_glb from '../../models/star.glb';
+import CherryGLB from '../../models/cherry.glb';
+import FreezeGLB from '../../models/freeze.glb';
+import MelonGLB from '../../models/melon.glb';
+import OrangeGLB from '../../models/orange.glb';
+import StarGLB from '../../models/star.glb';
 
 class Pickup extends Group {
   constructor(name, type) {
@@ -21,15 +21,15 @@ class Pickup extends Group {
       case 'ammo': {
         switch (name) {
           case 'cherry': {
-            model = CHERRY_glb;
+            model = CherryGLB;
             break;
           }
           case 'orange': {
-            model = ORAGNGE_glb;
+            model = OrangeGLB;
             break;
           }
           case 'melon': {
-            model = MELON_glb;
+            model = MelonGLB;
             break;
           }
           default: {
@@ -41,11 +41,11 @@ class Pickup extends Group {
       case 'powerup': {
         switch (name) {
           case 'freeze': {
-            model = FREEZE_glb;
+            model = FreezeGLB;
             break;
           }
           case 'star': {
-            model = STAR_glb;
+            model = StarGLB;
             break;
           }
           default: {

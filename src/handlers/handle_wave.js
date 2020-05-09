@@ -5,8 +5,8 @@ import { Ghost } from '../objects';
 import consts from '../consts';
 import globals from '../globals';
 
-import VICTORY_mp3 from '../audio/victory.mp3';
-import WAVE_START_mp3 from '../audio/wave_start.mp3';
+import VictoryMP3 from '../audio/victory.mp3';
+import WaveStartMP3 from '../audio/wave_start.mp3';
 
 const handleWave = () => {
   if (globals.enemies.size === 0 && globals.currentWave < consts.WAVES.length) {
@@ -29,7 +29,7 @@ const handleWave = () => {
 
     // start new wave
     const sound = new Audio(globals.listener);
-    globals.audioLoader.load(WAVE_START_mp3, (buffer) => {
+    globals.audioLoader.load(WaveStartMP3, (buffer) => {
       sound.setBuffer(buffer);
       sound.setVolume(0.25);
       sound.play();
@@ -91,7 +91,7 @@ const handleWave = () => {
 
     globals.globalMusic.stop();
     const sound = new Audio(globals.listener);
-    globals.audioLoader.load(VICTORY_mp3, (buffer) => {
+    globals.audioLoader.load(VictoryMP3, (buffer) => {
       sound.setBuffer(buffer);
       sound.setVolume(0.25);
       sound.play();

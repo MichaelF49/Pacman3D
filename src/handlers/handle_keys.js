@@ -86,7 +86,9 @@ const handleKeys = () => {
   };
 
   // add key handlers
+  // eslint-disable-next-line no-undef
   window.addEventListener('keydown', onKeyDown, false);
+  // eslint-disable-next-line no-undef
   window.addEventListener('keyup', onKeyUp, false);
 };
 

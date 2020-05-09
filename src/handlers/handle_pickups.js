@@ -6,7 +6,7 @@ import { Pickup } from '../objects';
 import consts from '../consts';
 import globals from '../globals';
 
-import POP_mp3 from '../audio/pop.mp3';
+import PopMP3 from '../audio/pop.mp3';
 
 const handlePickups = () => {
   // Check timers
@@ -86,7 +86,7 @@ const handlePickups = () => {
       globals.pickups.delete(pickup);
 
       const sound = new Audio(globals.listener);
-      globals.audioLoader.load(POP_mp3, (buffer) => {
+      globals.audioLoader.load(PopMP3, (buffer) => {
         sound.setBuffer(buffer);
         sound.setVolume(0.2);
         sound.play();

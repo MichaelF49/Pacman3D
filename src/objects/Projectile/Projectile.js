@@ -3,9 +3,9 @@ import { Group } from 'three';
 import consts from '../../consts';
 import globals from '../../globals';
 
-import CHERRY_glb from '../../models/cherry.glb';
-import MELON_glb from '../../models/melon.glb';
-import ORAGNGE_glb from '../../models/orange.glb';
+import CherryGLB from '../../models/cherry.glb';
+import MelonGLB from '../../models/melon.glb';
+import OrangeGLB from '../../models/orange.glb';
 
 class Projectile extends Group {
   constructor(direction, name) {
@@ -20,15 +20,15 @@ class Projectile extends Group {
     let model = null;
     switch (name) {
       case 'cherry': {
-        model = CHERRY_glb;
+        model = CherryGLB;
         break;
       }
       case 'orange': {
-        model = ORAGNGE_glb;
+        model = OrangeGLB;
         break;
       }
       case 'melon': {
-        model = MELON_glb;
+        model = MelonGLB;
         break;
       }
       default: {

@@ -4,10 +4,10 @@ import { Audio, Group } from 'three';
 import consts from '../../consts';
 import globals from '../../globals';
 
-import GHOST_glb from '../../models/blue_ghost6.glb';
-import GHOST_DEATH_mp3 from '../../audio/ghost_death.mp3';
-import GHOST_NOISE1_mp3 from '../../audio/ghost_noise1.mp3';
-import GHOST_NOISE2_mp3 from '../../audio/ghost_noise2.mp3';
+import GhostGLB from '../../models/blue_ghost6.glb';
+import GhostDeathMP3 from '../../audio/ghost_death.mp3';
+import GhostNoise1MP3 from '../../audio/ghost_noise1.mp3';
+import GhostNoise2MP3 from '../../audio/ghost_noise2.mp3';
 
 class Ghost extends Group {
   constructor() {
@@ -33,7 +33,7 @@ class Ghost extends Group {
     this.meshes = [];
     this.body = [];
 
-    globals.loader.load(GHOST_glb, (gltf) => {
+    globals.loader.load(GhostGLB, (gltf) => {
       // this.meshes = gltf.scene.children[0].children[0].children;
       // accessing the meshes of the "group"
       this.meshes.push(gltf.scene.children[0].children[0]);
@@ -82,7 +82,7 @@ class Ghost extends Group {
 
   makeNoise() {
     if (globals.clock.getElapsedTime() - this.oldTime > this.noiseTimeDiff) {
-      const file = Math.random() > 0.5 ? GHOST_NOISE1_mp3 : GHOST_NOISE2_mp3;
+      const file = Math.random() > 0.5 ? GhostNoise1MP3 : GhostNoise2MP3;
 
       const sound = new Audio(globals.listener);
       globals.audioLoader.load(file, (buffer) => {
@@ -101,7 +101,7 @@ class Ghost extends Group {
     globals.enemies.delete(this);
 
     const sound = new Audio(globals.listener);
-    globals.audioLoader.load(GHOST_DEATH_mp3, (buffer) => {
+    globals.audioLoader.load(GhostDeathMP3, (buffer) => {
       sound.setBuffer(buffer);
       sound.setVolume(0.3);
       sound.play();
