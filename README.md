@@ -14,8 +14,8 @@ Final project for COS 426 (Spring 2020).
 Fight waves of increasingly difficult ghosts. Pickup different types of ammunition
 and powerups to gain an upper edge.
 
-* Snowflake: Temporarily freeze ghosts.
-* Star: Become temporarily invincible.
+* **Snowflake**: Temporarily freeze ghosts.
+* **Star**: Become temporarily invincible.
 
 ## Installation
 Download the repository, run `npm install` in the project directory and then `npm start`.
