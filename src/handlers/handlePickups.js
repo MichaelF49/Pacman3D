@@ -7,9 +7,9 @@ import { consts, globals } from '../global';
 import { Pickup } from '../objects';
 
 const handlePickups = () => {
-  checkTimers();
-  spawnFruit();
-  spawnPowerup();
+  // checkTimers();
+  // spawnFruit();
+  // spawnPowerup();
 
   for (const pickup of globals.pickups) {
     const hitDist = pickup.position

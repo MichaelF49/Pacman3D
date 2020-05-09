@@ -51,6 +51,7 @@ const handleMovement = () => {
 
 const updatePacPosition = () => {
   let barrier;
+  let entrance = consts.ARENA_SIZE / 2 - consts.PACMAN_BUFFER;
   // central x tunnel
   if (
     globals.pacman.position.x >=
@@ -62,9 +63,25 @@ const updatePacPosition = () => {
       consts.HALLWAY_LENGTH +
       consts.BRANCH_SIZE -
       consts.PACMAN_BUFFER;
-    globals.pacman.position.setZ(
-      Math.max(Math.min(barrier, globals.pacman.position.z), -barrier)
-    );
+    
+    // unlock the BLUE room at wave 3
+    if (globals.currentWave < 3) {
+      globals.pacman.position.setZ(
+        Math.max(Math.min(entrance, globals.pacman.position.z), -entrance)
+      );
+    }
+    // unlock the YELLOW room at wave 5
+    else if (globals.currentWave < 5){
+      globals.pacman.position.setZ(
+        Math.max(Math.min(barrier, globals.pacman.position.z), -entrance)
+      );
+    }
+    else {
+      globals.pacman.position.setZ(
+        Math.max(Math.min(barrier, globals.pacman.position.z), -barrier)
+      );
+    }
+    
 
     // hallways
     if (
@@ -99,9 +116,24 @@ const updatePacPosition = () => {
       consts.HALLWAY_LENGTH +
       consts.BRANCH_SIZE -
       consts.PACMAN_BUFFER;
-    globals.pacman.position.setX(
-      Math.max(Math.min(barrier, globals.pacman.position.x), -barrier)
-    );
+
+    // unlocking the RED room at wave 2
+    if (globals.currentWave < 2) {
+      globals.pacman.position.setX(
+        Math.max(Math.min(entrance, globals.pacman.position.x), -entrance)
+      );
+    }
+    // unlocking the YELLOW room at wave 4
+    else if (globals.currentWave < 4){
+      globals.pacman.position.setX(
+        Math.max(Math.min(barrier, globals.pacman.position.x), -entrance)
+      );
+    }
+    else {
+      globals.pacman.position.setX(
+        Math.max(Math.min(barrier, globals.pacman.position.x), -barrier)
+      );
+    }
 
     // hallways
     if (

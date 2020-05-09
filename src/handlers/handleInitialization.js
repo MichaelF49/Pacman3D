@@ -97,12 +97,7 @@ const initialize = () => {
    *********************************************************** */
   globals.rooms = [];
   globals.hallways = [];
-
-  const PINK = consts.PINK;
-  const RED = consts.RED;
-  const BLUE = consts.BLUE;
-  const YELLOW = consts.YELLOW;
-
+  
   // parameters for which walls a room has
   const sides = {
     right: false,
@@ -125,7 +120,7 @@ const initialize = () => {
       consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH,
       0,
       sides,
-      PINK
+      consts.PINK
     )
   );
   globals.hallways.push(
@@ -135,7 +130,7 @@ const initialize = () => {
       consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2,
       0,
       sides,
-      PINK
+      consts.PINK
     )
   );
 
@@ -148,7 +143,7 @@ const initialize = () => {
       0,
       consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH,
       sides,
-      RED
+      consts.RED
     )
   );
   globals.hallways.push(
@@ -158,7 +153,7 @@ const initialize = () => {
       0,
       consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2,
       sides,
-      RED
+      consts.RED
     )
   );
 
@@ -171,7 +166,7 @@ const initialize = () => {
       -(consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH),
       0,
       sides,
-      BLUE
+      consts.BLUE
     )
   );
   globals.hallways.push(
@@ -181,7 +176,7 @@ const initialize = () => {
       -(consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2),
       0,
       sides,
-      BLUE
+      consts.BLUE
     )
   );
 
@@ -194,7 +189,7 @@ const initialize = () => {
       0,
       -(consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH),
       sides,
-      YELLOW
+      consts.YELLOW
     )
   );
   globals.hallways.push(
@@ -204,7 +199,7 @@ const initialize = () => {
       0,
       -(consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2),
       sides, 
-      YELLOW
+      consts.YELLOW
     )
   );
 

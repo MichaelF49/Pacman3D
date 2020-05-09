@@ -47,7 +47,7 @@ export default {
   /** ********************************************************
    * WAVES
    ******************************************************** */
-  WAVES: [3, 6, 10], // enemies per wave
+  WAVES: [1, 1, 1, 1, 1, 1], // enemies per wave
   DIFFICULTY_SCALE: { MAX_SPEED: 2, MAX_HEALTH: 10 },
   WAVE_RESET_TIME: 8, // 8 s between waves
   SAFE_RADIUS: 75.0, // safe distance to spawn enemies
