@@ -13,7 +13,15 @@ const BottomHud = ({ hearts }) => {
 
   const heartElem = [];
   for (let i = 0; i < numHearts; i += 1) {
-    heartElem.push(<img key={i} className='heart-img' src={image} alt='HP' />);
+    heartElem.push(
+      <img
+        key={i}
+        className='heart-img'
+        src={image}
+        alt='HP'
+        style={{ width: 60, height: 60 }}
+      />
+    );
   }
 
   return <p className='bottom-hud'>{heartElem}</p>;
