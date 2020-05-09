@@ -23,6 +23,7 @@ export default {
   DEFAULT_FRUIT: 'cherry',
   AMMO_INC: { orange: 5, melon: 5 }, // get 5 ammo per pickup
   MAX_AMMO_CAPACITY: 10, // max ammo per category
+  MAX_PICKUPS: 10, // the maximum number of pickups on the map
 
 /** *********************************************************
    * COLORS
@@ -39,15 +40,15 @@ export default {
   POWERUP_SCALE: { freeze: 2, star: 0.125, heart: 0.175 },
   FREEZE_TIME: 5, // 5 s freeze
   STAR_TIME: 8, // 8 s invincibility
-  FRUIT_SPAWN_TIME: 1, // time bewteen fruit spawns
-  POWERUP_SPAWN_TIME: 2, // time between powerup spawns
+  FRUIT_SPAWN_TIME: 10, // time bewteen fruit spawns
+  POWERUP_SPAWN_TIME: 15, // time between powerup spawns
   BOB_SPEED: 3,
   ROTATION_SPEED: 250, // higher is slower
 
   /** ********************************************************
    * WAVES
    ******************************************************** */
-  WAVES: [1, 1, 1, 1, 1, 1], // enemies per wave
+  WAVES: [3, 6, 9, 12, 15, 18], // enemies per wave
   DIFFICULTY_SCALE: { MAX_SPEED: 2, MAX_HEALTH: 10 },
   WAVE_RESET_TIME: 8, // 8 s between waves
   SAFE_RADIUS: 75.0, // safe distance to spawn enemies

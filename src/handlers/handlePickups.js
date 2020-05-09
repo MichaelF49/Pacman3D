@@ -7,9 +7,13 @@ import { consts, globals } from '../global';
 import { Pickup } from '../objects';
 
 const handlePickups = () => {
-  // checkTimers();
-  // spawnFruit();
-  // spawnPowerup();
+  checkTimers();
+
+  // Caps the number of pickups on the map at one time
+  if (globals.pickups.size < consts.MAX_PICKUPS) {
+    spawnFruit();
+    spawnPowerup();
+  }
 
   for (const pickup of globals.pickups) {
     const hitDist = pickup.position
@@ -61,8 +65,9 @@ let spawnFruit = () => {
     pickup.scale.multiplyScalar(scale);
 
     // Get spawn position
-    const room =
-      globals.rooms[Math.floor(Math.random() * globals.rooms.length)];
+    // const room =
+    //   globals.rooms[Math.floor(Math.random() * globals.rooms.length)];
+    const room = globals.rooms[0]; // spawn fruit only in the central room
     const x = Math.random() * (room.maxX - room.minX) + room.minX;
     const z = Math.random() * (room.maxZ - room.minZ) + room.minZ;
     const spawnPos = new Vector3(x, -17, z);
@@ -90,8 +95,9 @@ let spawnPowerup = () => {
     pickup.scale.multiplyScalar(scale);
 
     // Get spawn position
-    const room =
-      globals.rooms[Math.floor(Math.random() * globals.rooms.length)];
+    // const room =
+    //   globals.rooms[Math.floor(Math.random() * globals.rooms.length)];
+    const room = globals.rooms[0]; // spawn fruit only in the central room
     const x = Math.random() * (room.maxX - room.minX) + room.minX;
     const z = Math.random() * (room.maxZ - room.minZ) + room.minZ;
     const spawnPos = new Vector3(x, -17, z);
