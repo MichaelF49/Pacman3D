@@ -121,6 +121,7 @@ let handleCollision = pickup => {
       }
       case 'heart': {
         globals.pacman.health += 1
+        globals.updateHearts(globals.pacman.health)
         break;
       }
     }

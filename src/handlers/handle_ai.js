@@ -215,6 +215,7 @@ let handleAI = () => {
 
       // take damage
       globals.pacman.health--;
+      globals.updateHearts(globals.pacman.health)
       if (globals.pacman.health <= 0) {
         // pacman dies
         globals.globalMusic.stop();

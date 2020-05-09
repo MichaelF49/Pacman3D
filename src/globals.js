@@ -30,6 +30,8 @@ export default {
    * HUD UPDATES
    **********************************************************/
   updateAmmo: () => null,
+  updateGameProps: () => null,
+  updateHearts: () => null,
 
   /**********************************************************
    * GAME PROPERTIES

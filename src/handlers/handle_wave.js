@@ -67,6 +67,7 @@ let handleWave = () => {
     }
 
     globals.currentWave++;
+    globals.updateGameProps(globals.score, globals.currentWave, globals.enemies.size)
   }
   // victory
   else if (globals.enemies.size === 0 && globals.currentWave === consts.WAVES.length) {

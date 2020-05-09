@@ -1,9 +1,12 @@
 import globals from './globals';
+import consts from './consts';
 import {handleAI, handleKeys, handleMovement, handlePickups,
         handleShooting, handleWave} from './handlers';
 import initialize from './initialize';
 import React from 'react'
 import TopHud from './components/TopHud'
+import RightHud from './components/RightHud'
+import BottomHud from './components/BottomHud'
 import './App.css'
 
 const App = () => {
@@ -48,11 +51,17 @@ const App = () => {
   window.addEventListener('resize', windowResizeHandler, false);
 
   return (
-    <div className='top-hud'>
+    <div>
       <TopHud 
         orange={globals.pacman.ammo['orange']}
         melon={globals.pacman.ammo['melon']}
       />
+      <RightHud 
+        score={globals.score}
+        wave={globals.currentWave}
+        enemies={globals.enemies.length}
+      />
+      <BottomHud hearts={consts.PACMAN_HEALTH} />
     </div>
   )
 };

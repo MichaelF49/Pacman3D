@@ -11,7 +11,7 @@ const TopHud = ({ orange, melon }) => {
   }
 
   return (
-    <p>Cherries: inf, Oranges: {numOrange}, Melons: {numMelon}</p>
+    <p className='top-hud'>Cherries: inf, Oranges: {numOrange}, Melons: {numMelon}</p>
   ) 
 }
 
