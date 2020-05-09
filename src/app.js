@@ -24,7 +24,6 @@ const App = () => {
    ********************************************************* */
   const onAnimationFrameHandler = (timeStamp) => {
     if (!globals.gameOver) {
-      // eslint-disable-next-line no-undef
       window.requestAnimationFrame(onAnimationFrameHandler);
       handleMovement();
       handleShooting();
@@ -41,7 +40,6 @@ const App = () => {
    * RESIZE HANDLER
    ********************************************************* */
   const windowResizeHandler = () => {
-    // eslint-disable-next-line no-undef
     const { innerHeight, innerWidth } = window;
     globals.camera.aspect = innerWidth / innerHeight;
     globals.camera.updateProjectionMatrix();
@@ -56,11 +54,9 @@ const App = () => {
   // create and add key handlers
   handleKeys();
   // start scene
-  // eslint-disable-next-line no-undef
   window.requestAnimationFrame(onAnimationFrameHandler);
   // start and add resize handler
   windowResizeHandler();
-  // eslint-disable-next-line no-undef
   window.addEventListener('resize', windowResizeHandler, false);
 
   return (

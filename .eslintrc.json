@@ -4,5 +4,9 @@
   "rules": {
     "prettier/prettier": "error",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+  },
+  "globals": {
+    "window": "readonly",
+    "document": "readonly"
   }
 }
