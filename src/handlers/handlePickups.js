@@ -34,12 +34,14 @@ let checkTimers = () => {
     globals.clock.getElapsedTime() - globals.freezeStart > consts.FREEZE_TIME
   ) {
     globals.freeze = false;
+    globals.updateHeartsAndPowerup();
   }
   if (
     globals.star &&
     globals.clock.getElapsedTime() - globals.starStart > consts.STAR_TIME
   ) {
     globals.star = false;
+    globals.updateHeartsAndPowerup();
   }
 };
 
@@ -140,13 +142,14 @@ let handleCollision = (pickup) => {
           consts.PACMAN_MAX_HEALTH,
           globals.pacman.health + 1
         );
-        globals.updateHearts();
         break;
       }
       default: {
         // error
       }
     }
+
+    globals.updateHeartsAndPowerup();
   }
 };
 

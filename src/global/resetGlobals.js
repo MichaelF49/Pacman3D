@@ -25,7 +25,7 @@ const resetGlobals = () => {
   globals.updateGameProps = () => {
     return null;
   };
-  globals.updateHearts = () => {
+  globals.updateHeartsAndPowerup = () => {
     return null;
   };
   globals.gameOverTime = -1;

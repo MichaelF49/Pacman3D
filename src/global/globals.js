@@ -34,7 +34,7 @@ export default {
   updateGameProps: () => {
     return null;
   },
-  updateHearts: () => {
+  updateHeartsAndPowerup: () => {
     return null;
   },
 

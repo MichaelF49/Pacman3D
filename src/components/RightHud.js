@@ -14,9 +14,11 @@ const RightHud = () => {
   };
 
   return (
-    <p className='right-hud'>
-      Score: {scoreState}, Wave: {waveState}, Enemies: {enemiesState}
-    </p>
+    <div className='right-hud'>
+      <div>SCORE: {scoreState}</div>
+      <div>WAVE: {waveState}</div>
+      <div>ENEMIES: {enemiesState}</div>
+    </div>
   );
 };
 

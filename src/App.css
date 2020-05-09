@@ -27,6 +27,9 @@
 .right-hud * {
   padding: 0px;
   margin: 0px;
+  color: rgb(255, 251, 0);
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  font-weight: bold;
 }
 
 .bottom-hud {
@@ -38,6 +41,10 @@
 .bottom-hud * {
   padding: 0px;
   margin: 0px;
+}
+
+.hp {
+  height: 8vh;
 }
 
 .heart-img {

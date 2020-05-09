@@ -34,16 +34,19 @@ const onKeyDown = (event) => {
     case 49: {
       // 1
       globals.pacman.switchFruit(1);
+      globals.updateAmmo();
       break;
     }
     case 50: {
       // 2
       globals.pacman.switchFruit(2);
+      globals.updateAmmo();
       break;
     }
     case 51: {
       // 2
       globals.pacman.switchFruit(3);
+      globals.updateAmmo();
       break;
     }
     default: {
