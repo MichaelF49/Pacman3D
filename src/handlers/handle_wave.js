@@ -83,12 +83,16 @@ const handleWave = () => {
     }
 
     globals.currentWave += 1;
+    globals.updateGameProps(
+      globals.score,
+      globals.currentWave,
+      globals.enemies.size
+    );
   } else if (
     globals.enemies.size === 0 &&
     globals.currentWave === consts.WAVES.length
   ) {
     // victory
-
     globals.globalMusic.stop();
     const sound = new Audio(globals.listener);
     globals.audioLoader.load(VictoryMP3, (buffer) => {

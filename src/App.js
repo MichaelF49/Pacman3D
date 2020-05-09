@@ -1,21 +1,16 @@
 import globals from './globals';
 import consts from './consts';
-import {
-  handleAI,
-  handleKeys,
-  handleMovement,
-  handlePickups,
-  handleShooting,
-  handleWave,
-} from './handlers';
+import {handleAI, handleKeys, handleMovement, handlePickups,
+        handleShooting, handleWave} from './handlers';
 import initialize from './initialize';
-import React from 'react';
-import TopHud from './components/TopHud';
-import RightHud from './components/RightHud';
-import BottomHud from './components/BottomHud';
-import './App.css';
+import React from 'react'
+import TopHud from './components/TopHud'
+import RightHud from './components/RightHud'
+import BottomHud from './components/BottomHud'
+import './App.css'
 
 const App = () => {
+
   /**********************************************************
    * RENDER HANDLER
    **********************************************************/
@@ -36,8 +31,8 @@ const App = () => {
    * RESIZE HANDLER
    **********************************************************/
   let windowResizeHandler = () => {
-    let { innerHeight, innerWidth } = window;
-    globals.camera.aspect = innerWidth / innerHeight;
+    let {innerHeight, innerWidth} = window;
+    globals.camera.aspect = innerWidth/innerHeight;
     globals.camera.updateProjectionMatrix();
     globals.renderer.setSize(innerWidth, innerHeight);
   };
@@ -57,18 +52,18 @@ const App = () => {
 
   return (
     <div>
-      <TopHud
+      <TopHud 
         orange={globals.pacman.ammo['orange']}
         melon={globals.pacman.ammo['melon']}
       />
-      <RightHud
+      <RightHud 
         score={globals.score}
         wave={globals.currentWave}
         enemies={globals.enemies.length}
       />
       <BottomHud hearts={consts.PACMAN_HEALTH} />
     </div>
-  );
+  )
 };
 
-export default App;
+export default App

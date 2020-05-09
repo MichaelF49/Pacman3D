@@ -35,7 +35,8 @@ class Pacman extends Group {
       // there is ammo, fire a projectile
       if (this.currentFruit !== consts.DEFAULT_FRUIT) {
         // only subtract if special ammo
-        this.ammo[this.currentFruit] -= 1;
+        this.ammo[this.currentFruit]--;
+        globals.updateAmmo(this.ammo['orange'], this.ammo['melon']);
       }
 
       const vec = this.position.clone().sub(globals.camera.position);

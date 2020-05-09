@@ -33,6 +33,11 @@ const handleShooting = () => {
           globals.enemies.delete(enemy);
           enemy.death();
           globals.score += 100;
+          globals.updateGameProps(
+            globals.score,
+            globals.currentWave,
+            globals.enemies.size
+          );
         }
       }
     }
@@ -183,6 +188,10 @@ const handleShooting = () => {
           curRoom = room;
           break;
         }
+      }
+      if (curRoom === undefined) {
+        deleteProjectile(projectile);
+        return;
       }
 
       projectile.position.setX(

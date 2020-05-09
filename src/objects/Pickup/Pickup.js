@@ -7,6 +7,7 @@ import FreezeGLB from '../../models/freeze.glb';
 import MelonGLB from '../../models/melon.glb';
 import OrangeGLB from '../../models/orange.glb';
 import StarGLB from '../../models/star.glb';
+import HeartGLB from '../../models/heart.glb';
 
 class Pickup extends Group {
   constructor(name, type) {
@@ -15,6 +16,8 @@ class Pickup extends Group {
 
     this.name = name;
     this.type = type;
+    this.hoverHeight = Math.random() * 0.05 + 0.1;
+    this.seed = Math.random();
 
     let model = null;
     switch (type) {
@@ -46,6 +49,10 @@ class Pickup extends Group {
           }
           case 'star': {
             model = StarGLB;
+            break;
+          }
+          case 'heart': {
+            model = HeartGLB;
             break;
           }
           default: {

@@ -272,6 +272,7 @@ const handleAI = () => {
 
       // take damage
       globals.pacman.health -= 1;
+      globals.updateHearts(globals.pacman.health);
       if (globals.pacman.health <= 0) {
         // pacman dies
         globals.globalMusic.stop();
