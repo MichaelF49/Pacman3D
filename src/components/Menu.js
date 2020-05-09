@@ -3,8 +3,12 @@ import React from 'react';
 const Menu = ({ setShowingMenu }) => {
   return (
     <div className='menu'>
-      <h1>Welcome to Pacman 3D!</h1>
+      <h1>PACMAN 3D</h1>
+      <h3>W S: move forwards/backwards</h3>
+      <h3>A D: rotate</h3>
+      <h3>SPACE: fire</h3>
       <button
+        className='button'
         onClick={() => {
           setShowingMenu(false);
         }}

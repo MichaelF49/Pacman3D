@@ -3,9 +3,9 @@
   top: 0%;
   left: 0%;
   color: white;
-  font-size: 28px;
+  font-size: 4.3vh;
   font-family: Arial, Helvetica, sans-serif;
-  margin: 30px;
+  margin: 5vh;
 }
 .top-hud * {
   padding: 0px;
@@ -17,9 +17,9 @@
   top: 0%;
   right: 0%;
   color: white;
-  font-size: 28px;
+  font-size: 4.3vh;
   font-family: Arial, Helvetica, sans-serif;
-  margin: 30px;
+  margin: 5vh;
 }
 .right-hud * {
   padding: 0px;
@@ -30,7 +30,7 @@
   position: absolute;
   bottom: 0%;
   left: 0%;
-  margin: 30px;
+  margin: 5vh;
 }
 .bottom-hud * {
   padding: 0px;
@@ -47,44 +47,36 @@
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%);
-  height:50vh;
+  height: 50vh;
   width: 33vw;
+  border-radius: 5vh;
+  text-align:center;
   background-color:rgba(173, 216, 230, 0.698);
 }
 
 .menu * {
-  padding: 0px;
-  margin: 0px;
-}
-
-.victory {
-  position: absolute;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
   top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
-  height:50vh;
-  width: 33vw;
-  background-color:rgb(76, 212, 83, 0.698);
+  margin: auto;
+  padding: 3vh;
 }
 
-.victory * {
-  padding: 0px;
-  margin: 0px;
+.menu h3 {
+  padding: 1vh;
 }
 
-.defeat {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
-  height:50vh;
-  width: 33vw;
-  background-color:rgb(199, 64, 46, 0.698);
+#victory {
+  background-color:rgba(110, 255, 53, 0.698);
 }
 
-.defeat * {
-  padding: 0px;
-  margin: 0px;
+#defeat {
+  background-color:rgba(230, 61, 61, 0.698);
+}
+
+.button {
+  margin-top: 3vh;
+  size: 3vh;
+  font-size: 3vh;
+  font-weight: bold;
 }

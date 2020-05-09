@@ -4,10 +4,11 @@ import { globals, resetGlobals } from '../global';
 
 const Defeat = ({ setShowingVictory, setShowingDefeat, setShowingMenu }) => {
   return (
-    <div className='defeat'>
+    <div className='menu' id='defeat'>
       <h1>DEFEAT!</h1>
       <h3> FINAL SCORE: {globals.score}</h3>
       <button
+        className='button'
         onClick={() => {
           resetGlobals();
           setShowingVictory(false);
