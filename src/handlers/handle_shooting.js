@@ -2,8 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio } from 'three';
 
-import consts from '../global/consts';
-import globals from '../global/globals';
+import { consts, globals } from '../global';
 
 import PopMP3 from '../audio/pop.mp3';
 

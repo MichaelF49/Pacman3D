@@ -1,7 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio, Vector3 } from 'three';
 
-import globals from '../global/globals';
+import { globals } from '../global';
+import handleKeys from './handle_keys';
 
 import DefeatMP3 from '../audio/defeat.mp3';
 
@@ -284,8 +285,13 @@ const handleAI = () => {
           sound.play();
         });
 
-        globals.gameOver = true;
-        // console.log('final score: ', globals.score);
+        globals.scene.remove(globals.pacman);
+
+        globals.defeat = true;
+        globals.gameOverTime = globals.clock.getElapsedTime();
+
+        // remove key handlers
+        handleKeys(false);
       }
     }
   }

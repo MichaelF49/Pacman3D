@@ -1,4 +1,4 @@
-import globals from '../global/globals';
+import { globals } from '../global';
 
 const handleWindowResize = () => {
   const { innerHeight, innerWidth } = window;

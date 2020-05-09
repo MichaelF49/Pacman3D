@@ -1,6 +1,6 @@
 import { Group } from 'three';
 
-import globals from '../../global/globals';
+import { globals } from '../../global';
 
 import CherryGLB from '../../models/cherry.glb';
 import FreezeGLB from '../../models/freeze.glb';

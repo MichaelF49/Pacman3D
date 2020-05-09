@@ -41,14 +41,17 @@ export default {
   /** ********************************************************
    * GAME PROPERTIES
    ******************************************************** */
+  gameOverTime: -1,
   gameOver: false,
+  victory: false,
+  defeat: false,
   clock: null,
   score: 0,
 
   enemies: null,
   currentWave: 0,
   startedWave: false,
-  startTime: 0,
+  startWaveTime: 0,
 
   rooms: null,
   hallways: null,

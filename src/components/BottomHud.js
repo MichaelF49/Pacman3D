@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import globals from '../global/globals';
+import { globals } from '../global';
 
 import image from '../images/heart.png';
 

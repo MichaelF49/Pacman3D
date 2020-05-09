@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import globals from '../global/globals';
+import { globals } from '../global';
 
 const RightHud = () => {
   const [scoreState, setScore] = useState(globals.score);
-  const [waveState, setWave] = useState(globals.wave);
+  const [waveState, setWave] = useState(globals.currentWave);
   const [enemiesState, setEnemies] = useState(globals.enemies.size);
 
   globals.updateGameProps = () => {

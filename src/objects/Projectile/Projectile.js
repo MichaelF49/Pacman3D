@@ -1,7 +1,6 @@
 import { Group } from 'three';
 
-import consts from '../../global/consts';
-import globals from '../../global/globals';
+import { consts, globals } from '../../global';
 
 import CherryGLB from '../../models/cherry.glb';
 import MelonGLB from '../../models/melon.glb';

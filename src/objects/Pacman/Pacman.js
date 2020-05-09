@@ -2,8 +2,7 @@ import { Audio, Group } from 'three';
 
 import { Projectile } from '../Projectile';
 
-import consts from '../../global/consts';
-import globals from '../../global/globals';
+import { consts, globals } from '../../global';
 
 import NoAmmoMP3 from '../../audio/no_ammo.mp3';
 import PacmanGLB from '../../models/pacman.glb';

@@ -49,10 +49,42 @@
   transform: translate(-50%, -50%);
   height:50vh;
   width: 33vw;
-  background-color:lightblue;
+  background-color:rgba(173, 216, 230, 0.698);
 }
 
 .menu * {
+  padding: 0px;
+  margin: 0px;
+}
+
+.victory {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  height:50vh;
+  width: 33vw;
+  background-color:rgb(76, 212, 83, 0.698);
+}
+
+.victory * {
+  padding: 0px;
+  margin: 0px;
+}
+
+.defeat {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  height:50vh;
+  width: 33vw;
+  background-color:rgb(199, 64, 46, 0.698);
+}
+
+.defeat * {
   padding: 0px;
   margin: 0px;
 }

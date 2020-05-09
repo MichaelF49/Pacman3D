@@ -1,9 +1,8 @@
 import { Audio, Vector3 } from 'three';
 
+import { consts, globals } from '../global';
+import handleKeys from './handle_keys';
 import { Ghost } from '../objects';
-
-import consts from '../global/consts';
-import globals from '../global/globals';
 
 import VictoryMP3 from '../audio/victory.mp3';
 import WaveStartMP3 from '../audio/wave_start.mp3';
@@ -13,13 +12,13 @@ const handleWave = () => {
     // new wave should start, begin countdown
     if (!globals.startedWave) {
       globals.startedWave = true;
-      globals.startTime = globals.clock.getElapsedTime();
+      globals.startWaveTime = globals.clock.getElapsedTime();
       return;
     }
 
     // wait for countdown to finish
     if (
-      globals.clock.getElapsedTime() - globals.startTime <
+      globals.clock.getElapsedTime() - globals.startWaveTime <
       consts.WAVE_RESET_TIME
     ) {
       return;
@@ -97,8 +96,11 @@ const handleWave = () => {
       sound.play();
     });
 
-    globals.gameOver = true;
-    // console.log('final score: ', globals.score);
+    globals.victory = true;
+    globals.gameOverTime = globals.clock.getElapsedTime();
+
+    // remove key handlers
+    handleKeys(false);
   }
 };
 

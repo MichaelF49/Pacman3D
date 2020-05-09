@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import globals from '../global/globals';
+import { globals } from '../global';
 
 const TopHud = () => {
   const [numOrange, setNumOrange] = useState(globals.pacman.ammo.orange);
