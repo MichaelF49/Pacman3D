@@ -68,7 +68,7 @@ const App = () => {
       <RightHud
         score={globals.score}
         wave={globals.currentWave}
-        enemies={globals.enemies.length}
+        enemies={globals.enemies.size}
       />
       <BottomHud hearts={consts.PACMAN_HEALTH} />
     </div>
