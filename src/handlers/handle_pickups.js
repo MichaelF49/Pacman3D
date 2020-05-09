@@ -33,7 +33,7 @@ const handlePickups = () => {
 
     // Choose random non-cherry fruit to spawn
     const fruitIndex =
-      Math.round(Math.random() * (consts.FRUIT.length - 1)) + 1;
+      Math.floor(Math.random() * (consts.FRUIT.length - 1)) + 1;
     const fruit = consts.FRUIT[fruitIndex];
     const scale = consts.FRUIT_SCALE[fruit];
 
@@ -59,7 +59,7 @@ const handlePickups = () => {
     globals.lastPowerupSpawnTime = globals.clock.getElapsedTime();
 
     // Choose random powerup to spawn
-    const powerupIndex = Math.round(Math.random() * consts.POWERUP.length);
+    const powerupIndex = Math.floor(Math.random() * consts.POWERUP.length);
     const powerup = consts.POWERUP[powerupIndex];
     const scale = consts.POWERUP_SCALE[powerup];
 
