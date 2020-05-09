@@ -82,7 +82,7 @@ const initialize = () => {
   const skyboxGeo = new BoxGeometry(15000, 20000, 15000);
   const skybox = new Mesh(skyboxGeo, skyMaterial);
   skybox.position.set(0, -2000, 0);
-  globals.scene.add(skybox);
+  // globals.scene.add(skybox);
 
   /** ********************************************************
    * PACMAN
@@ -92,12 +92,16 @@ const initialize = () => {
   globals.pacman.rotation.y = Math.PI * 1.5;
   globals.pacman.scale.multiplyScalar(10);
   globals.scene.add(globals.pacman);
-
   /** ********************************************************
    *  ROOMS (FLOORS & WALLS)
    *********************************************************** */
   globals.rooms = [];
   globals.hallways = [];
+
+  const PINK = consts.PINK;
+  const RED = consts.RED;
+  const BLUE = consts.BLUE;
+  const YELLOW = consts.YELLOW;
 
   // parameters for which walls a room has
   const sides = {
@@ -120,7 +124,8 @@ const initialize = () => {
       consts.BRANCH_SIZE,
       consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH,
       0,
-      sides
+      sides,
+      PINK
     )
   );
   globals.hallways.push(
@@ -129,7 +134,8 @@ const initialize = () => {
       consts.HALLWAY_LENGTH,
       consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2,
       0,
-      sides
+      sides,
+      PINK
     )
   );
 
@@ -141,7 +147,8 @@ const initialize = () => {
       consts.BRANCH_SIZE,
       0,
       consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH,
-      sides
+      sides,
+      RED
     )
   );
   globals.hallways.push(
@@ -150,7 +157,8 @@ const initialize = () => {
       consts.HALLWAY_LENGTH,
       0,
       consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2,
-      sides
+      sides,
+      RED
     )
   );
 
@@ -162,7 +170,8 @@ const initialize = () => {
       consts.BRANCH_SIZE,
       -(consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH),
       0,
-      sides
+      sides,
+      BLUE
     )
   );
   globals.hallways.push(
@@ -171,7 +180,8 @@ const initialize = () => {
       consts.HALLWAY_LENGTH,
       -(consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2),
       0,
-      sides
+      sides,
+      BLUE
     )
   );
 
@@ -183,7 +193,8 @@ const initialize = () => {
       consts.BRANCH_SIZE,
       0,
       -(consts.ARENA_SIZE / 2 + consts.BRANCH_SIZE / 2 + consts.HALLWAY_LENGTH),
-      sides
+      sides,
+      YELLOW
     )
   );
   globals.hallways.push(
@@ -192,7 +203,8 @@ const initialize = () => {
       consts.HALLWAY_LENGTH,
       0,
       -(consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2),
-      sides
+      sides, 
+      YELLOW
     )
   );
 

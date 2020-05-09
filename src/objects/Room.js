@@ -1,9 +1,9 @@
-import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
+import { DoubleSide, Mesh, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry } from 'three';
 
 import { globals } from '../global';
 
 class Room {
-  constructor(roomName, arenaSize, x, z, sides) {
+  constructor(roomName, arenaSize, x, z, sides, hexColor) {
     // setting id of room, to be used for pathing algorithm
     this.id = roomName;
 
@@ -20,10 +20,12 @@ class Room {
      ******************************************************** */
     const floorGeo = new PlaneGeometry(arenaSize, arenaSize, 10, 10);
     const floorMaterial = new MeshBasicMaterial({
-      color: 0x1974d2,
+      color: 0xfdf0c4,
       side: DoubleSide,
+      reflectivity: 0.01,
+      wireframe: true,
       transparent: true,
-      opacity: 0.6,
+      opacity: 1,
     });
     const floor = new Mesh(floorGeo, floorMaterial);
     floor.rotation.x = Math.PI / 2;
@@ -35,49 +37,21 @@ class Room {
     /** ********************************************************
      * WALLS
      ******************************************************** */
-    const wallMaterial1 = new MeshBasicMaterial({
-      color: 0xf4c0dc, // PINK 244, 192, 220
+    const wallMaterial = new MeshBasicMaterial({
+      color: hexColor, // PINK 244, 192, 220
       side: DoubleSide,
-      wireframe: false,
-    });
-    const wallMaterial2 = new MeshBasicMaterial({
-      color: 0xdc362f, // RED 220, 54, 47
-      side: DoubleSide,
-      wireframe: false,
-    });
-    const wallMaterial3 = new MeshBasicMaterial({
-      color: 0x75fbd0, // BLUE 117, 251, 224
-      side: DoubleSide,
-      wireframe: false,
-    });
-    const wallMaterial4 = new MeshBasicMaterial({
-      color: 0xf5bf5b, // YELLOW 245, 191, 91
-      side: DoubleSide,
-      wireframe: false,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.6
     });
 
     let wall;
-
-    // let wallGeo = new THREE.PlaneGeometry((arenaSize - doorWidth)/ 2, 75, 38, 10);
-    // let wall = new THREE.Mesh(wallGeo, wallMaterial1);
-    // wall.rotation.y = Math.PI/2;
-    // wall.position.y = 7.5;
-    // wall.position.x = x-arenaSize/2;
-    // wall.position.z = z - (arenaSize - doorWidth)/4 - doorWidth / 2;
-    // scene.add(wall);
-
-    // wall = new THREE.Mesh(wallGeo, wallMaterial1);
-    // wall.rotation.y = Math.PI/2;
-    // wall.position.y = 7.5;
-    // wall.position.x = x-arenaSize/2;
-    // wall.position.z = z + (arenaSize - doorWidth)/4 + doorWidth / 2;
-    // scene.add(wall);
 
     const wallGeo = new PlaneGeometry(arenaSize, 75, 75, 10);
 
     // Adds a wall to the scene depending on which walls are permitted.
     if (sides.up) {
-      wall = new Mesh(wallGeo, wallMaterial1);
+      wall = new Mesh(wallGeo, wallMaterial);
       wall.rotation.y = Math.PI / 2;
       wall.position.y = 7.5;
       wall.position.x = x + arenaSize / 2;
@@ -86,7 +60,7 @@ class Room {
     }
 
     if (sides.down) {
-      wall = new Mesh(wallGeo, wallMaterial2);
+      wall = new Mesh(wallGeo, wallMaterial);
       wall.rotation.y = Math.PI / 2;
       wall.position.y = 7.5;
       wall.position.x = x - arenaSize / 2;
@@ -95,7 +69,7 @@ class Room {
     }
 
     if (sides.left) {
-      wall = new Mesh(wallGeo, wallMaterial3);
+      wall = new Mesh(wallGeo, wallMaterial);
       wall.position.y = 7.5;
       wall.position.z = z - arenaSize / 2;
       wall.position.x = x;
@@ -103,7 +77,7 @@ class Room {
     }
 
     if (sides.right) {
-      wall = new Mesh(wallGeo, wallMaterial4);
+      wall = new Mesh(wallGeo, wallMaterial);
       wall.position.y = 7.5;
       wall.position.z = z + arenaSize / 2;
       wall.position.x = x;

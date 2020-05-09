@@ -24,6 +24,14 @@ export default {
   AMMO_INC: { orange: 5, melon: 5 }, // get 5 ammo per pickup
   MAX_AMMO_CAPACITY: 10, // max ammo per category
 
+/** *********************************************************
+   * COLORS
+   ********************************************************* */
+  PINK: 0xf4c0dc, // PINK 244, 192, 220
+  RED: 0xdc362f, // RED 220, 54, 47
+  BLUE: 0x75fbd0, // BLUE 117, 251, 224
+  YELLOW: 0xf5bf5b, // YELLOW 245, 191, 91
+  FLOOR_YELLOW: 0xfdf0c4, // FLOOR YELLOW
   /** *********************************************************
    * POWERUPS
    ********************************************************* */

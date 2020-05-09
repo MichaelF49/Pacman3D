@@ -3,7 +3,7 @@ import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 import { globals } from '../global';
 
 class Hallway {
-  constructor(roomName, hallwayLength, x, z, sides) {
+  constructor(roomName, hallwayLength, x, z, sides, hexColor) {
     const doorWidth = 70;
     this.zAxis = false;
     // setting id of hallway, to be used for pathing algorithm
@@ -39,9 +39,10 @@ class Hallway {
     }
 
     const floorMaterial = new MeshBasicMaterial({
-      color: 0x1974d2,
+      color: 0xfdf0c4,
       side: DoubleSide,
-      transparent: true,
+      transparent: false,
+      wireframe: true,
       opacity: 0.6,
     });
     const floor = new Mesh(floorGeo, floorMaterial);
@@ -55,14 +56,18 @@ class Hallway {
      * WALLS
      */
     const wallMaterial1 = new MeshBasicMaterial({
-      color: 0xf4c0dc, // PINK 244, 192, 220
-      side: DoubleSide,
-      wireframe: false,
-    });
-    const wallMaterial2 = new MeshBasicMaterial({
-      color: 0xdc362f, // RED 220, 54, 47
+      color: hexColor, // PINK 244, 192, 220
       side: DoubleSide,
       wireframe: true,
+      transparent: true,
+      opacity: 0.6
+    });
+    const wallMaterial2 = new MeshBasicMaterial({
+      color: 0xffffff, 
+      side: DoubleSide,
+      wireframe: false,
+      transparent: true,
+      opacity: 0.6
     });
 
     let wall;
