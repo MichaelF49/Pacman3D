@@ -1,0 +1,10 @@
+export { default as DefeatMP3 } from './defeat.mp3';
+export { default as GhostDeathMP3 } from './ghost_death.mp3';
+export { default as GhostNoise1MP3 } from './ghost_noise1.mp3';
+export { default as GhostNoise2MP3 } from './ghost_noise2.mp3';
+export { default as GlobalMusicMP3 } from './global_music.mp3';
+export { default as NoAmmoMP3 } from './no_ammo.mp3';
+export { default as PopMP3 } from './pop.mp3';
+export { default as ProjectileFiredMP3 } from './projectile_fired.mp3';
+export { default as VictoryMP3 } from './victory.mp3';
+export { default as WaveStartMP3 } from './wave_start.mp3';

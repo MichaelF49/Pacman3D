@@ -2,9 +2,8 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio } from 'three';
 
+import { PopMP3 } from '../audio';
 import { consts, globals } from '../global';
-
-import PopMP3 from '../audio/pop.mp3';
 
 const handleShooting = () => {
   for (const projectile of globals.pacman.projectiles) {

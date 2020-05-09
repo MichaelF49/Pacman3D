@@ -1,10 +1,7 @@
 import { Group } from 'three';
 
 import { consts, globals } from '../../global';
-
-import CherryGLB from '../../models/cherry.glb';
-import MelonGLB from '../../models/melon.glb';
-import OrangeGLB from '../../models/orange.glb';
+import { CherryGLB, MelonGLB, OrangeGLB } from '../../models';
 
 class Projectile extends Group {
   constructor(direction, name) {

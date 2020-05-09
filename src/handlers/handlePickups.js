@@ -2,10 +2,9 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio, Vector3 } from 'three';
 
+import { PopMP3 } from '../audio';
 import { consts, globals } from '../global';
 import { Pickup } from '../objects';
-
-import PopMP3 from '../audio/pop.mp3';
 
 const handlePickups = () => {
   checkTimers();

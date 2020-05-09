@@ -1,10 +1,9 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio, Vector3 } from 'three';
 
+import { DefeatMP3 } from '../audio';
 import { globals } from '../global';
 import handleKeys from './handleKeys';
-
-import DefeatMP3 from '../audio/defeat.mp3';
 
 const handleAI = () => {
   for (const enemy of globals.enemies) {

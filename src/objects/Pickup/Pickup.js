@@ -1,13 +1,14 @@
 import { Group } from 'three';
 
 import { globals } from '../../global';
-
-import CherryGLB from '../../models/cherry.glb';
-import FreezeGLB from '../../models/freeze.glb';
-import MelonGLB from '../../models/melon.glb';
-import OrangeGLB from '../../models/orange.glb';
-import StarGLB from '../../models/star.glb';
-import HeartGLB from '../../models/heart.glb';
+import {
+  CherryGLB,
+  FreezeGLB,
+  HeartGLB,
+  MelonGLB,
+  OrangeGLB,
+  StarGLB,
+} from '../../models';
 
 class Pickup extends Group {
   constructor(name, type) {

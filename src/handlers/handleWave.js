@@ -1,11 +1,9 @@
 import { Audio, Vector3 } from 'three';
 
+import { VictoryMP3, WaveStartMP3 } from '../audio';
 import { consts, globals } from '../global';
 import handleKeys from './handleKeys';
 import { Ghost } from '../objects';
-
-import VictoryMP3 from '../audio/victory.mp3';
-import WaveStartMP3 from '../audio/wave_start.mp3';
 
 const handleWave = () => {
   if (globals.enemies.size === 0 && globals.currentWave < consts.WAVES.length) {

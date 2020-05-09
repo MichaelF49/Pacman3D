@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 
 import { globals } from '../global';
-
-import image from '../images/heart.png';
+import { HeartPNG } from '../images';
 
 const BottomHud = () => {
   const [numHearts, setNumHearts] = useState(globals.pacman.health);
@@ -17,7 +16,7 @@ const BottomHud = () => {
       <img
         key={i}
         className='heart-img'
-        src={image}
+        src={HeartPNG}
         alt='HP'
         style={{ width: 60, height: 60 }}
       />
