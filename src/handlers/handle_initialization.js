@@ -18,16 +18,16 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
-import { Doorwall, Hallway, Pacman, Room } from './objects';
+import { Doorwall, Hallway, Pacman, Room } from '../objects';
 
-import consts from './consts';
-import globals from './globals';
+import consts from '../consts';
+import globals from '../globals';
 
-import GlobalMusicMP3 from './audio/global_music.mp3';
-import Sky1JPG from './images/skybox/sky1.jpg';
-import Sky2JPG from './images/skybox/sky2.jpg';
-import SkyTopJPG from './images/skybox/sky_top.jpg';
-import SkyBotJPG from './images/skybox/sky_bot.jpg';
+import GlobalMusicMP3 from '../audio/global_music.mp3';
+import Sky1JPG from '../images/skybox/sky1.jpg';
+import Sky2JPG from '../images/skybox/sky2.jpg';
+import SkyTopJPG from '../images/skybox/sky_top.jpg';
+import SkyBotJPG from '../images/skybox/sky_bot.jpg';
 
 const initialize = () => {
   // start game clock

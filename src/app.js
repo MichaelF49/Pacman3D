@@ -16,7 +16,7 @@ import {
   handleShooting,
   handleWave,
 } from './handlers';
-import initialize from './initialize';
+import handleInitialization from './handlers/handle_initialization';
 
 const App = () => {
   /** ********************************************************
@@ -50,7 +50,7 @@ const App = () => {
    * START APPLICATION
    ********************************************************* */
   // initialize scene
-  initialize();
+  handleInitialization();
   // create and add key handlers
   handleKeys();
   // start scene
