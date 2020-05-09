@@ -3,10 +3,10 @@ import React from 'react';
 import TopHud from './components/TopHud';
 import RightHud from './components/RightHud';
 import BottomHud from './components/BottomHud';
-import './App.css';
+import './app.css';
 
-import globals from './globals';
-import consts from './consts';
+import consts from './global/consts';
+import globals from './global/globals';
 
 import {
   handleAI,
