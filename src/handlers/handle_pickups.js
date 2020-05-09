@@ -139,7 +139,10 @@ let handleCollision = (pickup) => {
         break;
       }
       case 'heart': {
-        globals.pacman.health += 1;
+        globals.pacman.health = Math.min(
+          consts.PACMAN_MAX_HEALTH,
+          globals.pacman.health + 1
+        );
         globals.updateHearts(globals.pacman.health);
         break;
       }

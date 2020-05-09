@@ -13,7 +13,7 @@ const TopHud = ({ orange, melon }) => {
 
   return (
     <p className='top-hud'>
-      Cherries: inf, Oranges: {numOrange}, Melons: {numMelon}
+      Cherries: ∞, Oranges: {numOrange}, Melons: {numMelon}
     </p>
   );
 };
