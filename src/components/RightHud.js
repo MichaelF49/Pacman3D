@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { useState } from 'react';
 
 import { globals } from '../global';
@@ -15,18 +16,9 @@ const RightHud = () => {
 
   return (
     <div className='right-hud'>
-      <div>
-        SCORE:
-        {scoreState}
-      </div>
-      <div>
-        WAVE:
-        {waveState}
-      </div>
-      <div>
-        ENEMIES:
-        {enemiesState}
-      </div>
+      <div>SCORE: {scoreState}</div>
+      <div>WAVE: {waveState}</div>
+      <div>ENEMIES: {enemiesState}</div>
     </div>
   );
 };
