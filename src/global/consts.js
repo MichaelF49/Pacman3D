@@ -32,6 +32,7 @@ export default {
   RED: 0xdc362f, // RED 220, 54, 47
   BLUE: 0x75fbd0, // BLUE 117, 251, 224
   YELLOW: 0xf5bf5b, // YELLOW 245, 191, 91
+  WHITE: 0xffffff,
   FLOOR_YELLOW: 0xfdf0c4, // FLOOR YELLOW
   /** *********************************************************
    * POWERUPS

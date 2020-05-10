@@ -1,4 +1,4 @@
-import { Audio, Vector3 } from 'three';
+import { Audio, Vector3, Color } from 'three';
 
 import { handleKeys } from '.';
 import { VictoryMP3, WaveStartMP3 } from '../audio';
@@ -32,9 +32,13 @@ const handleWave = () => {
       sound.play();
     });
 
+    let colors = [consts.WHITE, consts.PINK, consts.RED, consts.BLUE, consts.YELLOW];
+
     // spawn globals.enemies
     for (let i = 0; i < consts.WAVES[globals.currentWave]; i += 1) {
-      const ghost = new Ghost();
+      const roomIndex = Math.floor(Math.random() * globals.rooms.length)
+      const room = globals.rooms[roomIndex];
+      const ghost = new Ghost(new Color(colors[roomIndex]));
       ghost.scale.multiplyScalar(0.2);
       ghost.position.y -= 20;
 
@@ -43,8 +47,6 @@ const handleWave = () => {
       let randVec;
       do {
         // picking a room
-        const room =
-          globals.rooms[Math.floor(Math.random() * globals.rooms.length)];
         randVec = new Vector3(
           Math.random() * (room.maxX - room.minX - 2 * consts.GHOST_RADIUS) +
             room.minX +

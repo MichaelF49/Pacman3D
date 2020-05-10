@@ -6,7 +6,7 @@ import { consts, globals } from '../global';
 import { GhostGLB } from '../models';
 
 class Ghost extends Group {
-  constructor() {
+  constructor(color) {
     // Call parent Group() constructor
     super();
 
@@ -49,12 +49,13 @@ class Ghost extends Group {
 
       this.body = this.meshes;
       for (const mesh of this.body) {
-        mesh.material.color.r = 1;
-        mesh.material.color.g = 0;
-        mesh.material.color.b = 0;
-        mesh.material.emissive.r = 0.5;
-        mesh.material.emissive.g = 0;
-        mesh.material.emissive.b = 0;
+        mesh.material.color.r = color.r; // was 1
+        mesh.material.color.g = color.g;
+        mesh.material.color.b = color.b;
+
+        mesh.material.emissive.r = color.r / 2; // was 0.5
+        mesh.material.emissive.g = color.g / 2;
+        mesh.material.emissive.b = color.b / 2;
       }
 
       this.meshes.push(
