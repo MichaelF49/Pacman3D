@@ -97,7 +97,7 @@ const initialize = () => {
    *********************************************************** */
   globals.rooms = [];
   globals.hallways = [];
-  
+
   // parameters for which walls a room has
   const sides = {
     right: false,
@@ -198,7 +198,7 @@ const initialize = () => {
       consts.HALLWAY_LENGTH,
       0,
       -(consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH / 2),
-      sides, 
+      sides,
       consts.YELLOW
     )
   );

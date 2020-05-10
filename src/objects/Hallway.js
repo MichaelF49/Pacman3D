@@ -8,7 +8,7 @@ class Hallway {
     this.zAxis = false;
     // setting id of hallway, to be used for pathing algorithm
     this.id = roomName;
-    
+
     // stores walls facing the center and outside rooms
     this.entrances = [];
 
@@ -62,14 +62,14 @@ class Hallway {
       side: DoubleSide,
       wireframe: true,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.6,
     });
     const wallMaterial2 = new MeshBasicMaterial({
-      color: 0xffffff, 
+      color: 0xffffff,
       side: DoubleSide,
       wireframe: false,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.6,
     });
 
     let wall;
@@ -105,7 +105,6 @@ class Hallway {
       wall.position.z = z + hallwayLength / 2;
       globals.scene.add(wall);
       this.entrances.push(wall);
-
     } else {
       wall = new Mesh(doorWallGeo, wallMaterial2);
       wall.rotation.y = Math.PI / 2;

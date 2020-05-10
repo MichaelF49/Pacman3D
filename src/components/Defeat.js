@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 
 import { globals, resetGlobals } from '../global';
@@ -6,7 +7,11 @@ const Defeat = ({ setShowingVictory, setShowingDefeat, setShowingMenu }) => {
   return (
     <div className='menu' id='defeat'>
       <h1>DEFEAT!</h1>
-      <h3> FINAL SCORE: {globals.score}</h3>
+      <h3>
+        {' '}
+        FINAL SCORE:
+        {globals.score}
+      </h3>
       <button
         className='button'
         onClick={() => {

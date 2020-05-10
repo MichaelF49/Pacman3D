@@ -18,28 +18,28 @@ class Doorwall {
       side: DoubleSide,
       wireframe: true,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.6,
     });
     const wallMaterial2 = new MeshBasicMaterial({
       color: 0xdc362f, // RED 220, 54, 47
       side: DoubleSide,
       wireframe: true,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.6,
     });
     const wallMaterial3 = new MeshBasicMaterial({
       color: 0x75fbd0, // BLUE 117, 251, 224
       side: DoubleSide,
       wireframe: true,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.6,
     });
     const wallMaterial4 = new MeshBasicMaterial({
       color: 0xf5bf5b, // YELLOW 245, 191, 91
       side: DoubleSide,
       wireframe: true,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.6,
     });
 
     /** ********************************************************

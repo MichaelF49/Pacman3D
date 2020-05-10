@@ -25,7 +25,7 @@ export default {
   MAX_AMMO_CAPACITY: 10, // max ammo per category
   MAX_PICKUPS: 10, // the maximum number of pickups on the map
 
-/** *********************************************************
+  /** *********************************************************
    * COLORS
    ********************************************************* */
   PINK: 0xf4c0dc, // PINK 244, 192, 220
