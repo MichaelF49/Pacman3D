@@ -18,6 +18,7 @@ import {
   handleWave,
 } from './handlers';
 
+// eslint-disable-next-line import/no-unresolved
 import './app.css';
 
 const App = () => {
