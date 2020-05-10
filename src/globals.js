@@ -33,6 +33,7 @@ export default {
   score: 0,
 
   enemies: new Set(),
+  superenemies: new Set(),
   currentWave: 0,
   startedWave: false,
   startTime: 0,

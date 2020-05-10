@@ -5,3 +5,4 @@ export * from './Pacman';
 export * from './Pickup';
 export * from './Projectile';
 export * from './Room';
+export * from './SuperGhost';

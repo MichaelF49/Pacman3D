@@ -1,6 +1,8 @@
-import {DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry} from 'three';
+import {DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry, BoxGeometry, MeshPhysicalMaterial, EdgesGeometry, LineBasicMaterial, LineSegments} from 'three';
 
 import globals from '../../globals';
+import consts from '../../consts';
+import {SuperGhost} from '../SuperGhost'; 
 
 class Room {
   constructor(roomName, arenaSize, x, z, sides) {
@@ -31,6 +33,39 @@ class Room {
     floor.position.x = x;
     floor.position.z = z;
     globals.scene.add(floor);
+
+    /**********************************************************
+     * Center Box
+     **********************************************************/
+    if (this.id != 'main') {
+        var geometry = new BoxGeometry( consts.BOX_LENGTH, consts.BOX_LENGTH, consts.BOX_LENGTH );
+        // var cubeCamera1 = new CubeCamera(1, 1000, 128);
+        var material = new MeshPhysicalMaterial({
+            color: 0x1974d2,
+            transparent:true,
+            opacity: 0.2
+        });
+        
+        var cube = new Mesh( geometry, material );
+        cube.position.x = x;
+        cube.position.z = z;
+        globals.scene.add( cube );
+        var geo = new EdgesGeometry( cube.geometry );
+        var mat = new LineBasicMaterial( { color: 0x000000, linewidth: 0.1} );
+        var wireframe = new LineSegments( geo, mat );
+        cube.add(wireframe);
+        let ghost = new SuperGhost(this.id);
+        ghost.scale.multiplyScalar(0.2);
+        ghost.position.y -= 20;
+        ghost.position.x = x;
+        ghost.position.z = z;
+        globals.superenemies.add(ghost);
+    
+        globals.scene.add(ghost);
+
+    }
+
+
 
     /**********************************************************
      * WALLS

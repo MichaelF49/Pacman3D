@@ -5,6 +5,18 @@ import globals from '../globals';
 import DEFEAT_mp3 from '../audio/defeat.mp3';
 
 let handleAI = () => {
+  for (let enemy of globals.superenemies) {
+    let vecDir = globals.pacman.position.clone().sub(enemy.position).setY(0).normalize();
+    // ghosts float along sine wave
+    enemy.position.y = -20 + Math.sin(globals.clock.getElapsedTime()*5)*enemy.hoverHeight;
+    // make sure enemy faces Pacman
+    let angle = new Vector3(0, 0, 1).angleTo(vecDir);
+    if (globals.pacman.position.x - enemy.position.x < 0) {
+      angle = Math.PI*2 - angle;
+    }
+    enemy.rotation.y = angle;
+  }
+
   for (let enemy of globals.enemies) {
     // increasing the opacity of the ghosts
     if (enemy.meshes !== undefined) {

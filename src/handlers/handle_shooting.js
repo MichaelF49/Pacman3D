@@ -43,7 +43,7 @@ let handleShooting = () => {
     }
 
     let barrier;
-    let projectileBuffer = projectile.speed + 20;
+    let projectileBuffer = projectile.speed;
     let oldPosition = projectile.position.clone();
 
     // central x tunnel
@@ -54,6 +54,19 @@ let handleShooting = () => {
       if (projectile.position.z !== oldPosition.z) {
         deleteProjectile(projectile);
       }
+      
+    // boxes
+    if (projectile.position.z >= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH - consts.BRANCH_SIZE / 2 - consts.BOX_LENGTH / 2 - projectileBuffer
+      && projectile.position.z <= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH - consts.BRANCH_SIZE / 2 + consts.BOX_LENGTH / 2 + projectileBuffer
+      && projectile.position.x <= consts.BOX_LENGTH /2 + projectileBuffer && projectile.position.x >= -consts.BOX_LENGTH / 2 - projectileBuffer) {
+        deleteProjectile(projectile);
+    }
+    else if (projectile.position.z <= consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH + consts.BRANCH_SIZE / 2 + consts.BOX_LENGTH / 2 + projectileBuffer
+      && projectile.position.z >= consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH + consts.BRANCH_SIZE / 2 - consts.BOX_LENGTH / 2 - projectileBuffer
+      && projectile.position.x <= consts.BOX_LENGTH /2 + projectileBuffer && projectile.position.x >= -consts.BOX_LENGTH / 2 - projectileBuffer) {
+        deleteProjectile(projectile);
+    }
+
       // hallways
       if (projectile.position.z >= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH &&
           projectile.position.z <= -consts.ARENA_SIZE/2) {
@@ -80,6 +93,17 @@ let handleShooting = () => {
       if (projectile.position.x !== oldPosition.x) {
         deleteProjectile(projectile);
       }
+    // boxes
+    if (projectile.position.x >= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH - consts.BRANCH_SIZE / 2 - consts.BOX_LENGTH / 2 - projectileBuffer
+      && projectile.position.x <= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH - consts.BRANCH_SIZE / 2 + consts.BOX_LENGTH / 2 + projectileBuffer
+      && projectile.position.z <= consts.BOX_LENGTH /2 + projectileBuffer && projectile.position.z >= -consts.BOX_LENGTH / 2 - projectileBuffer) {
+        deleteProjectile(projectile);
+    }
+    else if (projectile.position.x <= consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH + consts.BRANCH_SIZE / 2 + consts.BOX_LENGTH / 2 + projectileBuffer
+      && projectile.position.x >= consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH + consts.BRANCH_SIZE / 2 - consts.BOX_LENGTH / 2 - projectileBuffer
+      && projectile.position.z <= consts.BOX_LENGTH /2 + projectileBuffer && projectile.position.z >= -consts.BOX_LENGTH / 2 - projectileBuffer) {
+        deleteProjectile(projectile);
+    }
       // hallways
       if (projectile.position.x >= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH &&
           projectile.position.x <= -consts.ARENA_SIZE/2) {
@@ -98,6 +122,31 @@ let handleShooting = () => {
         }
       }
     }
+
+    // boxes
+    else if (projectile.position.x >= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH - consts.BRANCH_SIZE / 2 - consts.BOX_LENGTH / 2 - projectileBuffer
+      && projectile.position.x <= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH - consts.BRANCH_SIZE / 2 + consts.BOX_LENGTH / 2 + projectileBuffer
+      && projectile.position.z <= consts.BOX_LENGTH /2 + projectileBuffer && projectile.position.z >= -consts.BOX_LENGTH / 2 - projectileBuffer) {
+        deleteProjectile(projectile);
+    }
+    else if (projectile.position.x <= consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH + consts.BRANCH_SIZE / 2 + consts.BOX_LENGTH / 2 + projectileBuffer
+      && projectile.position.x >= consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH + consts.BRANCH_SIZE / 2 - consts.BOX_LENGTH / 2 - projectileBuffer
+      && projectile.position.z <= consts.BOX_LENGTH /2 + projectileBuffer && projectile.position.z >= -consts.BOX_LENGTH / 2 - projectileBuffer) {
+        deleteProjectile(projectile);
+    }
+
+    // boxes
+    if (projectile.position.z >= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH - consts.BRANCH_SIZE / 2 - consts.BOX_LENGTH / 2 - projectileBuffer
+      && projectile.position.z <= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH - consts.BRANCH_SIZE / 2 + consts.BOX_LENGTH / 2 + projectileBuffer
+      && projectile.position.x <= consts.BOX_LENGTH /2 + projectileBuffer && projectile.position.x >= -consts.BOX_LENGTH / 2 - projectileBuffer) {
+        deleteProjectile(projectile);
+    }
+    else if (projectile.position.z <= consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH + consts.BRANCH_SIZE / 2 + consts.BOX_LENGTH / 2 + projectileBuffer
+      && projectile.position.z >= consts.ARENA_SIZE/2 + consts.HALLWAY_LENGTH + consts.BRANCH_SIZE / 2 - consts.BOX_LENGTH / 2 - projectileBuffer
+      && projectile.position.x <= consts.BOX_LENGTH /2 + projectileBuffer && projectile.position.x >= -consts.BOX_LENGTH / 2 - projectileBuffer) {
+        deleteProjectile(projectile);
+    }
+
     // hallways
     else if (projectile.position.x >= -consts.ARENA_SIZE/2 - consts.HALLWAY_LENGTH &&
              projectile.position.x <= -consts.ARENA_SIZE/2) {
@@ -140,7 +189,10 @@ let handleShooting = () => {
           break;
         }
       }
-
+      if (curRoom === undefined) {
+        deleteProjectile(projectile);
+        return;
+      }
       projectile.position.setX(
         Math.max(
           Math.min(curRoom.maxX - projectileBuffer, projectile.position.x),
