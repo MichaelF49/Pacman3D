@@ -22,7 +22,7 @@ export default {
   FRUIT_SPEED: { cherry: 0.4, orange: 0.3, melon: 0.2 }, // projectile speed
   DEFAULT_FRUIT: 'cherry',
   AMMO_INC: { orange: 5, melon: 5 }, // get 5 ammo per pickup
-  MAX_AMMO_CAPACITY: 10, // max ammo per category
+  MAX_AMMO_CAPACITY: 20, // max ammo per category
   MAX_PICKUPS: 20, // the maximum number of pickups on the map
 
   /** *********************************************************
@@ -49,7 +49,7 @@ export default {
   /** ********************************************************
    * WAVES
    ******************************************************** */
-  WAVES: [3, 6, 9, 12, 15, 18], // enemies per wave
+  WAVES: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30], // enemies per wave
   DIFFICULTY_SCALE: { MAX_SPEED: 2, MAX_HEALTH: 10 },
   WAVE_RESET_TIME: 8, // 8 s between waves
   SAFE_RADIUS: 75.0, // safe distance to spawn enemies
