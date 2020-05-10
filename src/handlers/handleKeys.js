@@ -31,20 +31,20 @@ const onKeyDown = (event) => {
       }
       break;
     }
-    case 49: {
-      // 1
+    case 74: {
+      // J
       globals.pacman.switchFruit(1);
       globals.updateAmmo();
       break;
     }
-    case 50: {
-      // 2
+    case 75: {
+      // K
       globals.pacman.switchFruit(2);
       globals.updateAmmo();
       break;
     }
-    case 51: {
-      // 2
+    case 76: {
+      // L
       globals.pacman.switchFruit(3);
       globals.updateAmmo();
       break;
