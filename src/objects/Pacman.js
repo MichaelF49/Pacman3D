@@ -9,7 +9,6 @@ class Pacman extends Group {
   constructor() {
     // Call parent Group() constructor
     super();
-    this.previous = this.position;
 
     this.health = consts.PACMAN_HEALTH;
     this.name = 'pacman';
