@@ -61,5 +61,6 @@ export default {
   HALLWAY_LENGTH: 200.0,
   DOOR_WIDTH: 70.0,
   PACMAN_BUFFER: 25, // buffer between pac-man and boundaries
+  HALLWAY_BUFFER: 10, // buffer between pac-man and hallway walls
   GHOST_RADIUS: 15,
 };
