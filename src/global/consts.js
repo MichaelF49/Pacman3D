@@ -23,7 +23,7 @@ export default {
   DEFAULT_FRUIT: 'cherry',
   AMMO_INC: { orange: 5, melon: 5 }, // get 5 ammo per pickup
   MAX_AMMO_CAPACITY: 10, // max ammo per category
-  MAX_PICKUPS: 10, // the maximum number of pickups on the map
+  MAX_PICKUPS: 20, // the maximum number of pickups on the map
 
   /** *********************************************************
    * COLORS
