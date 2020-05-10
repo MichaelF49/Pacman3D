@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-import { globals, resetGlobals } from '../global';
+import { globals } from '../global';
+import { handleResetGlobals } from '../handlers';
 
 const Defeat = ({ setShowingVictory, setShowingDefeat, setShowingMenu }) => {
   return (
@@ -15,7 +16,7 @@ const Defeat = ({ setShowingVictory, setShowingDefeat, setShowingMenu }) => {
       <button
         className='button'
         onClick={() => {
-          resetGlobals();
+          handleResetGlobals();
           setShowingVictory(false);
           setShowingDefeat(false);
           setShowingMenu(true);

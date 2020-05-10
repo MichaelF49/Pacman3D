@@ -1,20 +1,18 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-import { globals, resetGlobals } from '../global';
+import { globals } from '../global';
+import { handleResetGlobals } from '../handlers';
 
 const Victory = ({ setShowingVictory, setShowingDefeat, setShowingMenu }) => {
   return (
     <div className='menu' id='victory'>
       <h1>VICTORY!</h1>
-      <h3> FINAL SCORE: 
-        {' '}
-        {globals.score}
-      </h3>
+      <h3> FINAL SCORE: {globals.score}</h3>
       <button
         className='button'
         onClick={() => {
-          resetGlobals();
+          handleResetGlobals();
           setShowingVictory(false);
           setShowingDefeat(false);
           setShowingMenu(true);

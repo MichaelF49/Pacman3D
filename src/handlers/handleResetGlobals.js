@@ -1,7 +1,7 @@
-import globals from './globals';
-import { handleInitialization, handleWindowResize } from '../handlers';
+import { globals } from '../global';
+import { handleInitialization, handleWindowResize } from '.';
 
-const resetGlobals = () => {
+const handleResetGlobals = () => {
   // remove canvas
   document.body.removeChild(globals.renderer.domElement);
 
@@ -56,4 +56,4 @@ const resetGlobals = () => {
   window.addEventListener('resize', handleWindowResize, false);
 };
 
-export default resetGlobals;
+export default handleResetGlobals;
