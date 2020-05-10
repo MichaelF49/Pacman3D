@@ -67,9 +67,7 @@ let spawnFruit = () => {
     pickup.scale.multiplyScalar(scale);
 
     // Get spawn position
-    // const room =
-    //   globals.rooms[Math.floor(Math.random() * globals.rooms.length)];
-    const room = globals.rooms[0]; // spawn fruit only in the central room
+    const room = globals.rooms[0]; // Spawn fruit only in the central room
     const x = Math.random() * (room.maxX - room.minX) + room.minX;
     const z = Math.random() * (room.maxZ - room.minZ) + room.minZ;
     const spawnPos = new Vector3(x, -17, z);
@@ -97,9 +95,8 @@ let spawnPowerup = () => {
     pickup.scale.multiplyScalar(scale);
 
     // Get spawn position
-    // const room =
-    //   globals.rooms[Math.floor(Math.random() * globals.rooms.length)];
-    const room = globals.rooms[0]; // spawn fruit only in the central room
+    const room =
+      globals.rooms[Math.floor(Math.random() * (globals.rooms.length - 1)) + 1]; // Spawn powerups in edge rooms
     const x = Math.random() * (room.maxX - room.minX) + room.minX;
     const z = Math.random() * (room.maxZ - room.minZ) + room.minZ;
     const spawnPos = new Vector3(x, -17, z);
