@@ -1,9 +1,28 @@
+/* eslint-disable no-restricted-syntax */
 import { globals } from '../global';
 import { handleInitialization, handleWindowResize } from '.';
 
 const handleResetGlobals = () => {
   // remove canvas
   document.body.removeChild(globals.renderer.domElement);
+
+  for (const enemy of globals.enemies) {
+    globals.enemies.delete(enemy);
+  }
+  for (const pickup of globals.pickups) {
+    globals.enemies.delete(pickup);
+  }
+
+  globals.renderer.dispose();
+  for (const child of globals.scene.children) {
+    if (child.geometry !== undefined) {
+      child.geometry.dispose();
+    }
+    if (child.material !== undefined) {
+      child.material.dispose();
+    }
+  }
+  globals.scene.dispose();
 
   globals.camera = null;
   globals.scene = null;

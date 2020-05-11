@@ -67,6 +67,7 @@ const initialize = () => {
   /** ********************************************************
    * SKYBOX
    ********************************************************* */
+  /*
   const loader = new TextureLoader();
   const sky1 = loader.load(Sky1JPG);
   const sky2 = loader.load(Sky2JPG);
@@ -83,7 +84,8 @@ const initialize = () => {
   const skyboxGeo = new BoxGeometry(15000, 20000, 15000);
   const skybox = new Mesh(skyboxGeo, skyMaterial);
   skybox.position.set(0, -2000, 0);
-  // globals.scene.add(skybox);
+  globals.scene.add(skybox);
+  */
 
   /** ********************************************************
    * PACMAN

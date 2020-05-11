@@ -63,7 +63,7 @@ const updatePacPosition = () => {
       consts.HALLWAY_LENGTH +
       consts.BRANCH_SIZE -
       consts.PACMAN_BUFFER;
-    
+
     // unlock the BLUE room at wave 3
     if (globals.currentWave < 3) {
       globals.pacman.position.setZ(
@@ -71,17 +71,15 @@ const updatePacPosition = () => {
       );
     }
     // unlock the YELLOW room at wave 5
-    else if (globals.currentWave < 5){
+    else if (globals.currentWave < 5) {
       globals.pacman.position.setZ(
         Math.max(Math.min(barrier, globals.pacman.position.z), -entrance)
       );
-    }
-    else {
+    } else {
       globals.pacman.position.setZ(
         Math.max(Math.min(barrier, globals.pacman.position.z), -barrier)
       );
     }
-    
 
     // hallways
     if (
@@ -124,12 +122,11 @@ const updatePacPosition = () => {
       );
     }
     // unlocking the YELLOW room at wave 4
-    else if (globals.currentWave < 4){
+    else if (globals.currentWave < 4) {
       globals.pacman.position.setX(
         Math.max(Math.min(barrier, globals.pacman.position.x), -entrance)
       );
-    }
-    else {
+    } else {
       globals.pacman.position.setX(
         Math.max(Math.min(barrier, globals.pacman.position.x), -barrier)
       );

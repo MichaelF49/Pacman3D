@@ -1,4 +1,4 @@
-import { DoubleSide, Mesh, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry } from 'three';
+import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
 import { globals } from '../global';
 
@@ -42,7 +42,7 @@ class Room {
       side: DoubleSide,
       wireframe: true,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.6,
     });
 
     let wall;

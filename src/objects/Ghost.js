@@ -58,9 +58,6 @@ class Ghost extends Group {
         mesh.material.emissive.b = color.b / 2;
       }
 
-      this.meshes.push(
-        gltf.scene.children[1].children[0].children[0].children[0].children[0]
-      );
       // setting the ghosts to be initially transparent
       for (const msh of this.meshes) {
         if (msh.material !== undefined) {
@@ -100,6 +97,11 @@ class Ghost extends Group {
       sound.setVolume(0.1);
       sound.play();
     });
+
+    for (const mesh of this.meshes) {
+      mesh.geometry.dispose();
+      mesh.material.dispose();
+    }
   }
 }
 
