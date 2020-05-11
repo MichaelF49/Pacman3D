@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio } from 'three';
 
-import { PopMP3 } from '../audio';
+import { HitmarkerMP3, PopMP3 } from '../audio';
 import { consts, globals } from '../global';
 
 const handleShooting = () => {
@@ -21,6 +21,13 @@ const handleShooting = () => {
         .distanceTo(projectile.position.clone().setY(0));
       // enemy takes damage
       if (hitDist < 25) {
+        const sound = new Audio(globals.listener);
+        globals.audioLoader.load(HitmarkerMP3, (buffer) => {
+          sound.setBuffer(buffer);
+          sound.setVolume(0.2);
+          sound.play();
+        });
+
         globals.scene.remove(projectile);
         globals.pacman.projectiles.delete(projectile);
         enemy.health -= projectile.damage;

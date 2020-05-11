@@ -67,10 +67,11 @@ const initialize = () => {
   /** ********************************************************
    * SKYBOX
    ********************************************************* */
-  const sky1 = new TextureLoader().load(Sky1JPG);
-  const sky2 = new TextureLoader().load(Sky2JPG);
-  const skyTop = new TextureLoader().load(SkyTopJPG);
-  const skyBot = new TextureLoader().load(SkyBotJPG);
+  const loader = new TextureLoader();
+  const sky1 = loader.load(Sky1JPG);
+  const sky2 = loader.load(Sky2JPG);
+  const skyTop = loader.load(SkyTopJPG);
+  const skyBot = loader.load(SkyBotJPG);
   const skyMaterial = [
     new MeshBasicMaterial({ map: sky1, side: BackSide }),
     new MeshBasicMaterial({ map: sky1, side: BackSide }),

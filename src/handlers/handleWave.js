@@ -28,15 +28,21 @@ const handleWave = () => {
     const sound = new Audio(globals.listener);
     globals.audioLoader.load(WaveStartMP3, (buffer) => {
       sound.setBuffer(buffer);
-      sound.setVolume(0.25);
+      sound.setVolume(0.1);
       sound.play();
     });
 
-    let colors = [consts.WHITE, consts.PINK, consts.RED, consts.BLUE, consts.YELLOW];
+    const colors = [
+      consts.WHITE,
+      consts.PINK,
+      consts.RED,
+      consts.BLUE,
+      consts.YELLOW,
+    ];
 
     // spawn globals.enemies
     for (let i = 0; i < consts.WAVES[globals.currentWave]; i += 1) {
-      const roomIndex = Math.floor(Math.random() * globals.rooms.length)
+      const roomIndex = Math.floor(Math.random() * globals.rooms.length);
       const room = globals.rooms[roomIndex];
       const ghost = new Ghost(new Color(colors[roomIndex]));
       ghost.scale.multiplyScalar(0.2);
