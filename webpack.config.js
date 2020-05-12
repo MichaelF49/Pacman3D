@@ -34,6 +34,10 @@ module.exports = {
         exclude: path.resolve(__dirname, './node_modules/'),
       },
       {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: 'file-loader',
+      },
+      {
         type: 'javascript/auto',
         test: /\.(json)/,
         exclude: path.resolve(__dirname, './node_modules/'),

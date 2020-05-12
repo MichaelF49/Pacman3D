@@ -1,5 +1,10 @@
+@font-face {
+  font-family: 'pacfont';
+  src: url('./pacfont.ttf') format('truetype');
+}
+
 * {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Pangolin', cursive;
 }
 
 .top-hud {
@@ -75,6 +80,7 @@
 .menu h1 {
   font-size: 5vh;
   padding-top: 6vh;
+  font-family: 'pacfont', sans-serif;
 }
 .menu h2 {
   font-weight: 100;
@@ -95,12 +101,14 @@
   background-color:rgba(248, 93, 93, 0.8);
 }
 .score {
+  font-family: 'pacfont', sans-serif;
   font-size: 8vh;
   font-weight: bold;
   padding: 2vh 0 1vh;
 }
 
 .button {
+  font-family: 'pacfont', sans-serif;
   background-color: #eee;
   margin-top: 3vh;
   size: 3vh;
@@ -115,6 +123,7 @@
 }
 
 .resumeButton {
+  font-family: 'pacfont', sans-serif;
   padding: 1.5vh 1.5vw;
   font-size: 3vh;
   color: white;
