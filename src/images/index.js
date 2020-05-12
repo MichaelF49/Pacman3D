@@ -1,7 +1,7 @@
 export { default as CherryJPG } from './fruit/cherry.jpg';
 export { default as CherryActiveJPG } from './fruit/cherry_active.jpg';
 export { default as FreezeJPG } from './powerups/freeze.jpg';
-export { default as HeartPNG } from './heart.png';
+export { default as HeartPNG } from './powerups/heart.png';
 export { default as MelonJPG } from './fruit/melon.jpg';
 export { default as MelonActiveJPG } from './fruit/melon_active.jpg';
 export { default as OrangeJPG } from './fruit/orange.jpg';
