@@ -1,10 +1,13 @@
+* {
+  font-family: 'Raleway', sans-serif;
+}
+
 .top-hud {
   position: absolute;
   top: 0%;
   left: 0%;
   color: white;
   font-size: 7vh;
-  font-family: Arial, Helvetica, sans-serif;
   margin: 5vh;
 }
 .top-hud * {
@@ -21,7 +24,6 @@
   right: 0%;
   color: white;
   font-size: 4.3vh;
-  font-family: Arial, Helvetica, sans-serif;
   margin: 5vh;
 }
 .right-hud * {
@@ -61,40 +63,67 @@
   width: 33vw;
   border-radius: 5vh;
   text-align:center;
-  background-color:rgba(173, 216, 230, 0.698);
+  background-color:rgba(173, 216, 230, 0.8);
 }
 
 .menu * {
   display: block;
-  font-family: Arial, Helvetica, sans-serif;
   top: 50%;
   margin: auto;
   padding: 3vh;
 }
-
-.menu h3 {
-  padding: 1vh;
+.menu h1 {
+  font-size: 5vh;
+  padding-top: 6vh;
+}
+.menu h2 {
+  font-weight: 100;
+  font-size: 2.5vh;
+  padding: 0.8vh;
+}
+.menu b {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
 }
 
 #victory {
-  background-color:rgba(110, 255, 53, 0.698);
+  background-color:rgba(110, 255, 53, 0.8);
 }
 
 #defeat {
-  background-color:rgba(230, 61, 61, 0.698);
+  background-color:rgba(248, 93, 93, 0.8);
+}
+.score {
+  font-size: 8vh;
+  font-weight: bold;
+  padding: 2vh 0 1vh;
 }
 
 .button {
+  background-color: #eee;
   margin-top: 3vh;
   size: 3vh;
   font-size: 3vh;
   font-weight: bold;
+  border-radius: 2vh;
+  box-shadow: 1px 2px 3px #666;
+  border: none;
+}
+.button:hover {
+  background-color: #ddd;
 }
 
 .resumeButton {
-  padding: 1vh;
+  padding: 1.5vh 1.5vw;
   font-size: 3vh;
-  color: green;
+  color: white;
+  background-color: green;
   margin-bottom: 2vh;
   text-shadow: none;
+  border: none;
+  border-radius: 2vh;
+}
+.resumeButton:hover {
+  background-color: rgb(0, 92, 0);
 }

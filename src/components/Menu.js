@@ -5,10 +5,10 @@ const Menu = ({ setShowingMenu }) => {
   return (
     <div className='menu'>
       <h1>PACMAN 3D</h1>
-      <h3>W S: move forwards/backwards</h3>
-      <h3>A D: rotate</h3>
-      <h3>SPACE: fire</h3>
-      <h3>J K L: switch weapons</h3>
+      <h2><b>W S</b>: move forwards/backwards</h2>
+      <h2><b>A D</b>: rotate</h2>
+      <h2><b>SPACE</b>: fire</h2>
+      <h2><b>J K L</b>: switch weapons</h2>
       <button
         className='button'
         onClick={() => {

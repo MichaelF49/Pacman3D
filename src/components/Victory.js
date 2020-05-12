@@ -9,7 +9,8 @@ const Victory = ({ setShowingVictory, setShowingDefeat, setShowingMenu }) => {
   return (
     <div className='menu' id='victory'>
       <h1>VICTORY!</h1>
-      <h3> FINAL SCORE: {globals.score}</h3>
+      <h2>Final Score:</h2>
+      <span className='score'>{globals.score}</span>
       <button
         className='button'
         onClick={() => {
