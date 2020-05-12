@@ -17,14 +17,18 @@ const PauseMenu = () => {
         className='button'
         onClick={() => {
           globals.paused = false;
+          globals.updatePaused();
+
+          // handle key presses again
+          handleKeys(true);
+
+          // update timers
           const passedTime = globals.clock.getElapsedTime() - globals.pauseTime;
           globals.lastFruitSpawnTime += passedTime;
           globals.lastPowerupSpawnTime += passedTime;
           globals.freezeStart += passedTime;
           globals.starStart += passedTime;
           globals.startWaveTime += passedTime;
-          globals.updatePaused();
-          handleKeys(true);
 
           // if star music was playing
           if (globals.starMusic !== null) {
