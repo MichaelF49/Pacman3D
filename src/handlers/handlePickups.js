@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio, Vector3 } from 'three';
 
-import { HealthMP3, PopMP3, StarMP3 } from '../audio';
+import { FreezeMP3, HealthMP3, PopMP3, StarMP3 } from '../audio';
 import { consts, globals } from '../global';
 import { Pickup } from '../objects';
 
@@ -144,6 +144,12 @@ let handleCollision = (pickup) => {
       case 'freeze': {
         globals.freeze = true;
         globals.freezeStart = globals.clock.getElapsedTime();
+        const sound = new Audio(globals.listener);
+        globals.audioLoader.load(FreezeMP3, (buffer) => {
+          sound.setBuffer(buffer);
+          sound.setVolume(0.2);
+          sound.play();
+        });
         break;
       }
       case 'star': {

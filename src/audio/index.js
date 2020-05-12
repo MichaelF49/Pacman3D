@@ -1,4 +1,5 @@
 export { default as DefeatMP3 } from './defeat.mp3';
+export { default as FreezeMP3 } from './freeze.mp3';
 export { default as GhostDeathMP3 } from './ghost_death.mp3';
 export { default as GhostNoise1MP3 } from './ghost_noise1.mp3';
 export { default as GhostNoise2MP3 } from './ghost_noise2.mp3';
