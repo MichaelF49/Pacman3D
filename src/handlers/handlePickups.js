@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio, Vector3 } from 'three';
 
-import { PopMP3 } from '../audio';
+import { HealthMP3, PopMP3, StarMP3 } from '../audio';
 import { consts, globals } from '../global';
 import { Pickup } from '../objects';
 
@@ -45,6 +45,8 @@ let checkTimers = () => {
     globals.clock.getElapsedTime() - globals.starStart > consts.STAR_TIME
   ) {
     globals.star = false;
+    globals.globalMusic.play();
+    globals.starMusic.stop();
     globals.updateHeartsAndPowerup();
   }
 };
@@ -111,12 +113,21 @@ let handleCollision = (pickup) => {
   globals.scene.remove(pickup);
   globals.pickups.delete(pickup);
 
-  const sound = new Audio(globals.listener);
-  globals.audioLoader.load(PopMP3, (buffer) => {
-    sound.setBuffer(buffer);
-    sound.setVolume(0.2);
-    sound.play();
-  });
+  if (pickup.name === 'heart') {
+    const sound = new Audio(globals.listener);
+    globals.audioLoader.load(HealthMP3, (buffer) => {
+      sound.setBuffer(buffer);
+      sound.setVolume(0.1);
+      sound.play();
+    });
+  } else {
+    const sound = new Audio(globals.listener);
+    globals.audioLoader.load(PopMP3, (buffer) => {
+      sound.setBuffer(buffer);
+      sound.setVolume(0.2);
+      sound.play();
+    });
+  }
 
   // ammo effect
   if (pickup.type === 'ammo') {
@@ -138,6 +149,14 @@ let handleCollision = (pickup) => {
       case 'star': {
         globals.star = true;
         globals.starStart = globals.clock.getElapsedTime();
+        globals.globalMusic.pause();
+        globals.starMusic = new Audio(globals.listener);
+        globals.audioLoader.load(StarMP3, (buffer) => {
+          globals.starMusic.setBuffer(buffer);
+          globals.starMusic.setVolume(0.2);
+          globals.starMusic.setLoop(true);
+          globals.starMusic.play();
+        });
         break;
       }
       case 'heart': {

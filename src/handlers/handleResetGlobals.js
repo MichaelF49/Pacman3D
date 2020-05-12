@@ -66,6 +66,7 @@ const handleResetGlobals = () => {
   globals.freezeStart = 0;
   globals.star = false;
   globals.starStart = 0;
+  globals.starMusic = null;
 
   // re-initialize game variables
   handleInitialization();

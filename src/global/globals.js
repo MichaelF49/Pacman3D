@@ -63,4 +63,5 @@ export default {
   freezeStart: 0,
   star: false,
   starStart: 0,
+  starMusic: null,
 };

@@ -45,10 +45,18 @@ class Pacman extends Group {
       this.projectiles.add(proj);
 
       // play proj sound
+      let rate = 1;
+      if (this.currentFruit === 'orange') {
+        rate = 0.8;
+      }
+      if (this.currentFruit === 'melon') {
+        rate = 0.6;
+      }
       const sound = new Audio(globals.listener);
       globals.audioLoader.load(ProjectileFiredMP3, (buffer) => {
         sound.setBuffer(buffer);
         sound.setVolume(0.3);
+        sound.setPlaybackRate(rate);
         sound.play();
       });
     } else {
