@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { Audio, Group } from 'three';
 
 import { Projectile } from '.';
@@ -25,7 +26,7 @@ class Pacman extends Group {
     globals.loader.load(PacmanGLB, (gltf) => {
       // applies changes for each mesh component of the Pac-man mesh
       // const EMISSIVE_FACTOR = 2
-      for (let mesh of gltf.scene.children[0].children) {
+      for (const mesh of gltf.scene.children[0].children) {
         // mesh.material.emissive.r = mesh.material.color.r / EMISSIVE_FACTOR;
         // mesh.material.emissive.g = mesh.material.color.g / EMISSIVE_FACTOR;
         // mesh.material.emissive.b = mesh.material.color.b / EMISSIVE_FACTOR;

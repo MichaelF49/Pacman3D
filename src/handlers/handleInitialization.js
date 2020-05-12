@@ -110,7 +110,9 @@ const initialize = () => {
   };
 
   // the main room
-  globals.rooms.push(new Room('main', consts.ARENA_SIZE, 0, 0, sides));
+  globals.rooms.push(
+    new Room('main', consts.ARENA_SIZE, 0, 0, sides, 0x000000)
+  );
 
   // rooms that branch off, each missing a wall
   sides.right = true;

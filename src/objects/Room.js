@@ -38,7 +38,7 @@ class Room {
      * WALLS
      ******************************************************** */
     const wallMaterial = new MeshBasicMaterial({
-      color: hexColor, // PINK 244, 192, 220
+      color: hexColor,
       side: DoubleSide,
       wireframe: true,
       transparent: true,
