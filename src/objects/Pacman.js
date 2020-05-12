@@ -1,7 +1,7 @@
 import { Audio, Group } from 'three';
 
 import { Projectile } from '.';
-import { NoAmmoMP3, ProjectileFiredMP3 } from '../audio';
+import { NoAmmoMP3, ProjectileFiredMP3, SwitchMP3 } from '../audio';
 import { consts, globals } from '../global';
 import { PacmanGLB } from '../models';
 
@@ -63,6 +63,12 @@ class Pacman extends Group {
   }
 
   switchFruit(index) {
+    const sound = new Audio(globals.listener);
+    globals.audioLoader.load(SwitchMP3, (buffer) => {
+      sound.setBuffer(buffer);
+      sound.setVolume(0.2);
+      sound.play();
+    });
     this.currentFruit = consts.FRUIT[index - 1];
   }
 }
