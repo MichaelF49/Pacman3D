@@ -1,0 +1,37 @@
+body {
+  font-size: 20px;
+  background-color: #d5d9e0;
+  padding: 40px;
+}
+#checkbox-on {
+  display: none;
+}
+
+.control-element {
+  cursor: pointer;
+}
+
+.text-label {
+  font-size: 1.8em;
+  font-family: sans-serif;
+  fill: #6d7788;
+  text-shadow: 0 0.02em 0.1em rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.position-container {
+  cursor: pointer;
+}
+
+.svg-switch-container {
+  width: 8vh;
+}

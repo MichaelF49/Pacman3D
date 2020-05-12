@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/prop-types */
 import React from 'react';
+import Toggle from './Toggle';
 
 const Menu = ({ setShowingMenu }) => {
   return (
@@ -18,6 +19,7 @@ const Menu = ({ setShowingMenu }) => {
       <h2>
         <b>J K L</b>: switch weapons
       </h2>
+      <Toggle />
       <button
         className='button'
         onClick={() => {

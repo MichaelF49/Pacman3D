@@ -22,6 +22,9 @@ const PauseMenu = () => {
       <h2>
         <b>J K L</b>: switch weapons
       </h2>
+      <h2>
+        <b>Endless</b>: {globals.survival ? 'Yes' : 'No'}
+      </h2>
       <button
         className='button'
         onClick={() => {

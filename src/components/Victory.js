@@ -7,10 +7,12 @@ import { handleResetGlobals } from '../handlers';
 
 const Victory = ({ setShowingVictory, setShowingDefeat, setShowingMenu }) => {
   return (
-    <div className='menu' id='victory'>
+    <div className='menu end' id='victory'>
       <h1>VICTORY!</h1>
       <h2>Final Score:</h2>
       <span className='score'>{globals.score}</span>
+      <h2>Final Wave:</h2>
+      <span className='score'>{globals.currentWave}</span>
       <button
         className='button'
         onClick={() => {

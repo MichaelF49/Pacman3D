@@ -7,6 +7,10 @@
   font-family: 'Pangolin', cursive;
 }
 
+body {
+  padding: 0;
+}
+
 .top-hud {
   position: absolute;
   top: 0%;
@@ -64,54 +68,73 @@
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%);
-  height: 50vh;
+  height: 55vh;
   width: 33vw;
   border-radius: 5vh;
   text-align:center;
   background-color:rgba(173, 216, 230, 0.8);
 }
-
-.menu * {
+.menu h1 {
   display: block;
   top: 50%;
   margin: auto;
   padding: 3vh;
-}
-.menu h1 {
   font-size: 5vh;
   padding-top: 6vh;
   font-family: 'pacfont', sans-serif;
 }
 .menu h2 {
+  display: block;
+  top: 50%;
+  margin: auto;
+  padding: 3vh;
   font-weight: 100;
   font-size: 2.5vh;
   padding: 0.8vh;
 }
 .menu b {
+  top: 50%;
+  margin: auto;
+  padding: 3vh;
   display: inline-block;
   margin: 0;
   padding: 0;
 }
-
-#victory {
-  background-color:rgba(110, 255, 53, 0.8);
+.menu .menu-toggle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  margin: auto;
+  padding: 0;
+}
+.menu .menu-toggle svg {
+  margin: 0;
+  padding: 0;
+}
+.menu .menu-toggle h2 {
+  font-size: 2.5vh;
+  padding: 0.8vh;
+  margin: 0;
+  font-weight: bold;
 }
 
-#defeat {
-  background-color:rgba(248, 93, 93, 0.8);
-}
 .score {
+  display: block;
   font-family: 'pacfont', sans-serif;
   font-size: 8vh;
   font-weight: bold;
-  padding: 2vh 0 1vh;
+  padding: 0;
+  /* padding: 2vh 0 1vh; */
 }
 
 .button {
   font-family: 'pacfont', sans-serif;
   background-color: #eee;
   margin-top: 3vh;
-  size: 3vh;
+  height: 8vh;
+  width: 16vw;
   font-size: 3vh;
   font-weight: bold;
   border-radius: 2vh;
@@ -125,6 +148,8 @@
 .resumeButton {
   font-family: 'pacfont', sans-serif;
   padding: 1.5vh 1.5vw;
+  height: 8vh;
+  width: 16vw;
   font-size: 3vh;
   color: white;
   background-color: green;
@@ -135,4 +160,22 @@
 }
 .resumeButton:hover {
   background-color: rgb(0, 92, 0);
+}
+
+#victory {
+  background-color:rgba(110, 255, 53, 0.8);
+}
+
+#defeat {
+  background-color:rgba(248, 93, 93, 0.8);
+}
+
+.end h1 {
+  padding-bottom: 1rem;
+}
+.end h2 {
+  padding-bottom: 0;
+}
+.end .button {
+  margin-top: 1rem;
 }
