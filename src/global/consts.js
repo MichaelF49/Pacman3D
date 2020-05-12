@@ -38,7 +38,7 @@ export default {
   /** *********************************************************
    * POWERUPS
    ********************************************************* */
-  POWERUP: ['freeze', 'star', 'heart'],
+  POWERUP: ['freeze', 'heart', 'star'],
   POWERUP_SCALE: { freeze: 2, star: 0.125, heart: 0.175 },
   FREEZE_TIME: 5, // 5 s freeze
   STAR_TIME: 8, // 8 s invincibility
@@ -46,6 +46,7 @@ export default {
   POWERUP_SPAWN_TIME: 15, // time between powerup spawns
   BOB_SPEED: 3,
   ROTATION_SPEED: 250, // higher is slower
+  LAST_ITEM_BIAS: 0.5, // higher number reduces the probability of spawning the last power up in POWERUP array
 
   /** ********************************************************
    * WAVES
