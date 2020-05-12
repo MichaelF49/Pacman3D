@@ -24,7 +24,8 @@ and powerups to gain an upper edge.
 Download the repository, run `npm install` in the project directory, and then
 run `npm start`. The game is hosted on port 8080.
 
-Check out the working [demo](http://michaelf49.github.io/Pacman3D/)!
+Check out the working [demo](http://michaelf49.github.io/Pacman3D/)! (Performance
+issues on MacOS may exist.)
 
 ## License
 [MIT](./LICENSE)
