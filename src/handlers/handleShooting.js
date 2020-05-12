@@ -249,11 +249,7 @@ const handleExplosions = () => {
       deltaSize = 1.05;
     }
 
-    for (
-      let i = 0;
-      i < points.geometry.attributes.position.array.length;
-      i += 3
-    ) {
+    for (let i = 0; i < 3; i += 3) {
       const vec = new Vector3(
         points.geometry.attributes.position.array[i],
         points.geometry.attributes.position.array[i + 1],

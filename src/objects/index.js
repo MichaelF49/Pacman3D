@@ -1,4 +1,3 @@
-export { default as Doorwall } from './Doorwall';
 export { default as Explosion } from './Explosion';
 export { default as Ghost } from './Ghost';
 export { default as Hallway } from './Hallway';

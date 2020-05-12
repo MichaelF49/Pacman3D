@@ -1,4 +1,4 @@
-export { default as GhostGLB } from './blue_ghost6.glb';
+export { default as GhostGLB } from './ghost.glb';
 export { default as CherryGLB } from './cherry.glb';
 export { default as FreezeGLB } from './freeze.glb';
 export { default as HeartGLB } from './heart.glb';

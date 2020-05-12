@@ -267,7 +267,6 @@ const handleAI = () => {
       }
     } else {
       // error
-      console.log('PATHING ERROR');
       vecDir = new Vector3();
     }
 

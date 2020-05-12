@@ -3,15 +3,14 @@ import {
   Audio,
   AudioListener,
   AudioLoader,
-  BackSide,
-  BoxGeometry,
   Clock,
+  DoubleSide,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
+  PlaneGeometry,
   PointLight,
   Scene,
-  TextureLoader,
   WebGLRenderer,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -20,8 +19,8 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 import { GlobalMusicMP3 } from '../audio';
 import { consts, globals } from '../global';
-import { Sky1JPG, Sky2JPG, SkyTopJPG, SkyBotJPG } from '../images';
-import { Doorwall, Hallway, Pacman, Room } from '../objects';
+// import { Sky1JPG, Sky2JPG, SkyTopJPG, SkyBotJPG } from '../images';
+import { Hallway, Pacman, Room } from '../objects';
 
 const initialize = () => {
   // start game clock
@@ -210,7 +209,198 @@ const initialize = () => {
   /** ********************************************************
    * DOORWAY WALLS
    ********************************************************* */
-  new Doorwall('doors', consts.ARENA_SIZE, consts.BRANCH_SIZE, 0, 0);
+  /** ********************************************************
+   * WALL COLOR/MATERIALS
+   ********************************************************* */
+  const wallMaterial1 = new MeshBasicMaterial({
+    color: 0xf4c0dc, // PINK 244, 192, 220
+    side: DoubleSide,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.6,
+  });
+  const wallMaterial2 = new MeshBasicMaterial({
+    color: 0xdc362f, // RED 220, 54, 47
+    side: DoubleSide,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.6,
+  });
+  const wallMaterial3 = new MeshBasicMaterial({
+    color: 0x75fbd0, // BLUE 117, 251, 224
+    side: DoubleSide,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.6,
+  });
+  const wallMaterial4 = new MeshBasicMaterial({
+    color: 0xf5bf5b, // YELLOW 245, 191, 91
+    side: DoubleSide,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.6,
+  });
+
+  /** ********************************************************
+   * Construction of the Walls
+   ********************************************************* */
+  let wallGeo;
+  let wall;
+
+  // general shape of each wall piece
+  wallGeo = new PlaneGeometry(
+    (consts.ARENA_SIZE - consts.DOOR_WIDTH) / 2,
+    75,
+    38,
+    10
+  );
+
+  // Doorwalls are a pair of walls that are offset by some distance to allow for
+  // a "doorway" into the next room
+
+  // Doorwalls #1 and #2 are parallel to each other.
+  // Doorwall #1
+  wall = new Mesh(wallGeo, wallMaterial3);
+  wall.rotation.y = Math.PI / 2;
+  wall.position.y = 7.5;
+  wall.position.x = -consts.ARENA_SIZE / 2;
+  wall.position.z =
+    -(consts.ARENA_SIZE - consts.DOOR_WIDTH) / 4 - consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  wall = new Mesh(wallGeo, wallMaterial3);
+  wall.rotation.y = Math.PI / 2;
+  wall.position.y = 7.5;
+  wall.position.x = -consts.ARENA_SIZE / 2;
+  wall.position.z =
+    (consts.ARENA_SIZE - consts.DOOR_WIDTH) / 4 + consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  // Doorwall #2
+  wall = new Mesh(wallGeo, wallMaterial1);
+  wall.rotation.y = Math.PI / 2;
+  wall.position.y = 7.5;
+  wall.position.x = consts.ARENA_SIZE / 2;
+  wall.position.z =
+    -(consts.ARENA_SIZE - consts.DOOR_WIDTH) / 4 - consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  wall = new Mesh(wallGeo, wallMaterial1);
+  wall.rotation.y = Math.PI / 2;
+  wall.position.y = 7.5;
+  wall.position.x = consts.ARENA_SIZE / 2;
+  wall.position.z =
+    (consts.ARENA_SIZE - consts.DOOR_WIDTH) / 4 + consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  // Doorwalls #3 and #4 are parallel to each other.
+  // Doorwall #3
+  wall = new Mesh(wallGeo, wallMaterial2);
+  wall.position.y = 7.5;
+  wall.position.z = consts.ARENA_SIZE / 2;
+  wall.position.x =
+    -(consts.ARENA_SIZE - consts.DOOR_WIDTH) / 4 - consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  wall = new Mesh(wallGeo, wallMaterial2);
+  wall.position.y = 7.5;
+  wall.position.z = consts.ARENA_SIZE / 2;
+  wall.position.x =
+    (consts.ARENA_SIZE - consts.DOOR_WIDTH) / 4 + consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  // Doorwall #4
+  wall = new Mesh(wallGeo, wallMaterial4);
+  wall.position.y = 7.5;
+  wall.position.z = -consts.ARENA_SIZE / 2;
+  wall.position.x =
+    -(consts.ARENA_SIZE - consts.DOOR_WIDTH) / 4 - consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  wall = new Mesh(wallGeo, wallMaterial4);
+  wall.position.y = 7.5;
+  wall.position.z = -consts.ARENA_SIZE / 2;
+  wall.position.x =
+    (consts.ARENA_SIZE - consts.DOOR_WIDTH) / 4 + consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  /** ********************************************************
+   * Doorwalls for Branch Rooms
+   ********************************************************* */
+  const newX = 900;
+  const newZ = 900;
+  // new wall geometry for the smaller room
+  wallGeo = new PlaneGeometry(
+    (consts.BRANCH_SIZE - consts.DOOR_WIDTH) / 2,
+    75,
+    38,
+    10
+  );
+
+  // Doorwall for Branch Room #1
+  wall = new Mesh(wallGeo, wallMaterial1);
+  wall.rotation.y = Math.PI / 2;
+  wall.position.y = 7.5;
+  wall.position.x = newX - consts.BRANCH_SIZE / 2;
+  wall.position.z =
+    -(consts.BRANCH_SIZE - consts.DOOR_WIDTH) / 4 - consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  wall = new Mesh(wallGeo, wallMaterial1);
+  wall.rotation.y = Math.PI / 2;
+  wall.position.y = 7.5;
+  wall.position.x = newX - consts.BRANCH_SIZE / 2;
+  wall.position.z =
+    (consts.BRANCH_SIZE - consts.DOOR_WIDTH) / 4 + consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  // Doorwall for Branch Room #2
+  wall = new Mesh(wallGeo, wallMaterial3);
+  wall.rotation.y = Math.PI / 2;
+  wall.position.y = 7.5;
+  wall.position.x = -newX + consts.BRANCH_SIZE / 2;
+  wall.position.z =
+    -(consts.BRANCH_SIZE - consts.DOOR_WIDTH) / 4 - consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  wall = new Mesh(wallGeo, wallMaterial3);
+  wall.rotation.y = Math.PI / 2;
+  wall.position.y = 7.5;
+  wall.position.x = -newX + consts.BRANCH_SIZE / 2;
+  wall.position.z =
+    (consts.BRANCH_SIZE - consts.DOOR_WIDTH) / 4 + consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  // Doorwalls #3 and #4 are parallel to each other.
+  // Doorwall for Branch Room #3
+  wall = new Mesh(wallGeo, wallMaterial4);
+  wall.position.y = 7.5;
+  wall.position.z = -newZ + consts.BRANCH_SIZE / 2;
+  wall.position.x =
+    -(consts.BRANCH_SIZE - consts.DOOR_WIDTH) / 4 - consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  wall = new Mesh(wallGeo, wallMaterial4);
+  wall.position.y = 7.5;
+  wall.position.z = -newZ + consts.BRANCH_SIZE / 2;
+  wall.position.x =
+    (consts.BRANCH_SIZE - consts.DOOR_WIDTH) / 4 + consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  // Doorwall for Branch Room #4
+  wall = new Mesh(wallGeo, wallMaterial2);
+  wall.position.y = 7.5;
+  wall.position.z = newZ - consts.BRANCH_SIZE / 2;
+  wall.position.x =
+    -(consts.BRANCH_SIZE - consts.DOOR_WIDTH) / 4 - consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
+
+  wall = new Mesh(wallGeo, wallMaterial2);
+  wall.position.y = 7.5;
+  wall.position.z = newZ - consts.BRANCH_SIZE / 2;
+  wall.position.x =
+    (consts.BRANCH_SIZE - consts.DOOR_WIDTH) / 4 + consts.DOOR_WIDTH / 2;
+  globals.scene.add(wall);
 
   /** ********************************************************
    * LIGHTS
