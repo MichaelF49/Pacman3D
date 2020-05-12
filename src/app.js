@@ -4,6 +4,7 @@ import {
   BottomHud,
   Defeat,
   Menu,
+  PauseMenu,
   RightHud,
   TopHud,
   Victory,
@@ -22,16 +23,21 @@ import {
 import './app.css';
 
 const App = () => {
-  // if title menus is showing
+  // if title menu is showing
   const [showingMenu, setShowingMenu] = useState(true);
   const [showingVictory, setShowingVictory] = useState(false);
   const [showingDefeat, setShowingDefeat] = useState(false);
+
+  const [paused, setPaused] = useState(false);
+  globals.updatePaused = () => {
+    setPaused(globals.paused);
+  };
 
   /** ********************************************************
    * RENDER HANDLER
    ********************************************************* */
   const onAnimationFrameHandler = (timeStamp) => {
-    if (!globals.gameOver) {
+    if (!globals.gameOver && !globals.paused) {
       window.requestAnimationFrame(onAnimationFrameHandler);
 
       if (globals.gameOverTime === -1) {
@@ -64,6 +70,9 @@ const App = () => {
   // title menu still showing, do not start game yet
   if (showingMenu) {
     return <Menu setShowingMenu={setShowingMenu} />;
+  }
+  if (paused) {
+    return <PauseMenu />;
   }
 
   if (!globals.gameOver) {

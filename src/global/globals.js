@@ -38,6 +38,12 @@ export default {
     return null;
   },
 
+  updatePaused: () => {
+    return null;
+  },
+  paused: false,
+  pauseTime: 0,
+
   /** ********************************************************
    * GAME PROPERTIES
    ******************************************************** */

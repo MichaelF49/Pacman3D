@@ -45,18 +45,14 @@ const TopHud = () => {
   return (
     <div className='top-hud'>
       <div>
-        <img src={Cherry} alt='cherry' style={{ width: 60, height: 60 }} />
-        {' '}
-        ∞
+        <img src={Cherry} alt='cherry' style={{ width: 60, height: 60 }} /> ∞
       </div>
       <div>
-        <img src={Orange} alt='cherry' style={{ width: 60, height: 60 }} />
-        {' '}
+        <img src={Orange} alt='cherry' style={{ width: 60, height: 60 }} />{' '}
         {numOrange}
       </div>
       <div>
-        <img src={Melon} alt='cherry' style={{ width: 60, height: 60 }} />
-        {' '}
+        <img src={Melon} alt='cherry' style={{ width: 60, height: 60 }} />{' '}
         {numMelon}
       </div>
     </div>

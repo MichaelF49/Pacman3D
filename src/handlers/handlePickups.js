@@ -47,6 +47,7 @@ let checkTimers = () => {
     globals.star = false;
     globals.globalMusic.play();
     globals.starMusic.stop();
+    globals.starMusic = null;
     globals.updateHeartsAndPowerup();
   }
 };
@@ -88,7 +89,9 @@ let spawnPowerup = () => {
     globals.lastPowerupSpawnTime = globals.clock.getElapsedTime();
 
     // Choose random powerup to spawn
-    const powerupIndex = Math.floor(Math.random() * (consts.POWERUP.length - consts.LAST_ITEM_BIAS));
+    const powerupIndex = Math.floor(
+      Math.random() * (consts.POWERUP.length - consts.LAST_ITEM_BIAS)
+    );
     const powerup = consts.POWERUP[powerupIndex];
     const scale = consts.POWERUP_SCALE[powerup];
 

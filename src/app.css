@@ -90,3 +90,11 @@
   font-size: 3vh;
   font-weight: bold;
 }
+
+.resumeButton {
+  padding: 1vh;
+  font-size: 3vh;
+  color: green;
+  margin-bottom: 2vh;
+  text-shadow: none;
+}
