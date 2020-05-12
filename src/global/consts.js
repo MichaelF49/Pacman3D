@@ -6,7 +6,7 @@ export default {
   PACMAN_TURN_SPEED: (-Math.PI * 3.0) / 5, // 3/5*pi radians per s
   PACMAN_HEALTH: 3,
   PACMAN_MAX_HEALTH: 6,
-  PACMAN_BRIGHTNESS:1.5,
+  PACMAN_BRIGHTNESS: 1.5,
 
   /** ********************************************************
    * GHOST

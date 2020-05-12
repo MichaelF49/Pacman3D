@@ -27,8 +27,8 @@ const handleAI = () => {
     enemy.position.y =
       -20 + Math.sin(globals.clock.getElapsedTime() * 5) * enemy.hoverHeight;
 
-    /********************************************************************* */
-    /* PATHING AI
+    /** **********************************************************************
+    PATHING AI
     - When ghosts are in the same room as Pac-man, path in the direction of Pac-man
     - Otherwise, path towards predefined "zones" until the ghost is in the same room
     as Pac-man
@@ -39,7 +39,7 @@ const handleAI = () => {
     - In the documentation, room zone refers to the branching room zone and main zone
     refers to the main room zone
     ********************************************************************** */
-      
+
     // determine what room pac-man is in
     let pacRoom;
     for (const room of globals.rooms) {
@@ -82,13 +82,11 @@ const handleAI = () => {
         .sub(enemy.position)
         .setY(0)
         .normalize();
-    } 
+    }
     // Ghost is not in same room as Pac-man
     else if (enemyRoom !== undefined) {
       // record constants for the pathing algorithm
-      const MAIN_ZONE = consts.MAIN_ZONE;
-      const BRANCH_ZONE = consts.BRANCH_ZONE;
-      const ZONE_RADIUS = consts.ZONE_RADIUS;
+      const { BRANCH_ZONE, MAIN_ZONE, ZONE_RADIUS } = consts;
 
       // determine path given the room id of the enemy
       switch (enemyRoom.id) {
@@ -269,10 +267,10 @@ const handleAI = () => {
       }
     } else {
       // error
-      console.log("PATHING ERROR");
+      console.log('PATHING ERROR');
       vecDir = new Vector3();
     }
-    
+
     const testPosition = enemy.position
       .clone()
       .add(vecDir.clone().multiplyScalar(enemy.speed));
