@@ -24,7 +24,7 @@ import './app.css';
 const App = () => {
   // if title menu is showing
   const [showingMenu, setShowingMenu] = useState(true);
-  const [showingVictory, setShowingVictory] = useState(true);
+  const [showingVictory, setShowingVictory] = useState(false);
   const [showingDefeat, setShowingDefeat] = useState(false);
 
   const [paused, setPaused] = useState(false);
