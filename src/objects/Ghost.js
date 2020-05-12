@@ -72,7 +72,10 @@ class Ghost extends Group {
   }
 
   makeNoise() {
-    if (globals.clock.getElapsedTime() - this.oldTime > this.noiseTimeDiff) {
+    if (
+      globals.clock.getElapsedTime() - this.oldTime >
+      this.noiseTimeDiff + globals.pauseTime
+    ) {
       const file = Math.random() > 0.5 ? GhostNoise1MP3 : GhostNoise2MP3;
 
       const sound = new Audio(globals.listener);
