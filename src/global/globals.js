@@ -54,6 +54,7 @@ export default {
   clock: null,
   score: 0,
 
+  survival: false,
   enemies: null,
   currentWave: 0,
   startedWave: false,

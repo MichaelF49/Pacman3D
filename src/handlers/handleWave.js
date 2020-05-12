@@ -6,7 +6,10 @@ import { consts, globals } from '../global';
 import { Ghost } from '../objects';
 
 const handleWave = () => {
-  if (globals.enemies.size === 0 && globals.currentWave < consts.WAVES.length) {
+  if (
+    globals.enemies.size === 0 && 
+    (globals.survival || globals.currentWave < consts.WAVES.length)
+  ) {
     // new wave should start, begin countdown
     if (!globals.startedWave) {
       globals.startedWave = true;
@@ -41,7 +44,10 @@ const handleWave = () => {
     ];
 
     // spawn globals.enemies
-    for (let i = 0; i < consts.WAVES[globals.currentWave]; i += 1) {
+    const numEnemies = globals.survival
+      ? globals.currentWave * 3 + 3
+      : consts.WAVES[globals.currentWave]
+    for (let i = 0; i < numEnemies; i += 1) {
       const roomIndex = Math.floor(Math.random() * globals.rooms.length);
       const room = globals.rooms[roomIndex];
       const ghost = new Ghost(new Color(colors[roomIndex]));
@@ -101,6 +107,7 @@ const handleWave = () => {
     globals.updateGameProps();
   } else if (
     globals.enemies.size === 0 &&
+    !globals.survival &&
     globals.currentWave === consts.WAVES.length
   ) {
     // victory

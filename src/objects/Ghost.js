@@ -10,14 +10,16 @@ class Ghost extends Group {
     // Call parent Group() constructor
     super();
 
-    this.health =
-      5 +
-      ((1.0 * globals.currentWave) / (consts.WAVES.length - 1)) *
-        (consts.DIFFICULTY_SCALE.MAX_HEALTH - 5);
-    this.speed =
-      1.2 +
-      ((1.0 * globals.currentWave) / (consts.WAVES.length - 1)) *
-        (consts.DIFFICULTY_SCALE.MAX_SPEED - 1.2);
+    this.health = globals.survival
+      ? 5 + globals.currentWave
+      : 5 +
+        ((1.0 * globals.currentWave) / (consts.WAVES.length - 1)) *
+          (consts.DIFFICULTY_SCALE.MAX_HEALTH - 5);
+    this.speed = globals.survival
+      ? Math.min(2.0, 1.2 + globals.currentWave * 0.05)
+      : 1.2 +
+        ((1.0 * globals.currentWave) / (consts.WAVES.length - 1)) *
+          (consts.DIFFICULTY_SCALE.MAX_SPEED - 1.2);
     this.hoverHeight = Math.random() * 1.5 + 1.5;
     this.killDist = consts.KILL_DIST_PACMAN;
     this.noiseTimeDiff = 12 - 8 * Math.random();

@@ -53,6 +53,7 @@ export default {
   /** ********************************************************
    * WAVES
    ******************************************************** */
+  // WAVES: [3, 6], // enemies per wave
   WAVES: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30], // enemies per wave
   DIFFICULTY_SCALE: { MAX_SPEED: 2, MAX_HEALTH: 10 },
   WAVE_RESET_TIME: 8, // 8 s between waves
