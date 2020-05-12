@@ -25,6 +25,8 @@ export default {
   AMMO_INC: { orange: 5, melon: 5 }, // get 5 ammo per pickup
   MAX_AMMO_CAPACITY: 20, // max ammo per category
   MAX_PICKUPS: 20, // the maximum number of pickups on the map
+  EXPLOSION_NUM_PARTICLES: 30,
+  EXPLOSION_PARTICLE_SIZE: 15,
 
   /** *********************************************************
    * COLORS

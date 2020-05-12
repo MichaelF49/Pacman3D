@@ -19,6 +19,7 @@ class Pacman extends Group {
     this.ammo[consts.DEFAULT_FRUIT] = 1;
 
     this.projectiles = new Set();
+    this.explosions = new Set();
     this.currentFruit = consts.DEFAULT_FRUIT;
 
     globals.loader.load(PacmanGLB, (gltf) => {

@@ -6,13 +6,6 @@ const handleResetGlobals = () => {
   // remove canvas
   document.body.removeChild(globals.renderer.domElement);
 
-  for (const enemy of globals.enemies) {
-    globals.enemies.delete(enemy);
-  }
-  for (const pickup of globals.pickups) {
-    globals.enemies.delete(pickup);
-  }
-
   globals.renderer.dispose();
   for (const child of globals.scene.children) {
     if (child.geometry !== undefined) {
