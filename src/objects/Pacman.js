@@ -54,9 +54,9 @@ class Pacman extends Group {
       this.projectiles.add(proj);
 
       // play proj sound
-      let rate = 1;
+      let rate = 1.2;
       if (this.currentFruit === 'orange') {
-        rate = 0.8;
+        rate = 0.9;
       }
       if (this.currentFruit === 'melon') {
         rate = 0.6;
