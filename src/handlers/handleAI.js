@@ -2,7 +2,7 @@
 import { Audio, Vector3 } from 'three';
 
 import { DefeatMP3 } from '../audio';
-import { globals } from '../global';
+import { consts, globals } from '../global';
 import handleKeys from './handleKeys';
 
 const handleAI = () => {
@@ -27,6 +27,19 @@ const handleAI = () => {
     enemy.position.y =
       -20 + Math.sin(globals.clock.getElapsedTime() * 5) * enemy.hoverHeight;
 
+    /********************************************************************* */
+    /* PATHING AI
+    - When ghosts are in the same room as Pac-man, path in the direction of Pac-man
+    - Otherwise, path towards predefined "zones" until the ghost is in the same room
+    as Pac-man
+    - Given n branching rooms, the main room will have n main zones, each corresponding
+    to a single branching room.
+    - Each branching room has a single zone.
+    - A unique hallway connects each branching room to the main room
+    - In the documentation, room zone refers to the branching room zone and main zone
+    refers to the main room zone
+    ********************************************************************** */
+      
     // determine what room pac-man is in
     let pacRoom;
     for (const room of globals.rooms) {
@@ -62,20 +75,27 @@ const handleAI = () => {
     }
 
     let vecDir;
+    // If ghost is in same room as Pac-man, path towards Pac-man
     if (pacRoom === enemyRoom) {
       vecDir = globals.pacman.position
         .clone()
         .sub(enemy.position)
         .setY(0)
         .normalize();
-    } else if (enemyRoom !== undefined) {
-      const MAIN_ZONE = 380;
-      const BRANCH_ZONE = 620;
-      const ZONE_RADIUS = 20;
+    } 
+    // Ghost is not in same room as Pac-man
+    else if (enemyRoom !== undefined) {
+      // record constants for the pathing algorithm
+      const MAIN_ZONE = consts.MAIN_ZONE;
+      const BRANCH_ZONE = consts.BRANCH_ZONE;
+      const ZONE_RADIUS = consts.ZONE_RADIUS;
+
+      // determine path given the room id of the enemy
       switch (enemyRoom.id) {
         case 'room1': {
           const room1Main = new Vector3(MAIN_ZONE, 0, 0);
           const room1Branch = new Vector3(BRANCH_ZONE, 0, 0);
+          // if in room zone, path toward the main zone, else path toward room_zone
           if (
             enemy.position.clone().sub(room1Branch).setY(0).length() <
             ZONE_RADIUS
@@ -93,6 +113,7 @@ const handleAI = () => {
         case 'room2': {
           const room2Main = new Vector3(0, 0, MAIN_ZONE);
           const room2Branch = new Vector3(0, 0, BRANCH_ZONE);
+          // if in room zone, path toward the main zone, else path toward room_zone
           if (
             enemy.position.clone().sub(room2Branch).setY(0).length() <
             ZONE_RADIUS
@@ -110,6 +131,7 @@ const handleAI = () => {
         case 'room3': {
           const room3Main = new Vector3(-MAIN_ZONE, 0, 0);
           const room3Branch = new Vector3(-BRANCH_ZONE, 0, 0);
+          // if in room zone, path toward the main zone, else path toward room_zone
           if (
             enemy.position.clone().sub(room3Branch).setY(0).length() <
             ZONE_RADIUS
@@ -127,6 +149,7 @@ const handleAI = () => {
         case 'room4': {
           const room4Main = new Vector3(0, 0, -MAIN_ZONE);
           const room4Branch = new Vector3(0, 0, -BRANCH_ZONE);
+          // if in room zone, path toward the main zone, else path toward room_zone
           if (
             enemy.position.clone().sub(room4Branch).setY(0).length() <
             ZONE_RADIUS
@@ -141,6 +164,7 @@ const handleAI = () => {
           }
           break;
         }
+        // path toward the main zone corresponding to the room/hallway Pac-man is in
         case 'main': {
           if (pacRoom.id === 'room1' || pacRoom.id === 'hallway1') {
             const room1Main = new Vector3(MAIN_ZONE, 0, 0);
@@ -205,6 +229,7 @@ const handleAI = () => {
           }
           break;
         }
+        // If Pac-man is in the room, path toward the room zone. Else, path toward the main zone
         case 'hallway1': {
           if (pacRoom.id === 'room1') {
             vecDir = new Vector3(1, 0, 0);
@@ -244,9 +269,10 @@ const handleAI = () => {
       }
     } else {
       // error
+      console.log("PATHING ERROR");
       vecDir = new Vector3();
     }
-
+    
     const testPosition = enemy.position
       .clone()
       .add(vecDir.clone().multiplyScalar(enemy.speed));

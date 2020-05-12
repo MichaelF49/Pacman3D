@@ -66,4 +66,11 @@ export default {
   PACMAN_BUFFER: 25, // buffer between pac-man and boundaries
   // HALLWAY_BUFFER: 0, // buffer between pac-man and the hallways
   GHOST_RADIUS: 15,
+
+  /** ********************************************************
+   * PATHING AI
+   ******************************************************** */
+  MAIN_ZONE: 400, // distance from map center to arena pathing zone
+  BRANCH_ZONE: 600, // distance from map center to room pathing zone
+  ZONE_RADIUS: 25, // radius of the pathing zone
 };
