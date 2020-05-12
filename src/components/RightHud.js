@@ -20,6 +20,10 @@ const RightHud = () => {
       <button
         className='resumeButton'
         onClick={() => {
+          if (globals.victory || globals.defeat) {
+            return;
+          }
+
           globals.paused = true;
           globals.pauseTime = globals.clock.getElapsedTime();
           globals.updatePaused();

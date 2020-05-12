@@ -1,3 +1,4 @@
+export { default as DamageMP3 } from './damage.mp3';
 export { default as DefeatMP3 } from './defeat.mp3';
 export { default as FreezeMP3 } from './freeze.mp3';
 export { default as GhostDeathMP3 } from './ghost_death.mp3';

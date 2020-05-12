@@ -94,7 +94,7 @@ class Ghost extends Group {
     const sound = new Audio(globals.listener);
     globals.audioLoader.load(GhostDeathMP3, (buffer) => {
       sound.setBuffer(buffer);
-      sound.setVolume(0.1);
+      sound.setVolume(0.05);
       sound.play();
     });
 

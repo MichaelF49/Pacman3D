@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import { Audio, Vector3 } from 'three';
 
-import { DefeatMP3 } from '../audio';
+import { DamageMP3, DefeatMP3 } from '../audio';
 import { consts, globals } from '../global';
 import handleKeys from './handleKeys';
 
@@ -315,6 +315,13 @@ const handleAI = () => {
 
         // remove key handlers
         handleKeys(false);
+      } else {
+        const sound = new Audio(globals.listener);
+        globals.audioLoader.load(DamageMP3, (buffer) => {
+          sound.setBuffer(buffer);
+          sound.setVolume(0.3);
+          sound.play();
+        });
       }
     }
   }
