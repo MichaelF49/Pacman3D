@@ -51,7 +51,7 @@ const handleMovement = () => {
 
 const updatePacPosition = () => {
   let barrier;
-  let entrance = consts.ARENA_SIZE / 2 - consts.PACMAN_BUFFER;
+  const entrance = consts.ARENA_SIZE / 2 - consts.PACMAN_BUFFER;
   // central x tunnel
   if (
     globals.pacman.position.x >=

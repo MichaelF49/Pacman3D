@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
 import { globals } from '../global';
@@ -152,7 +153,7 @@ class Hallway {
   // helper function for reducing the opacity of entrances
   // results in a visual artifact where at times you cannot see behind the rendered wall even though it has opacity of 0
   openEntrance() {
-    for (let door of this.entrances) {
+    for (const door of this.entrances) {
       door.material.opacity = 0;
     }
   }
