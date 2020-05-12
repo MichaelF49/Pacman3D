@@ -1,11 +1,11 @@
 /* eslint-disable no-restricted-syntax */
 import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
-import { globals } from '../global';
+import { consts, globals } from '../global';
 
 class Hallway {
   constructor(roomName, hallwayLength, x, z, sides, hexColor) {
-    const doorWidth = 70;
+    const doorWidth = consts.DOOR_WIDTH;
     this.zAxis = false;
     // setting id of hallway, to be used for pathing algorithm
     this.id = roomName;

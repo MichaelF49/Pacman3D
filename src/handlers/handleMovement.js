@@ -52,12 +52,9 @@ const handleMovement = () => {
 const updatePacPosition = () => {
   let barrier;
   const entrance = consts.ARENA_SIZE / 2 - consts.PACMAN_BUFFER;
-  // central x tunnel
-  if (
-    globals.pacman.position.x >=
-      -consts.DOOR_WIDTH / 2 + consts.PACMAN_BUFFER &&
-    globals.pacman.position.x <= consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER
-  ) {
+  
+  // handles boundaries for all z positions in the central x tunnel
+  if (globals.pacman.position.x >= -consts.DOOR_WIDTH / 2 + consts.PACMAN_BUFFER && globals.pacman.position.x <= consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER) {
     barrier =
       consts.ARENA_SIZE / 2 +
       consts.HALLWAY_LENGTH +
@@ -75,40 +72,30 @@ const updatePacPosition = () => {
       globals.pacman.position.setZ(
         Math.max(Math.min(barrier, globals.pacman.position.z), -entrance)
       );
-    } else {
+    } 
+    // otherwise boundaries exist at the ends of both rooms
+    else {
       globals.pacman.position.setZ(
         Math.max(Math.min(barrier, globals.pacman.position.z), -barrier)
       );
     }
 
-    // hallways
-    if (
-      globals.pacman.position.z >=
-        -consts.ARENA_SIZE / 2 - consts.HALLWAY_LENGTH &&
-      globals.pacman.position.z <= -consts.ARENA_SIZE / 2
-    ) {
+    // hallways along the central x tunnel
+    if (globals.pacman.position.z >= -consts.ARENA_SIZE / 2 - consts.HALLWAY_LENGTH && globals.pacman.position.z <= -consts.ARENA_SIZE / 2) {
       barrier = consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER;
       globals.pacman.position.setX(
         Math.max(Math.min(barrier, globals.pacman.position.x), -barrier)
       );
     }
-    if (
-      globals.pacman.position.z <=
-        consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH &&
-      globals.pacman.position.z >= consts.ARENA_SIZE / 2
-    ) {
+    if (globals.pacman.position.z <= consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH && globals.pacman.position.z >= consts.ARENA_SIZE / 2) {
       barrier = consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER;
       globals.pacman.position.setX(
         Math.max(Math.min(barrier, globals.pacman.position.x), -barrier)
       );
     }
-  } else if (
-    globals.pacman.position.z >=
-      -consts.DOOR_WIDTH / 2 + consts.PACMAN_BUFFER &&
-    globals.pacman.position.z <= consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER
-  ) {
-    // central z tunnel
-
+  } 
+  // handles boundaries for all x positions in the central z tunnel
+  else if (globals.pacman.position.z >= -consts.DOOR_WIDTH / 2 + consts.PACMAN_BUFFER && globals.pacman.position.z <= consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER) {
     barrier =
       consts.ARENA_SIZE / 2 +
       consts.HALLWAY_LENGTH +
@@ -126,74 +113,58 @@ const updatePacPosition = () => {
       globals.pacman.position.setX(
         Math.max(Math.min(barrier, globals.pacman.position.x), -entrance)
       );
-    } else {
+    } 
+    // otherwise boundaries exist at the ends of both rooms
+    else {
       globals.pacman.position.setX(
         Math.max(Math.min(barrier, globals.pacman.position.x), -barrier)
       );
     }
 
-    // hallways
-    if (
-      globals.pacman.position.x >=
-        -consts.ARENA_SIZE / 2 - consts.HALLWAY_LENGTH &&
-      globals.pacman.position.x <= -consts.ARENA_SIZE / 2
-    ) {
+    // hallways along the central z tunnel
+    if (globals.pacman.position.x >= -consts.ARENA_SIZE / 2 - consts.HALLWAY_LENGTH && globals.pacman.position.x <= -consts.ARENA_SIZE / 2) {
       barrier = consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER;
       globals.pacman.position.setZ(
         Math.max(Math.min(barrier, globals.pacman.position.z), -barrier)
       );
     }
-    if (
-      globals.pacman.position.x <=
-        consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH &&
-      globals.pacman.position.x >= consts.ARENA_SIZE / 2
-    ) {
+    if (globals.pacman.position.x <= consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH && globals.pacman.position.x >= consts.ARENA_SIZE / 2) {
       barrier = consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER;
       globals.pacman.position.setZ(
         Math.max(Math.min(barrier, globals.pacman.position.z), -barrier)
       );
     }
-  } else if (
-    globals.pacman.position.x >=
-      -consts.ARENA_SIZE / 2 - consts.HALLWAY_LENGTH &&
-    globals.pacman.position.x <= -consts.ARENA_SIZE / 2
-  ) {
-    // hallways
+  } 
+  
+  // handles hallway boundaries in the central z tunnel
+  else if (globals.pacman.position.x >= -consts.ARENA_SIZE / 2 - consts.HALLWAY_LENGTH && globals.pacman.position.x <= -consts.ARENA_SIZE / 2) {
 
     barrier = consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER;
     globals.pacman.position.setZ(
       Math.max(Math.min(barrier, globals.pacman.position.z), -barrier)
     );
-  } else if (
-    globals.pacman.position.x <=
-      consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH &&
-    globals.pacman.position.x >= consts.ARENA_SIZE / 2
-  ) {
+  } 
+  else if (globals.pacman.position.x <= consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH && globals.pacman.position.x >= consts.ARENA_SIZE / 2) {
     barrier = consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER;
     globals.pacman.position.setZ(
       Math.max(Math.min(barrier, globals.pacman.position.z), -barrier)
     );
-  } else if (
-    globals.pacman.position.z >=
-      -consts.ARENA_SIZE / 2 - consts.HALLWAY_LENGTH &&
-    globals.pacman.position.z <= -consts.ARENA_SIZE / 2
-  ) {
-    // hallways
+  } 
+  // handles hallway boundaries in the central x tunnel
+  else if (globals.pacman.position.z >= -consts.ARENA_SIZE / 2 - consts.HALLWAY_LENGTH && globals.pacman.position.z <= -consts.ARENA_SIZE / 2) {
 
     barrier = consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER;
     globals.pacman.position.setX(
       Math.max(Math.min(barrier, globals.pacman.position.x), -barrier)
     );
-  } else if (
-    globals.pacman.position.z <=
-      consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH &&
-    globals.pacman.position.z >= consts.ARENA_SIZE / 2
-  ) {
+  } 
+  else if (globals.pacman.position.z <= consts.ARENA_SIZE / 2 + consts.HALLWAY_LENGTH && globals.pacman.position.z >= consts.ARENA_SIZE / 2) {
     barrier = consts.DOOR_WIDTH / 2 - consts.PACMAN_BUFFER;
     globals.pacman.position.setX(
       Math.max(Math.min(barrier, globals.pacman.position.x), -barrier)
     );
-  } else {
+  } 
+  else {
     let curRoom;
     for (const room of globals.rooms) {
       if (room.isInside(globals.pacman.position)) {

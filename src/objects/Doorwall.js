@@ -1,10 +1,10 @@
 import { DoubleSide, Mesh, MeshBasicMaterial, PlaneGeometry } from 'three';
 
-import { globals } from '../global';
+import { consts, globals } from '../global';
 
 class Doorwall {
   constructor(roomName, arenaSize, branchSize, x, z) {
-    const doorWidth = 70;
+    const doorWidth = consts.DOOR_WIDTH;
     // setting id of room, to be used for pathing algorithm
     this.id = roomName;
     // possibly also used for defining the characteristics of the room

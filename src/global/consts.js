@@ -62,7 +62,8 @@ export default {
   ARENA_SIZE: 800.0, // size of main room
   BRANCH_SIZE: 600.0, // size of the branching rooms
   HALLWAY_LENGTH: 200.0,
-  DOOR_WIDTH: 70.0,
+  DOOR_WIDTH: 90,
   PACMAN_BUFFER: 25, // buffer between pac-man and boundaries
+  // HALLWAY_BUFFER: 0, // buffer between pac-man and the hallways
   GHOST_RADIUS: 15,
 };
