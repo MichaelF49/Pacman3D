@@ -105,7 +105,9 @@ const handleWave = () => {
   ) {
     // victory
     globals.globalMusic.stop();
-    globals.starMusic.stop();
+    if (globals.starMusic !== null) {
+      globals.starMusic.stop();
+    }
     const sound = new Audio(globals.listener);
     globals.audioLoader.load(VictoryMP3, (buffer) => {
       sound.setBuffer(buffer);
