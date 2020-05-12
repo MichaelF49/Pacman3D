@@ -92,7 +92,6 @@ const initialize = () => {
    ********************************************************* */
   globals.pacman = new Pacman();
   globals.pacman.position.y = -18;
-  globals.pacman.rotation.y = Math.PI * 1.5;
   globals.pacman.scale.multiplyScalar(10);
   globals.scene.add(globals.pacman);
   /** ********************************************************
