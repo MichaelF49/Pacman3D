@@ -26,9 +26,12 @@ const handlePickups = () => {
 
     pickup.position.y +=
       Math.sin(
-        (globals.clock.getElapsedTime() + pickup.seed) * consts.BOB_SPEED
+        (globals.clock.getElapsedTime() - globals.pauseTime + pickup.seed) *
+          consts.BOB_SPEED
       ) * pickup.hoverHeight;
-    pickup.rotation.y += globals.clock.getElapsedTime() / consts.ROTATION_SPEED;
+    pickup.rotation.y +=
+      (globals.clock.getElapsedTime() - globals.pauseTime) /
+      consts.ROTATION_SPEED;
   }
 };
 
