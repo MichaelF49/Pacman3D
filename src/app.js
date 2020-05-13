@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import firebase from 'firebase';
 
 import {
   BottomHud,
   Defeat,
+  Leaderboard,
   Menu,
   PauseMenu,
   RightHud,
@@ -26,11 +28,27 @@ const App = () => {
   const [showingMenu, setShowingMenu] = useState(true);
   const [showingVictory, setShowingVictory] = useState(false);
   const [showingDefeat, setShowingDefeat] = useState(false);
+  const [showingLeaderboard, setShowingLeaderboard] = useState(false);
 
   const [paused, setPaused] = useState(false);
   globals.updatePaused = () => {
     setPaused(globals.paused);
   };
+
+  if (!globals.db) {
+    const config = {
+      apiKey: 'AIzaSyC7IA_1E8Zs0xBuaiplY1kUiA3Gd-8X-6k',
+      authDomain: 'pac-atac.firebaseapp.com',
+      databaseURL: 'https://pac-atac.firebaseio.com',
+      projectId: 'pac-atac',
+      storageBucket: 'pac-atac.appspot.com',
+      messagingSenderId: '567926428102',
+      appId: '1:567926428102:web:91c2c9500f8a148e51e2c7',
+      measurementId: 'G-MLKW6LP0QH',
+    };
+    firebase.initializeApp(config);
+    globals.db = firebase.firestore().collection('leaderboard');
+  }
 
   /** ********************************************************
    * RENDER HANDLER
@@ -80,21 +98,27 @@ const App = () => {
   }
 
   // show victory or defeat screens
+  if (showingLeaderboard) {
+    return (
+      <Leaderboard
+        setShowingMenu={setShowingMenu}
+        setShowingLeaderboard={setShowingLeaderboard}
+      />
+    );
+  }
   if (showingVictory) {
     return (
       <Victory
         setShowingVictory={setShowingVictory}
-        setShowingDefeat={setShowingDefeat}
-        setShowingMenu={setShowingMenu}
+        setShowingLeaderboard={setShowingLeaderboard}
       />
     );
   }
   if (showingDefeat) {
     return (
       <Defeat
-        setShowingVictory={setShowingVictory}
         setShowingDefeat={setShowingDefeat}
-        setShowingMenu={setShowingMenu}
+        setShowingLeaderboard={setShowingLeaderboard}
       />
     );
   }

@@ -126,7 +126,6 @@ body {
   font-size: 8vh;
   font-weight: bold;
   padding: 0;
-  /* padding: 2vh 0 1vh; */
 }
 
 .button {
@@ -178,4 +177,39 @@ body {
 }
 .end .button {
   margin-top: 1rem;
+}
+
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.scores {
+  height: 58.5vh;
+}
+.leaderboard h2 {
+  font-size: 5vh;
+  margin-top: 0;
+}
+.leaderboard .button {
+  margin-bottom: 5vh;
+  z-index: 4;
+}
+.invisible-name-helper {
+  position: fixed;
+  top: -50vh;
+  left: -50vw;
+  height: 150vh;
+  width: 150vw;
+  background-color: rbga(0,0,0,0);
+  z-index: 3;
+}
+.name-input {
+  position: absolute;
+  border: none;
+  background: transparent;
+  color: transparent;
+}
+.name-input:focus {
+  outline: none;
 }

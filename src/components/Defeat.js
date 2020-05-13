@@ -2,9 +2,8 @@
 import React from 'react';
 
 import { globals } from '../global';
-import { handleResetGlobals } from '../handlers';
 
-const Defeat = ({ setShowingVictory, setShowingDefeat, setShowingMenu }) => {
+const Defeat = ({ setShowingDefeat, setShowingLeaderboard }) => {
   return (
     <div className='menu end' id='defeat'>
       <h1>DEFEAT!</h1>
@@ -15,14 +14,12 @@ const Defeat = ({ setShowingVictory, setShowingDefeat, setShowingMenu }) => {
       <button
         className='button'
         onClick={() => {
-          handleResetGlobals();
-          setShowingVictory(false);
           setShowingDefeat(false);
-          setShowingMenu(true);
+          setShowingLeaderboard(true);
         }}
         type='button'
       >
-        PLAY AGAIN?
+        CONTINUE
       </button>
     </div>
   );

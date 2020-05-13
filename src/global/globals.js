@@ -71,4 +71,6 @@ export default {
   star: false,
   starStart: 0,
   starMusic: null,
+
+  db: null,
 };
