@@ -11,11 +11,13 @@ import {
   PlaneGeometry,
   PointLight,
   Scene,
+  Vector2,
   WebGLRenderer,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
 import { GlobalMusicMP3 } from '../audio';
 import { consts, globals } from '../global';
@@ -288,6 +290,7 @@ const initialize = () => {
   // Doorwall #4
   wall = new Mesh(wallGeo, wallMaterial4);
   wall.position.y = 7.5;
+  wall.rotation.y = -Math.PI;
   wall.position.z = -consts.ARENA_SIZE / 2;
   wall.position.x =
     -(consts.ARENA_SIZE - consts.DOOR_WIDTH) / 4 - consts.DOOR_WIDTH / 2;
@@ -412,15 +415,14 @@ const initialize = () => {
   // composer
   globals.composer = new EffectComposer(globals.renderer);
   globals.composer.addPass(new RenderPass(globals.scene, globals.camera));
+  const bloomPass = new UnrealBloomPass(
+    new Vector2(window.innerWidth, window.innerHeight),
+    3,
+    2,
+    0.95
+  );
+  globals.composer.addPass(bloomPass);
 
-  // if we wanted to implement another sort of thing like bloom
-
-  // var bloomPass = new UnrealBloomPass(
-  //   new Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
-  // bloomPass.threshold = 0.5;
-  // bloomPass.strength = 0.6;
-  // bloomPass.radius = 0;
-  // composer.addPass( bloomPass );
   /** ********************************************************
    * CANVAS
    ********************************************************* */
