@@ -213,3 +213,12 @@ body {
 .name-input:focus {
   outline: none;
 }
+
+.musicButton {
+  position: absolute;
+  bottom: 2.5%;
+  right: 2.5%;
+  width: 10vh;
+  font-size: 5vh;
+  border-radius: 2vh;
+}

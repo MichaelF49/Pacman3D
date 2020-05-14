@@ -15,6 +15,7 @@ export default {
   listener: null,
   audioLoader: null,
   globalMusic: null,
+  isMuted: false,
 
   /** ********************************************************
    * KEYBOARD CONTROLS
