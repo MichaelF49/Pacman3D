@@ -26,6 +26,7 @@ const handleResetGlobals = () => {
   globals.listener = null;
   globals.audioLoader = null;
   globals.globalMusic = null;
+  globals.isMuted = false;
   globals.moveForward = false;
   globals.moveBackward = false;
   globals.moveLeft = false;
