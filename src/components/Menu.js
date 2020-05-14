@@ -6,7 +6,7 @@ import Toggle from './Toggle';
 const Menu = ({ setShowingMenu }) => {
   return (
     <div className='menu'>
-      <h1>PACMAN 3D</h1>
+      <h1>Pac-Atac</h1>
       <h2>
         <b>W S</b>: move forwards/backwards
       </h2>
