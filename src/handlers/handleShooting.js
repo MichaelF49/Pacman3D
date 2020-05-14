@@ -242,11 +242,11 @@ const handleExplosions = () => {
     let deltaSize = 1.2;
     if (exp.fruit === 'orange') {
       delta = 0.04;
-      deltaSize = 1.1;
+      deltaSize = 1.15;
     }
     if (exp.fruit === 'melon') {
       delta = 0.025;
-      deltaSize = 1.05;
+      deltaSize = 1.1;
     }
 
     for (let i = 0; i < 3; i += 3) {
