@@ -19,7 +19,6 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 import { GlobalMusicMP3 } from '../audio';
 import { consts, globals } from '../global';
-// import { Sky1JPG, Sky2JPG, SkyTopJPG, SkyBotJPG } from '../images';
 import { Hallway, Pacman, Room } from '../objects';
 
 const initialize = () => {
