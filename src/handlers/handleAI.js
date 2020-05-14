@@ -25,7 +25,9 @@ const handleAI = () => {
 
     // ghosts float along sine wave
     enemy.position.y =
-      -20 + Math.sin(globals.clock.getElapsedTime() * 5) * enemy.hoverHeight;
+      -20 +
+      Math.sin((globals.clock.getElapsedTime() - globals.totalPausedTime) * 5) *
+        enemy.hoverHeight;
 
     /** **********************************************************************
     PATHING AI

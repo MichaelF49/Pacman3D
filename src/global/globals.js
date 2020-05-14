@@ -43,6 +43,7 @@ export default {
   },
   paused: false,
   pauseTime: 0,
+  totalPausedTime: 0,
 
   /** ********************************************************
    * GAME PROPERTIES

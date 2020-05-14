@@ -47,7 +47,7 @@ export default {
   FRUIT_SPAWN_TIME: 10, // time bewteen fruit spawns
   POWERUP_SPAWN_TIME: 15, // time between powerup spawns
   BOB_SPEED: 3,
-  ROTATION_SPEED: 250, // higher is slower
+  ROTATION_SPEED: 1 / 12,
   LAST_ITEM_BIAS: 0.5, // higher number reduces the probability of spawning the last power up in POWERUP array
 
   /** ********************************************************

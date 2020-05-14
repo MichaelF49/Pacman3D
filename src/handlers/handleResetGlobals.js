@@ -44,6 +44,7 @@ const handleResetGlobals = () => {
     return null;
   };
   globals.pauseTime = 0;
+  globals.totalPausedTime = 0;
   globals.gameOverTime = -1;
   globals.gameOver = false;
   globals.victory = false;
