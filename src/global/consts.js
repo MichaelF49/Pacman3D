@@ -26,7 +26,6 @@ export default {
   MAX_AMMO_CAPACITY: 20, // max ammo per category
   MAX_PICKUPS: 20, // the maximum number of pickups on the map
   EXPLOSION_NUM_PARTICLES: 30,
-  EXPLOSION_PARTICLE_SIZE: 15,
 
   /** *********************************************************
    * COLORS
@@ -47,7 +46,7 @@ export default {
   FRUIT_SPAWN_TIME: 10, // time bewteen fruit spawns
   POWERUP_SPAWN_TIME: 15, // time between powerup spawns
   BOB_SPEED: 3,
-  ROTATION_SPEED: 250, // higher is slower
+  ROTATION_SPEED: 1 / 12,
   LAST_ITEM_BIAS: 0.5, // higher number reduces the probability of spawning the last power up in POWERUP array
 
   /** ********************************************************

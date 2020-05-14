@@ -26,6 +26,7 @@ const handleResetGlobals = () => {
   globals.listener = null;
   globals.audioLoader = null;
   globals.globalMusic = null;
+  globals.isMuted = false;
   globals.moveForward = false;
   globals.moveBackward = false;
   globals.moveLeft = false;
@@ -44,6 +45,7 @@ const handleResetGlobals = () => {
     return null;
   };
   globals.pauseTime = 0;
+  globals.totalPausedTime = 0;
   globals.gameOverTime = -1;
   globals.gameOver = false;
   globals.victory = false;

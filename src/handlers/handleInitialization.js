@@ -19,7 +19,6 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 
 import { GlobalMusicMP3 } from '../audio';
 import { consts, globals } from '../global';
-// import { Sky1JPG, Sky2JPG, SkyTopJPG, SkyBotJPG } from '../images';
 import { Hallway, Pacman, Room } from '../objects';
 
 const initialize = () => {
@@ -62,29 +61,6 @@ const initialize = () => {
     globals.globalMusic.setVolume(0.05); // was 0.15
     globals.globalMusic.play();
   });
-
-  /** ********************************************************
-   * SKYBOX
-   ********************************************************* */
-  /*
-  const loader = new TextureLoader();
-  const sky1 = loader.load(Sky1JPG);
-  const sky2 = loader.load(Sky2JPG);
-  const skyTop = loader.load(SkyTopJPG);
-  const skyBot = loader.load(SkyBotJPG);
-  const skyMaterial = [
-    new MeshBasicMaterial({ map: sky1, side: BackSide }),
-    new MeshBasicMaterial({ map: sky1, side: BackSide }),
-    new MeshBasicMaterial({ map: skyTop, side: BackSide }),
-    new MeshBasicMaterial({ map: skyBot, side: BackSide }),
-    new MeshBasicMaterial({ map: sky2, side: BackSide }),
-    new MeshBasicMaterial({ map: sky2, side: BackSide }),
-  ];
-  const skyboxGeo = new BoxGeometry(15000, 20000, 15000);
-  const skybox = new Mesh(skyboxGeo, skyMaterial);
-  skybox.position.set(0, -2000, 0);
-  globals.scene.add(skybox);
-  */
 
   /** ********************************************************
    * PACMAN

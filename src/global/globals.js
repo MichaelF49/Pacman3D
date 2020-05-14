@@ -15,6 +15,7 @@ export default {
   listener: null,
   audioLoader: null,
   globalMusic: null,
+  isMuted: false,
 
   /** ********************************************************
    * KEYBOARD CONTROLS
@@ -43,6 +44,7 @@ export default {
   },
   paused: false,
   pauseTime: 0,
+  totalPausedTime: 0,
 
   /** ********************************************************
    * GAME PROPERTIES

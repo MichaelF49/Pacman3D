@@ -34,9 +34,6 @@ const Leaderboard = ({ setShowingMenu, setShowingLeaderboard }) => {
         score: globals.score,
         wave: globals.currentWave,
       })
-      .then((docRef) => {
-        console.log('Doc written with ID: ', docRef.id);
-      })
       .catch((err) => {
         console.error('Error adding document: ', err);
       });

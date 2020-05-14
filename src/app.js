@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import firebase from 'firebase';
 
 import {
   BottomHud,
   Defeat,
   Leaderboard,
   Menu,
+  MusicButton,
   PauseMenu,
   RightHud,
   TopHud,
@@ -46,7 +46,9 @@ const App = () => {
       appId: '1:567926428102:web:91c2c9500f8a148e51e2c7',
       measurementId: 'G-MLKW6LP0QH',
     };
+    // eslint-disable-next-line no-undef
     firebase.initializeApp(config);
+    // eslint-disable-next-line no-undef
     globals.db = firebase.firestore().collection('leaderboard');
   }
 
@@ -86,10 +88,20 @@ const App = () => {
 
   // title menu still showing, do not start game yet
   if (showingMenu) {
-    return <Menu setShowingMenu={setShowingMenu} />;
+    return (
+      <div>
+        <Menu setShowingMenu={setShowingMenu} />
+        <MusicButton />
+      </div>
+    );
   }
   if (paused) {
-    return <PauseMenu />;
+    return (
+      <div>
+        <PauseMenu />
+        <MusicButton />
+      </div>
+    );
   }
 
   if (!globals.gameOver) {
@@ -129,6 +141,7 @@ const App = () => {
       <TopHud />
       <RightHud />
       <BottomHud />
+      <MusicButton />
     </div>
   );
 };

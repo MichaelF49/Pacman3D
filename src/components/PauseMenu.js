@@ -36,6 +36,7 @@ const PauseMenu = () => {
 
           // update timers
           const passedTime = globals.clock.getElapsedTime() - globals.pauseTime;
+          globals.totalPausedTime += passedTime;
           globals.lastFruitSpawnTime += passedTime;
           globals.lastPowerupSpawnTime += passedTime;
           globals.freezeStart += passedTime;

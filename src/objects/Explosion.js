@@ -46,13 +46,13 @@ class Explosion extends Group {
     this.center = center;
     this.fruit = fruit;
 
-    let maxDist = 40;
+    let maxDist = 35;
     let color = 0x8b0000; // red
     if (fruit === 'orange') {
-      maxDist = 70;
+      maxDist = 50;
       color = 0xffa500; // orange
     } else if (fruit === 'melon') {
-      maxDist = 100;
+      maxDist = 90;
       color = 0x32cd32; // green
     }
     this.maxDist = maxDist;
@@ -72,11 +72,18 @@ class Explosion extends Group {
       colors.push(temp.r, temp.g, temp.b);
     }
 
+    let particleSize = 9;
+    if (fruit === 'orange') {
+      particleSize = 12;
+    } else if (fruit === 'melon') {
+      particleSize = 15;
+    }
+
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
     geometry.setAttribute('color', new Float32BufferAttribute(colors, 3));
     const material = new PointsMaterial({
-      size: consts.EXPLOSION_PARTICLE_SIZE,
+      size: particleSize,
       vertexColors: true,
       transparent: true,
       opacity: 1,
